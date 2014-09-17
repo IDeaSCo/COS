@@ -9,5 +9,5 @@ Feature: New User SignUp
     |Mobile  |9632511423|
     |Email   |abhishekkumar.singh|
     |Password|password|
-    Then: He should see the dashboard with entire month's in time as "9:30 am" and out time as "6:30 pm"
+    Then: He should see the dashboard with entire month in time as "9:30 am" and out time as "6:30 pm"
 
