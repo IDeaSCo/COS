@@ -21,8 +21,8 @@ public class AuthenticationController extends HttpServlet {
 		String requestedFields = "employeeID,sn,givenName,mail";
 		try {
 			UserDTO userInfo = ActiveDirectoryUserInfo.getUserInfo(userAccount.getFqn(), requestedFields);
-			System.out.println(userInfo.getEmployeeID() + " " + userInfo.getName() + " " + userInfo.getName());
 		} catch (AuthenticationError e) {
+			//handle case where no user information found in active directory
 		}  
 	}
 

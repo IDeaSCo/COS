@@ -38,9 +38,7 @@ public class ActiveDirectoryUserInfo {
 		_Recordset rs = command.execute(null, Variant.getMissing(), -1);
 		if(!rs.eof()){
 			userData = rs.fields();
-			if(userData != null){
-			}
-			else
+			if(userData == null)
 				throw new AuthenticationError("User information not found");
 			rs.close();
 			connection.close();
