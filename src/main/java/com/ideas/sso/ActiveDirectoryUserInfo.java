@@ -14,13 +14,6 @@ public class ActiveDirectoryUserInfo {
 	private Fields userData;
 	static String defaultNamingContext = null;
 	
-	void initNamingContext(){
-		if(defaultNamingContext == null){
-			IADs rootDSE = COM4J.getObject(IADs.class, "LDAP://RootDSE", null);
-			defaultNamingContext = (String) rootDSE.get("defaultNamingContext");
-		}
-	}
-	
 	private ActiveDirectoryUserInfo(String username, String requestedFields) throws AuthenticationError{
 		initNamingContext();
 		_Connection connection = ClassFactory.createConnection();
@@ -45,6 +38,13 @@ public class ActiveDirectoryUserInfo {
 		}
 		else
 			throw new AuthenticationError("Username cannot be found");
+	}
+	
+	void initNamingContext(){
+		if(defaultNamingContext == null){
+			IADs rootDSE = COM4J.getObject(IADs.class, "LDAP://RootDSE", null);
+			defaultNamingContext = (String) rootDSE.get("defaultNamingContext");
+		}
 	}
 	
 	public static UserDTO getUserInfo(String username, String requestedFields) throws AuthenticationError {

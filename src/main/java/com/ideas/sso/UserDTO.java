@@ -19,7 +19,6 @@ public class UserDTO {
 		return name;
 	}
 	
-	
 	public String getEmail(){
 		return email;
 	}
