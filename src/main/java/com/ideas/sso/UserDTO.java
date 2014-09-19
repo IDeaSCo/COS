@@ -32,6 +32,6 @@ public class UserDTO {
 			return true;
 		return this.employeeID.equals(that.employeeID)
 				&& this.name.equals(that.name)
-				&& this.email.equals(that.email);
+				&& this.emailId.equals(that.emailId);
 	}
 }
