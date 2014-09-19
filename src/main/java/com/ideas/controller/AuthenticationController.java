@@ -2,31 +2,38 @@ package com.ideas.controller;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.ideas.sso.ActiveDirectoryUserInfo;
-import com.ideas.sso.AuthenticationError;
-import com.ideas.sso.UserDTO;
 import waffle.windows.auth.IWindowsAccount;
-import waffle.windows.auth.impl.WindowsAccountImpl;
+import waffle.windows.auth.impl.WindowsAuthProviderImpl;
+import com.ideas.sso.ActiveDirectoryUserInfo1;
+import com.ideas.sso.UserDTO;
 
+//todo : if request has no username or it is empty
 public class AuthenticationController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String currentUsername = WindowsAccountImpl.getCurrentUsername();
-		IWindowsAccount userAccount = new WindowsAccountImpl(currentUsername);
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String remoteUsername = request.getParameter("username").substring(4);
+		WindowsAuthProviderImpl provider = new WindowsAuthProviderImpl();
+		IWindowsAccount account = provider.lookupAccount(remoteUsername);
 		String requestedFields = "employeeID,sn,givenName,mail";
-		try {
-			UserDTO userInfo = ActiveDirectoryUserInfo.getUserInfo(userAccount.getFqn(), requestedFields);
-		} catch (AuthenticationError e) {
-			//handle case where no user information found in active directory
-		}  
+		ActiveDirectoryUserInfo1 userInfo = new ActiveDirectoryUserInfo1(
+				account.getFqn(), requestedFields);
+		UserDTO userDetails = userInfo.getUserDetails();
+		RequestDispatcher dispatcher = request
+				.getRequestDispatcher("/captureEmployeeDetails.jsp");
+		request.setAttribute("userdetails", userDetails);
+		dispatcher.forward(request, response);
+
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 	}
 
 }

@@ -3,24 +3,24 @@ package com.ideas.sso;
 public class UserDTO {
 	private final String employeeID;
 	private final String name;
-	private final String email;
-	
-	public UserDTO(String employeeID, String name, String email){
+	private final String emailId;
+
+	public UserDTO(String employeeID, String name, String email) {
 		this.employeeID = employeeID;
 		this.name = name;
-		this.email = email;
+		this.emailId = email.substring(0, email.indexOf("@"));
 	}
-	
-	public String getEmployeeID(){
+
+	public String getEmployeeID() {
 		return employeeID;
 	}
-	
-	public String getName(){
+
+	public String getName() {
 		return name;
 	}
-	
-	public String getEmail(){
-		return email;
+
+	public String getEmailId() {
+		return emailId;
 	}
 	
 	@Override
