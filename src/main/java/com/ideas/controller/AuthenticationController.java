@@ -19,7 +19,7 @@ public class AuthenticationController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String remoteUsername = request.getParameter("username").substring(4);
+		String remoteUsername = request.getParameter("username").substring(3);
 		WindowsAuthProviderImpl provider = new WindowsAuthProviderImpl();
 		IWindowsAccount account = provider.lookupAccount(remoteUsername);
 		String requestedFields = "employeeID,sn,givenName,mail";

@@ -51,13 +51,7 @@
 				<div class="input-group-addon container-fluid">@IDeaS.com</div>
 			</div>
 		</div>
-		<div class="form-group container-fluid">
-			<label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-			<div class="col-sm-10">
-				<input type="password" class="form-control container-fluid"
-					id="inputPassword3" placeholder="Password">
-			</div>
-		</div>
+		
 		<div class="form-group container-fluid">
 			<label for="mobile" class="col-sm-2 control-label">Mobile</label>
 			<div class="col-sm-10">
@@ -67,8 +61,7 @@
 		</div>
 		<div class="form-group" style="text-align: center">
 			<div class="col-sm-offset-1 col-sm-10">
-				<button type="submit" class="btn btn-success btn-large">Enroll</button>
-				<button type="submit" class="btn btn-primary btn-large">Reset</button>
+				<button type="submit" class="btn btn-success btn-large">Enroll</button>				
 				<button type="submit" class="btn btn-danger btn-large">Cancel</button>
 			</div>
 		</div>
