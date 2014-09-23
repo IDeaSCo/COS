@@ -140,8 +140,8 @@
 		}
 		totalDistance = (totalDistance) / 1000.0 ;
 		totalTime = totalTime/60;
-		document.getElementById('distance').innerHTML = totalDistance + ' km';
-		document.getElementById('duration').innerHTML = totalTime + ' mins';
+		document.getElementById('distance').innerHTML ='Distance  '+ Math.round((totalDistance) * 100) / 100 + ' km';
+		document.getElementById('duration').innerHTML = 'Estimated time  '+ Math.round((totalTime+15) * 100) / 100 + ' mins';
 	}
 
 	function computeTimeAndDistance(){
