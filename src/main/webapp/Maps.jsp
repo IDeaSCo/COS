@@ -5,15 +5,11 @@
 <%@page import="waffle.servlet.WindowsPrincipal"%>
 <%@page import="com.sun.jna.platform.win32.Secur32"%>
 <%@page import="com.sun.jna.platform.win32.Secur32Util"%>
+<%String usernamexyz =request.getRemoteUser();  %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-
 <head>
-
 <title>Draggable directions</title>
-
-<%String usernamexyz =request.getRemoteUser();  %>
-
 <link rel="stylesheet" href="map.css">
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&dummy=.js"></script>
@@ -43,7 +39,7 @@
     var contentString = '<div id="content">'+
     '<p>Click Submit or refine your search</p>'+
     '<form action="authenticate">'+' <input type="hidden" name="username"'+
-			'value="<%=usernamexyz%>" />'+ '<input type="submit" value="Submit" />'+'</form>'+
+                     'value="<%=usernamexyz%>" />'+ '<input type="submit" value="Submit" />'+'</form>'+
       '</div>';
         infowindow.setContent(contentString + results[1].formatted_address);
         infowindow.open(map, marker_end);
@@ -58,6 +54,7 @@
     
     function initialize() {
 
+       //alert("this is just a trial! ");
         var mapOptions = {
             zoom: 12,
             center: Ideas
@@ -168,8 +165,6 @@
 </head>
 
 <body>
-
-
     <input id="pac-input" class="controls" type="text" placeholder="Search Box">
     <div id="map-canvas"></div>
 </body>
