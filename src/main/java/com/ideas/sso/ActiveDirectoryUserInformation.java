@@ -31,7 +31,7 @@ public class ActiveDirectoryUserInformation {
 		WindowsAuthProviderImpl provider = new WindowsAuthProviderImpl();
 		IWindowsAccount account = provider.lookupAccount("idnpam");
 		String requestedFields = "distinguishedName,userPrincipalName,telephoneNumber,mail,sAMAccountName,sn,givenName,employeeID,department,title";
-		ActiveDirectoryUserInfo1 userInfo = ActiveDirectoryUserInfo1.getInstance(account.getFqn(), requestedFields);
+		//ActiveDirectoryUserInfo1 userInfo = ActiveDirectoryUserInfo1.getInstance(account.getFqn(), requestedFields);
 	}
 }
 
