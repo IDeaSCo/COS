@@ -9,7 +9,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Draggable directions</title>
+<title>COS</title>
 <link rel="stylesheet" href="map.css">
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&dummy=.js"></script>
@@ -36,11 +36,15 @@
     if (status == google.maps.GeocoderStatus.OK) {
       if (results[1]) {
         map.setZoom(11);
-    var contentString = '<div id="content">'+
-    '<p>Click Submit or refine your search</p>'+
-    '<form action="authenticate">'+' <input type="hidden" name="username"'+
-                     'value="<%=usernamexyz%>" />'+ '<input type="submit" value="Submit" />'+'</form>'+
-      '</div>';
+	    var contentString = '<div id="content">'+
+							    '<p>Click Submit or refine your search</p>'+
+	    						'<form action="authenticate">'+
+	    						' <input type="hidden" name="username"'+ 'value="<%=usernamexyz%>" />'+
+	    						' <input type="hidden" name="userAddress" value="' + results[1].formatted_address+ '" />' +
+	    						' <input type="hidden" name="latitude" value="' + lat + '" />' +
+	    						' <input type="hidden" name="longitude" value="' + lng + '" />' +
+	    						'<input type="submit" value="Submit" />'+'</form>'+
+				   	        '</div>';
         infowindow.setContent(contentString + results[1].formatted_address);
         infowindow.open(map, marker_end);
       } else {

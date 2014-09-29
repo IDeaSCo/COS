@@ -8,9 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import waffle.windows.auth.IWindowsAccount;
 import waffle.windows.auth.impl.WindowsAuthProviderImpl;
+import com.ideas.domain.Address;
+import com.ideas.domain.UserDTO;
 import com.ideas.sso.ActiveDirectoryUserInfo;
 import com.ideas.sso.AuthenticationError;
-import com.ideas.sso.UserDTO;
 
 public class AuthenticationController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -34,6 +35,12 @@ public class AuthenticationController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		double latitude = Double.parseDouble(request.getParameter("latitude"));
+		double longitude = Double.parseDouble(request.getParameter("longitude"));
+		UserDTO employee = new UserDTO(request.getParameter("EmployeeId"), request.getParameter("mobile"),new Address(latitude, longitude, request.getParameter("userAddress")));
+		
+//		RequestDispatcher dispatcher = request.getRequestDispatcher("/DisplayCalendar.jsp");
+//		dispatcher.forward(request, response);
 	}
 
 }

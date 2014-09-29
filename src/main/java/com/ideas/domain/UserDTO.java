@@ -1,14 +1,22 @@
-package com.ideas.sso;
+package com.ideas.domain;
 
 public class UserDTO {
-	private final String employeeID;
-	private final String name;
-	private final String emailId;
-
+	private String employeeID;
+	private String name;
+	private String emailId;
+	private String mobile = null;
+	private Address address = null;
+	
 	public UserDTO(String employeeID, String name, String email) {
 		this.employeeID = employeeID;
 		this.name = name;
 		this.emailId = email.substring(0, email.indexOf("@"));
+	}
+	
+	public UserDTO(String employeeID, String mobile, Address address){
+		this.employeeID = employeeID;
+		this.mobile = mobile;
+		this.address = address;
 	}
 
 	public String getEmployeeID() {
