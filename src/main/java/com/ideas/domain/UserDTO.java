@@ -31,6 +31,14 @@ public class UserDTO {
 		return emailId;
 	}
 	
+	public String getMobile(){
+		return mobile;
+	}
+	
+	public Address getAddress(){
+		return address;
+	}
+	
 	@Override
 	public boolean equals(Object other){
 		if(this == null || other == null)

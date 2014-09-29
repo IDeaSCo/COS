@@ -58,7 +58,6 @@
     
     function initialize() {
 
-       //alert("this is just a trial! ");
         var mapOptions = {
             zoom: 12,
             center: Ideas
@@ -70,7 +69,6 @@
       map: map,
       title: 'Ideas Revenue Solutions'
   });
-
 
         // Create the search box and link it to the UI element.
         var input = /** @type {HTMLInputElement} */
