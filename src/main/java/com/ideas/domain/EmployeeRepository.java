@@ -2,6 +2,8 @@ package com.ideas.domain;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class EmployeeRepository {
 	private final Connection connection;
@@ -10,6 +12,18 @@ public class EmployeeRepository {
 		if(connection == null)
 			throw new IllegalArgumentException("Empty connection");
 		this.connection = connection;
+	}
+
+	public Boolean find(String employeeId) {
+		ResultSet rs;
+		try {
+			rs = connection.createStatement().executeQuery("select *  from employee_info where emp_id = '" + employeeId + "'");
+			if(rs.next())
+				return true;
+		} catch (SQLException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		return false;
 	}
 
 	public boolean add(UserDTO employee) {
@@ -26,4 +40,5 @@ public class EmployeeRepository {
 		}
 		return true;
 	}
+
 }
