@@ -1,5 +1,7 @@
 <html>
 <body>
-<h2>Maven setup</h2>
+<%
+	response.sendRedirect("/COS/Maps.jsp");
+%>
 </body>
 </html>

@@ -14,7 +14,6 @@ public class COSServletContextListener implements ServletContextListener {
     private EmployeeRepository repository;
 
 	public void contextInitialized(ServletContextEvent sce)  {
-		System.out.println("IMSServletContextListener.contextInitialized()");
     	ServletContext servletContext = sce.getServletContext();
 		try {
 			Class.forName(servletContext.getInitParameter("driver"));
