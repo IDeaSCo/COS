@@ -42,7 +42,8 @@
 				    						' <input type="hidden" name="userAddress" value="' + results[1].formatted_address+ '" />' +
 				    						' <input type="hidden" name="latitude" value="' + lat + '" />' +
 				    						' <input type="hidden" name="longitude" value="' + lng + '" />' +
-				    						'<input type="submit" value="Submit" />'+'</form>'+
+				    						' <input type="hidden" name="register" value="true" />' +
+				    						' <input type="submit" value="Submit" />'+'</form>'+
 								   	        '</div>';
 			        	infowindow.setContent(contentString + results[1].formatted_address);
 			        	infowindow.open(map, marker_end);
