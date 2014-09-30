@@ -26,7 +26,10 @@ public class AuthenticationController extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String remoteUsername = request.getParameter("username").substring(3);
+		int index = 3;
+		if(request.getParameter("username").contains("\\"))
+			index++;
+		String remoteUsername = request.getParameter("username").substring(index);
 		WindowsAuthProviderImpl provider = new WindowsAuthProviderImpl();
 		IWindowsAccount account = provider.lookupAccount(remoteUsername);
 		String requestedFields = "employeeID,sn,givenName,mail";
@@ -38,8 +41,14 @@ public class AuthenticationController extends HttpServlet {
 		} catch (AuthenticationError e) {
 			userDetails = new UserDTO("", "", "");
 		}
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/captureEmployeeDetails.jsp");
-		request.setAttribute("userdetails", userDetails);
+		boolean isPresent = repository.find(userDetails.getEmployeeID());
+		RequestDispatcher dispatcher;
+		if(isPresent)
+			dispatcher = request.getRequestDispatcher("/WaffleDemo.jsp");
+		else{
+			dispatcher = request.getRequestDispatcher("/captureEmployeeDetails.jsp");
+			request.setAttribute("userdetails", userDetails);
+		}
 		dispatcher.forward(request, response);
 	}
 
