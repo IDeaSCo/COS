@@ -46,7 +46,10 @@ public class AuthenticationController extends HttpServlet {
 		if(isPresent)
 			dispatcher = request.getRequestDispatcher("/WaffleDemo.jsp");
 		else{
-			dispatcher = request.getRequestDispatcher("/captureEmployeeDetails.jsp");
+			if(request.getParameter("register") != null)
+				dispatcher = request.getRequestDispatcher("/captureEmployeeDetails.jsp");
+			else
+				dispatcher = request.getRequestDispatcher("/Maps.jsp");
 			request.setAttribute("userdetails", userDetails);
 		}
 		dispatcher.forward(request, response);
