@@ -22,13 +22,10 @@
 
 </head>
 <body>
-	Your user id is
-	<b><%=request.getRemoteUser()%></b>.
-
+	Your user id is <b><%=request.getRemoteUser()%></b>.
 	<form action="authenticate">
-		<input type='hidden' name='username'
-			value="<%=request.getRemoteUser()%>" /> <input type="submit"
-			value="Submit" />
+		<input type='hidden' name='username' value="<%=request.getRemoteUser()%>" />
+		<input type="submit" value="Submit" />
 	</form>
 </body>
 </html>
