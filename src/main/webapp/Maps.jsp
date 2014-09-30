@@ -62,11 +62,34 @@
 		};
 		map = new google.maps.Map(document.getElementById('map-canvas'),
 				mapOptions);
+		var allowedBounds = new google.maps.LatLngBounds(
+				  new google.maps.LatLng(18.5057344,73.8561009),
+				  new google.maps.LatLng(18.5878398,73.9271688));
 
 		marker_start = new google.maps.Marker({
 			position : Ideas,
 			map : map,
+			bounds : allowedBounds,
 			title : 'Ideas Revenue Solutions'
+		});
+		
+		
+		var searchOptions = {
+				  bounds: allowedBounds
+				  //types: ['establishment']
+				};
+		
+		var lastValidCenter = map.getCenter();
+
+		google.maps.event.addListener(map, 'center_changed', function() {
+		    if (allowedBounds.contains(map.getCenter())) {
+		        // still within valid bounds, so save the last valid position
+		        lastValidCenter = map.getCenter();
+		        return; 
+		    }
+
+		    // not valid anymore => return to last valid position
+		    map.panTo(lastValidCenter);
 		});
 
 		// Create the search box and link it to the UI element.
@@ -74,7 +97,8 @@
 		(document.getElementById('pac-input'));
 		map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
        
-		var searchBox = new google.maps.places.SearchBox(input);
+		var searchBox = new google.maps.places.SearchBox(input,searchOptions);
+		
 		google.maps.event.addListener(searchBox, 'places_changed', function() {
 			debugger;
 		    var places = searchBox.getPlaces();
@@ -140,8 +164,8 @@
 		}
 		totalDistance = (totalDistance) / 1000.0 ;
 		totalTime = totalTime/60;
-		document.getElementById('distance').innerHTML ='Distance  '+ Math.round((totalDistance) * 100) / 100 + ' km';
-		document.getElementById('duration').innerHTML = 'Estimated time  '+ Math.round((totalTime+15) * 100) / 100 + ' mins';
+		document.getElementById('distance').innerHTML ='Distance  '+ Math.round((totalDistance) * 10) / 10 + ' km';
+		document.getElementById('duration').innerHTML = 'Estimated time  '+ Math.round(totalTime+15) + ' mins';
 	}
 
 	function computeTimeAndDistance(){
