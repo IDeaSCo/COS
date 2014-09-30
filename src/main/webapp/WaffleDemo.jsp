@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false"%>
 <%@page import="java.security.Principal"%>
@@ -23,7 +22,7 @@
 </head>
 <body>
 	Your user id is <b><%=request.getRemoteUser()%></b>.
-	<form action="authenticate">
+	<form action="authenticate" method="post">
 		<input type='hidden' name='username' value="<%=request.getRemoteUser()%>" />
 		<input type="submit" value="Submit" />
 	</form>
