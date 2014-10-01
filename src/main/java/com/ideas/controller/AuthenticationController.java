@@ -1,7 +1,6 @@
 package com.ideas.controller;
 
 import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -26,42 +25,48 @@ public class AuthenticationController extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int index = 3;
-		if(request.getParameter("username").contains("\\"))
-			index++;
-		String remoteUsername = request.getParameter("username").substring(index);
-		WindowsAuthProviderImpl provider = new WindowsAuthProviderImpl();
-		IWindowsAccount account = provider.lookupAccount(remoteUsername);
-		String requestedFields = "employeeID,sn,givenName,mail";
-		ActiveDirectoryUserInfo userInfo = null;
-		UserDTO userDetails = null;
-		try {
-			userInfo = new ActiveDirectoryUserInfo(account.getFqn(), requestedFields);
-			userDetails = userInfo.getUserDetails();
-		} catch (AuthenticationError e) {
-			userDetails = new UserDTO("", "", "");
-		}
-		boolean isPresent = repository.find(userDetails.getEmployeeID());
+		String username = request.getParameter("username").substring(4);
+		boolean isEmployeeRegistered = repository.find(username);
 		RequestDispatcher dispatcher;
-		if(isPresent)
-			dispatcher = request.getRequestDispatcher("/WaffleDemo.jsp");
-		else{
-			if(request.getParameter("register") != null)
-				dispatcher = request.getRequestDispatcher("/captureEmployeeDetails.jsp");
-			else
-				dispatcher = request.getRequestDispatcher("/Maps.jsp");
-			request.setAttribute("userdetails", userDetails);
-		}
+		if(!isEmployeeRegistered)
+			dispatcher = request.getRequestDispatcher("Maps.jsp");
+		else
+			dispatcher = request.getRequestDispatcher("WaffleDemo.jsp");
 		dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String username = request.getParameter("username");
+		UserDTO employeeLocationDetails = getEmployeeLocationDetails(request, username);
+		request.setAttribute("locationDetails", employeeLocationDetails);
+		UserDTO employeeDetails = getEmployeeDetailsFromActiveDirectory(username);
+		request.setAttribute("employeeDetails", employeeDetails);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/captureEmployeeDetails.jsp");
+		dispatcher.forward(request, response);
+	}
+
+	private UserDTO getEmployeeLocationDetails(HttpServletRequest request, String username){
+		String pickUpLocation = request.getParameter("userAddress");
 		double latitude = Double.parseDouble(request.getParameter("latitude"));
 		double longitude = Double.parseDouble(request.getParameter("longitude"));
-		UserDTO employee = new UserDTO(request.getParameter("EmployeeId"), request.getParameter("mobile"),new Address(latitude, longitude, request.getParameter("userAddress")));
-		Boolean isAdded = repository.add(employee);
-//		RequestDispatcher dispatcher = request.getRequestDispatcher("/DisplayCalendar.jsp");
-//		dispatcher.forward(request, response);
+		Address address = new Address(latitude, longitude, pickUpLocation);
+		UserDTO employeeLocationDetails = new UserDTO(username, null, address);
+		return employeeLocationDetails;
+	}
+	
+	private UserDTO getEmployeeDetailsFromActiveDirectory(String username) {
+		WindowsAuthProviderImpl provider = new WindowsAuthProviderImpl();
+		IWindowsAccount account = provider.lookupAccount(username);
+		String requestedFields = "employeeID,sn,givenName,mail";
+		ActiveDirectoryUserInfo userInfo = null;
+		UserDTO employeeDetails = null;
+		try {
+			userInfo = new ActiveDirectoryUserInfo(account.getFqn(), requestedFields);
+			employeeDetails = userInfo.getUserDetails();
+		} catch (AuthenticationError e) {
+			employeeDetails = new UserDTO("", "", "");
+		}
+		return employeeDetails;
 	}
 
 }

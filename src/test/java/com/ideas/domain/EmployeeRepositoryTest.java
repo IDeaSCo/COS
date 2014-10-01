@@ -46,17 +46,9 @@ public class EmployeeRepositoryTest {
 
 	@Test
 	public void RepositoryStoresEmployeeDetails(){
-		WindowsAuthProviderImpl provider = new WindowsAuthProviderImpl();
-		IWindowsAccount account = provider.lookupAccount("idnsor");
-		String requestedFields = "employeeID,sn,givenName,mail";
-		try {
-			ActiveDirectoryUserInfo userInfo = new ActiveDirectoryUserInfo(account.getFqn(), requestedFields);
-			Address address = new Address(0.0, 0.0, "Some location");
-			UserDTO employee = new UserDTO(userInfo.getUserDetails().getEmployeeID(), "2066002133", address);
-			boolean isEmployeeAdded = repository.add(employee);
-			Assert.assertTrue(isEmployeeAdded);
-		} catch (AuthenticationError e) {
-			fail("No user details found");
-		}
+		Address address = new Address(0.0, 0.0, "Some location");
+		UserDTO employee = new UserDTO("idnsor", "2066002133", address);
+		boolean isEmployeeAdded = repository.add(employee);
+		Assert.assertTrue(isEmployeeAdded);
 	}
 }

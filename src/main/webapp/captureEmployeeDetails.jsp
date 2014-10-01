@@ -14,26 +14,25 @@
 	<title>Enroll For Cab Service</title>
 </head>
 <body>
-	<h3 class="text-center">
-		Enroll For Cab Service <span class="label label-default"></span>
+ 	<h3 class="text-center">Enroll For Cab Service <span class="label label-default"></span>
 	</h3>
-	<form class="form-horizontal" role="form" method="post" action="authenticate">
+	<form class="form-horizontal" role="form" method="post" action="employee">
 		<div class="form-group container-fluid">
 			<label for="EmployeeId" class="col-sm-2 control-label">Employee Id</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control container-fluid" id="EmployeeId" name="EmployeeId" value="${userdetails.employeeID}">
+				<input type="text" class="form-control container-fluid" id="EmployeeId" name="EmployeeId" value="${employeeDetails.employeeID}">
 			</div>
 		</div>
 		<div class="form-group container-fluid">
 			<label for="name" class="col-sm-2 control-label">Name</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control container-fluid" id="name" value="${userdetails.name}">
+				<input type="text" class="form-control container-fluid" id="name" value="${employeeDetails.name}">
 			</div>
 		</div>
 		<div class="form-group container-fluid">
 			<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
 			<div class="input-group container-fluid">
-				<input class="form-control " type="text" value="${userdetails.getEmailId()}">
+				<input class="form-control " type="text" value="${employeeDetails.getEmailId()}">
 				<div class="input-group-addon container-fluid">@IDeaS.com</div>
 			</div>
 		</div>
@@ -45,9 +44,10 @@
 		</div>
 		<div class="form-group container-fluid">
 			<div class="col-sm-10">
-				<input type="hidden" class="form-control container-fluid" id="address" name="userAddress" value="<%= request.getParameter("userAddress")%>">
-				<input type="hidden" class="form-control container-fluid" id="latitude" name="latitude" value="<%= request.getParameter("latitude")%>">
-				<input type="hidden" class="form-control container-fluid" id="longitude" name="longitude" value="<%= request.getParameter("longitude")%>">
+				<input type="hidden" class="form-control container-fluid" id="username" name="username" value="${locationDetails.getUsername()}">
+				<input type="hidden" class="form-control container-fluid" id="address" name="userAddress" value="${locationDetails.getAddress().getPickUpLocation()}">
+				<input type="hidden" class="form-control container-fluid" id="latitude" name="latitude" value="${locationDetails.getAddress().getLatitude()}">
+				<input type="hidden" class="form-control container-fluid" id="longitude" name="longitude" value="${locationDetails.getAddress().getLongitude()}">
 			</div>
 		</div>
 		<div class="form-group" style="text-align: center">
@@ -57,5 +57,5 @@
 			</div>
 		</div>
 	</form>
-</body>
+ </body>
 </html>

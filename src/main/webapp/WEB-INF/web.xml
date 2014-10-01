@@ -68,8 +68,18 @@
 		<description></description>
 		<servlet-class>com.ideas.controller.AuthenticationController</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>EmployeeActionController</servlet-name>
+		<display-name>EmployeeActionController</display-name>
+		<description></description>
+		<servlet-class>com.ideas.controller.EmployeeActionController</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>AuthenticationController</servlet-name>
 		<url-pattern>/authenticate/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>EmployeeActionController</servlet-name>
+		<url-pattern>/employee</url-pattern>
 	</servlet-mapping>
 </web-app>

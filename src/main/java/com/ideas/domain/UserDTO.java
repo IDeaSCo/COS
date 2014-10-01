@@ -1,6 +1,7 @@
 package com.ideas.domain;
 
 public class UserDTO {
+	private String username;
 	private String employeeID;
 	private String name;
 	private String emailId;
@@ -13,12 +14,16 @@ public class UserDTO {
 		this.emailId = email.substring(0, email.indexOf("@"));
 	}
 	
-	public UserDTO(String employeeID, String mobile, Address address){
-		this.employeeID = employeeID;
+	public UserDTO(String username, String mobile, Address address){
+		this.username = username;
 		this.mobile = mobile;
 		this.address = address;
 	}
 
+	public String getUsername(){
+		return username;
+	}
+	
 	public String getEmployeeID() {
 		return employeeID;
 	}

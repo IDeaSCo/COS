@@ -18,7 +18,7 @@ public class EmployeeRepositorySupport {
 	public void createTable(Connection connection) throws SQLException{
 		StringBuilder createTable = new StringBuilder();
 		createTable.append("CREATE TABLE employee_info(")
-		.append("emp_id VARCHAR(10) PRIMARY KEY,")
+		.append("username VARCHAR(10) PRIMARY KEY,")
 		.append("address VARCHAR(200) NOT NULL,")
 		.append("latitude DOUBLE NOT NULL,")
 		.append("longitude DOUBLE NOT NULL,")
