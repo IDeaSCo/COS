@@ -1,10 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%-- <%@page import="java.security.Principal"%>
-<%@page import="waffle.windows.auth.WindowsAccount"%>
-<%@page import="waffle.servlet.WindowsPrincipal"%>
-<%@page import="com.sun.jna.platform.win32.Secur32"%>
-<%@page import="com.sun.jna.platform.win32.Secur32Util"%>
- --%><%String employeeUsername = request.getParameter("username").substring(4);%>
+<%String employeeUsername = request.getParameter("username").substring(4);%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -126,24 +121,36 @@
 	        directionsService.route(request, function(response, status) {
 	            if (status == google.maps.DirectionsStatus.OK) {
 	                directionsDisplay.setDirections(response);
+	                computeTotalDistanceAndTime(response);
 	            }
 	        });
 	    }
 	
-	   function computeTotalDistance(result) {
-	        var total = 0;
-	        var myroute = result.routes[0];
-	        for (var i = 0; i < myroute.legs.length; i++) 
-	            total += myroute.legs[i].distance.value;
-	        total = total / 1000.0;
-	        document.getElementById('total').innerHTML = total + ' km';
-	    }
+	   function computeTotalDistanceAndTime(result) {
+		   var totalDistance = 0;
+			var totalTime = 0;
+			var myroute = result.routes[0];
+			for (var i = 0; i < myroute.legs.length; i++) {
+				totalDistance += myroute.legs[i].distance.value;
+				totalTime += myroute.legs[i].duration.value;
+			}
+			totalDistance = (totalDistance) / 1000.0 ;
+			totalTime = totalTime/60;
+			document.getElementById('distance').innerHTML ='Distance  '+ Math.round((totalDistance) * 10) / 10 + ' km';
+			document.getElementById('duration').innerHTML = 'Estimated time  '+ Math.round(totalTime+15) + ' mins';
+		}
 	
+	   function computeTimeAndDistance(){
+			var directions = new GDirections(map);
+			
+		}
 	    google.maps.event.addDomListener(window, 'load', initialize);
 	</script>
 </head>
 <body>
     <input id="pac-input" class="controls" type="text" placeholder="Search Box">
     <div id="map-canvas"></div>
+    <div id="distance"></div>
+	<div id="duration"></div>
 </body>
 </html>
