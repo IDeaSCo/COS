@@ -29,7 +29,7 @@ public class EmployeeRepository {
 	public boolean add(UserDTO employee) {
 		try {
 			PreparedStatement insertEmployeeInfo = connection.prepareStatement("insert into employee_info values(?, ?, ?, ?, ?)");
-			insertEmployeeInfo.setString(1, employee.getEmployeeID());
+			insertEmployeeInfo.setString(1, employee.getUsername());
 			insertEmployeeInfo.setString(2, employee.getAddress().getPickUpLocation());
 			insertEmployeeInfo.setDouble(3, employee.getAddress().getLatitude());
 			insertEmployeeInfo.setDouble(4, employee.getAddress().getLongitude());
@@ -42,4 +42,3 @@ public class EmployeeRepository {
 	}
 
 }
-
