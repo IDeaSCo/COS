@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@page import="java.security.Principal"%>
+<%-- <%@page import="java.security.Principal"%>
 <%@page import="waffle.windows.auth.WindowsAccount"%>
 <%@page import="waffle.servlet.WindowsPrincipal"%>
 <%@page import="com.sun.jna.platform.win32.Secur32"%>
 <%@page import="com.sun.jna.platform.win32.Secur32Util"%>
-<%String usernamexyz =request.getRemoteUser();  %>
+ --%><%String employeeUsername = request.getParameter("username").substring(4);%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -37,13 +37,12 @@
 			        	map.setZoom(11);
 				    	var contentString = '<div id="content">'+
 										    '<p>Click Submit or refine your search</p>'+
-				    						'<form action="authenticate">'+
-				    						' <input type="hidden" name="username"'+ 'value="<%=usernamexyz%>" />'+
+				    						'<form action="authenticate" method="post">'+
+				    						' <input type="hidden" name="username"'+ 'value="<%=employeeUsername%>" />'+
 				    						' <input type="hidden" name="userAddress" value="' + results[1].formatted_address+ '" />' +
 				    						' <input type="hidden" name="latitude" value="' + lat + '" />' +
 				    						' <input type="hidden" name="longitude" value="' + lng + '" />' +
-				    						' <input type="hidden" name="register" value="true" />' +
-				    						' <input type="submit" value="Submit" />'+'</form>'+
+				    						'<input type="submit" value="Submit" />'+'</form>'+
 								   	        '</div>';
 			        	infowindow.setContent(contentString + results[1].formatted_address);
 			        	infowindow.open(map, marker_end);
