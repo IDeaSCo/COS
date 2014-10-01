@@ -20,19 +20,19 @@
 		<div class="form-group container-fluid">
 			<label for="EmployeeId" class="col-sm-2 control-label">Employee Id</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control container-fluid" id="EmployeeId" name="EmployeeId" value="${employeeDetails.employeeID}">
+				<input type="text" class="form-control container-fluid" id="EmployeeId" name="EmployeeId" value="${employeeDetails.employeeID}" readonly>
 			</div>
 		</div>
 		<div class="form-group container-fluid">
 			<label for="name" class="col-sm-2 control-label">Name</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control container-fluid" id="name" value="${employeeDetails.name}">
+				<input type="text" class="form-control container-fluid" id="name" value="${employeeDetails.name}" readonly>
 			</div>
 		</div>
 		<div class="form-group container-fluid">
 			<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
 			<div class="input-group container-fluid">
-				<input class="form-control " type="text" value="${employeeDetails.getEmailId()}">
+				<input class="form-control " type="text" value="${employeeDetails.getEmailId()}" readonly>
 				<div class="input-group-addon container-fluid">@IDeaS.com</div>
 			</div>
 		</div>
@@ -52,7 +52,7 @@
 		</div>
 		<div class="form-group" style="text-align: center">
 			<div class="col-sm-offset-1 col-sm-10">
-				<button type="submit" class="btn btn-success btn-large">Enroll</button>				
+				<button type="submit" class="btn btn-success btn-large">Enroll</button>
 				<!-- <button type="submit" class="btn btn-danger btn-large">Cancel</button> -->
 			</div>
 		</div>
