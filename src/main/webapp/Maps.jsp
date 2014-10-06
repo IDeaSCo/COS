@@ -79,7 +79,7 @@
 			    directionsDisplay.setMap(map);
 		        directionsDisplay.setPanel(document.getElementById('directionsPanel'));
 		        google.maps.event.addListener(directionsDisplay, 'directions_changed', function() {
-		            computeTotalDistance(directionsDisplay.getDirections());
+		        	computeTotalDistanceAndTime(directionsDisplay.getDirections());
 	        	});
 		        var bounds = new google.maps.LatLngBounds();
 	    
