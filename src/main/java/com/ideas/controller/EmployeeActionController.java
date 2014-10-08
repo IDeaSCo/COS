@@ -38,5 +38,4 @@ public class EmployeeActionController extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WaffleDemo.jsp");
 		dispatcher.forward(request, response);
 	}
-
 }

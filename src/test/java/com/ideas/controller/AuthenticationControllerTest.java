@@ -1,28 +1,24 @@
 package com.ideas.controller;
 
-import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 
 import org.eclipse.jetty.testing.HttpTester;
 import org.eclipse.jetty.testing.ServletTester;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-
 import waffle.windows.auth.IWindowsAccount;
 import waffle.windows.auth.impl.WindowsAuthProviderImpl;
-
 import com.ideas.domain.EmployeeRepository;
-
-import static org.mockito.Mockito.*;
 
 public class AuthenticationControllerTest {
 	private static ServletTester servletTester;
 	private static EmployeeRepository repository = mock(EmployeeRepository.class);
 			
-	@Before
-	public void setUp() throws Exception {
+	@BeforeClass
+	public static void setUp() throws Exception {
 		servletTester = startServer();
 	}
 
