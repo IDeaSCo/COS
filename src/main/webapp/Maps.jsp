@@ -5,7 +5,10 @@
 <head>
 	<title>COS</title>
 	<link rel="stylesheet" href="map.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 	<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&dummy=.js"></script>
 	<script type="text/javascript">
 	    var rendererOptions = {
@@ -31,15 +34,15 @@
 			    	if (results[1]) {
 			        	map.setZoom(11);
 				    	var contentString = '<div id="content">'+
-										    '<p>Click Submit or refine your search</p>'+
 				    						'<form action="authenticate" method="post">'+
 				    						' <input type="hidden" name="username"'+ 'value="<%=employeeUsername%>" />'+
 				    						' <input type="hidden" name="userAddress" value="' + results[1].formatted_address+ '" />' +
 				    						' <input type="hidden" name="latitude" value="' + lat + '" />' +
 				    						' <input type="hidden" name="longitude" value="' + lng + '" />' +
-				    						'<input type="submit" value="Submit" />'+'</form>'+
+				    						' <button type="submit" class="btn btn-success btn-xs">Sign Up</button><br/>'+
+				    						' <b>Click Submit or refine your search</b>'+'</form>'+
 								   	        '</div>';
-			        	infowindow.setContent(contentString + results[1].formatted_address);
+			        	infowindow.setContent(results[1].formatted_address + contentString);
 			        	infowindow.open(map, marker_end);
 			      	} 
 			       	else {
