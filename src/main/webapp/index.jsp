@@ -10,7 +10,7 @@
 <html>
 <body>
 <%
-	response.sendRedirect("http://localhost:8181/COS/authenticate?username=" + request.getRemoteUser());
+	response.sendRedirect("authenticate?username=" + request.getRemoteUser());
 %>
 </body>
 </html>
