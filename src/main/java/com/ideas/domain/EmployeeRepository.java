@@ -1,5 +1,6 @@
 package com.ideas.domain;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -29,7 +30,7 @@ public class EmployeeRepository {
 		return false;
 	}
 
-	public boolean add(Employee employee) {
+	public boolean addEmployee(Employee employee) {
 		try {
 			PreparedStatement insertEmployeeInfo = connection.prepareStatement("insert into employee_info values(?, ?, ?, ?, ?)");
 			insertEmployeeInfo.setString(1, employee.getUsername());
@@ -57,6 +58,12 @@ public class EmployeeRepository {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public void populateDefaultTimings(String username) throws SQLException {
+		CallableStatement procCall = connection.prepareCall("{call fillDefaultTiming(?)}");
+		procCall.setString(1, username);
+		procCall.execute();
 	}
 
 }

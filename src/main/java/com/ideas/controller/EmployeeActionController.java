@@ -1,6 +1,7 @@
 package com.ideas.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -34,7 +35,11 @@ public class EmployeeActionController extends HttpServlet {
 		String mobile = request.getParameter("mobile");
 		Address employeeAddress = new Address(latitude, longitude, address);
 		Employee employeeDetails = new Employee(username, mobile, employeeAddress);
-		boolean isAdded = repository.add(employeeDetails);
+		boolean isAdded = repository.addEmployee(employeeDetails);
+		try {
+			repository.populateDefaultTimings(username);
+		} catch (SQLException e) {
+		}
 		response.sendRedirect("dashboard?username=" + username);
 	}
 }
