@@ -1,6 +1,7 @@
 package com.ideas.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -9,32 +10,32 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ideas.domain.Address;
-import com.ideas.domain.EmployeeRepository;
-import com.ideas.domain.Employee;
-import com.sun.org.apache.bcel.internal.generic.LALOAD;
+import org.json.JSONObject;
 
-public class EmployeeActionController extends HttpServlet {
+import com.ideas.domain.EmployeeRepository;
+import com.ideas.domain.EmployeeSchedule;
+
+public class DBInteractionController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private EmployeeRepository repository;
+	private EmployeeRepository repository;
     
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		repository = (EmployeeRepository) config.getServletContext().getAttribute("repository");
 	}
-    
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String username = request.getParameter("username");
+		if(username.contains("\\"))
+			username = username.substring(username.indexOf("\\") + 1);
+		EmployeeSchedule schedule = repository.getEmployeeSchedule(username);
+		ArrayList<JSONObject> jsonObjArray= new COSServiceLayer().convertEmpScheduleToJson(schedule);
+		request.setAttribute("eventScheduleArray", jsonObjArray);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("Dashboard.jsp");
+		dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
-		String address = request.getParameter("userAddress");
-		double latitude = Double.parseDouble(request.getParameter("latitude"));
-		double longitude = Double.parseDouble(request.getParameter("longitude"));
-		String mobile = request.getParameter("mobile");
-		Address employeeAddress = new Address(latitude, longitude, address);
-		Employee employeeDetails = new Employee(username, mobile, employeeAddress);
-		boolean isAdded = repository.add(employeeDetails);
-		response.sendRedirect("dashboard?username=" + username);
 	}
+
 }

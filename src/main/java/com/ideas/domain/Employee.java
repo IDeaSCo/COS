@@ -1,6 +1,6 @@
 package com.ideas.domain;
 
-public class UserDTO {
+public class Employee {
 	private String username;
 	private String employeeID;
 	private String name;
@@ -8,13 +8,13 @@ public class UserDTO {
 	private String mobile = null;
 	private Address address = null;
 	
-	public UserDTO(String employeeID, String name, String email) {
+	public Employee(String employeeID, String name, String email) {
 		this.employeeID = employeeID;
 		this.name = name;
 		this.emailId = email.substring(0, email.indexOf("@"));
 	}
 	
-	public UserDTO(String username, String mobile, Address address){
+	public Employee(String username, String mobile, Address address){
 		this.username = username;
 		this.mobile = mobile;
 		this.address = address;
@@ -48,7 +48,7 @@ public class UserDTO {
 	public boolean equals(Object other){
 		if(this == null || other == null)
 			return false;
-		UserDTO that = (UserDTO) other;
+		Employee that = (Employee) other;
 		if(this.getClass() == that.getClass())
 			return true;
 		return this.employeeID.equals(that.employeeID)

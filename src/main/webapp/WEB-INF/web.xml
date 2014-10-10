@@ -74,6 +74,12 @@
 		<description></description>
 		<servlet-class>com.ideas.controller.EmployeeActionController</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>DBInteractionController</servlet-name>
+		<display-name>DBInteractionController</display-name>
+		<description></description>
+		<servlet-class>com.ideas.controller.DBInteractionController</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>AuthenticationController</servlet-name>
 		<url-pattern>/authenticate/*</url-pattern>
@@ -81,5 +87,9 @@
 	<servlet-mapping>
 		<servlet-name>EmployeeActionController</servlet-name>
 		<url-pattern>/employee</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DBInteractionController</servlet-name>
+		<url-pattern>/dashboard</url-pattern>
 	</servlet-mapping>
 </web-app>

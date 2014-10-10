@@ -1,9 +1,12 @@
 package com.ideas.domain;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.util.HashMap;
 
 public class EmployeeRepository {
 	private final Connection connection;
@@ -14,7 +17,7 @@ public class EmployeeRepository {
 		this.connection = connection;
 	}
 
-	public Boolean find(String username) {
+	public Boolean findEmployee(String username) {
 		ResultSet rs;
 		try {
 			rs = connection.createStatement().executeQuery("select *  from employee_info where username = '" + username + "'");
@@ -26,7 +29,7 @@ public class EmployeeRepository {
 		return false;
 	}
 
-	public boolean add(UserDTO employee) {
+	public boolean add(Employee employee) {
 		try {
 			PreparedStatement insertEmployeeInfo = connection.prepareStatement("insert into employee_info values(?, ?, ?, ?, ?)");
 			insertEmployeeInfo.setString(1, employee.getUsername());
@@ -39,6 +42,21 @@ public class EmployeeRepository {
 			throw new RuntimeException(e);
 		}
 		return true;
+	}
+
+	public EmployeeSchedule getEmployeeSchedule(String username) {
+		try {
+			HashMap<String, Time> eventsTimeMap = new HashMap<String, Time>();
+			HashMap<Date, HashMap<String, Time>> eventsDateMap = new HashMap<Date, HashMap<String, Time>>();
+			ResultSet rs = connection.createStatement().executeQuery("select *  from employee_dashboard where username = '" + username + "'");
+			while (rs.next()) {
+				eventsTimeMap.put(rs.getString(3), rs.getTime(4));
+				eventsDateMap.put(rs.getDate(2), eventsTimeMap);
+			}
+			return new EmployeeSchedule(username, eventsDateMap);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
