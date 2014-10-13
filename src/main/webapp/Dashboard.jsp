@@ -52,18 +52,18 @@
 	$.ajax({
     	type: "POST",
     	dataType: "json",
-		url: "http://didnsorina6:8080/COS/dashboard",
-		data:  $('#eventsFromCalendarForm').serialize()
-      	/* success: function(msg){
+		url: "/COS/dashboard",
+		data:  $('#eventsFromCalendarForm').serialize(),
+      	success: function(msg){
      		 if(msg === true) {
-                 $("#resultContainer").html("<div class='alert alert-success'>Request sent successfully</div>");
+                 $("#resultContainer").html("<div class='alert alert-success'><b>Schedule Updated</b></div>");
     		 } else {
-    			 $("#resultContainer").html("<div class='alert alert-danger'>Requested quantity unavailable</div>");
+    			 $("#resultContainer").html("<div class='alert alert-danger'>Please try again</div>");
     		 }
          },
 		error: function(){
 			  $("#resultContainer").html("<div class='alert alert-danger'>Server Error. Request could not be placed, please try again later</div>");
-    	} */
+    	}
     });
 
 }
@@ -154,6 +154,7 @@
 				selectHelper will add helpers for selectable.
 			 */
 			selectable : true,
+			height:900,
 			selectHelper : true,
 			eventClick : function(event, element) {
 
@@ -211,9 +212,9 @@
 </script>
 </head>
 <body>
-
+<div id="resultContainer" style="text-align:center"></div>
 <button type="button" class="btn btn-success" data-dismiss="modal" onclick="updateChanges()">Save</button>
-	<div id='calendar'></div>
+	<div id='calendar' style="height: 100px"></div>
 	<div id="createEventModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">

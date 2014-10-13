@@ -39,7 +39,7 @@
 		<div class="form-group container-fluid">
 			<label for="mobile" class="col-sm-2 control-label">Mobile</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control container-fluid" id="mobile" name="mobile" placeholder="Enter mobile number">
+				<input type="text" class="form-control container-fluid" id="mobile" name="mobile" placeholder="Enter mobile number" required>
 			</div>
 		</div>
 		<div class="form-group container-fluid">
