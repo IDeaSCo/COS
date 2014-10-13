@@ -52,7 +52,7 @@
 	$.ajax({
     	type: "POST",
     	dataType: "json",
-		url: "http://localhost:8080/COS/dashboard",
+		url: "http://didnsorina6:8080/COS/dashboard",
 		data:  $('#eventsFromCalendarForm').serialize()
       	/* success: function(msg){
      		 if(msg === true) {
