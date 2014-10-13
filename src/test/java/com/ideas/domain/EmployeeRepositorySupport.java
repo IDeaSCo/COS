@@ -26,7 +26,7 @@ public class EmployeeRepositorySupport {
 		connection.createStatement().executeUpdate(createTable.toString());
 	}
 	
-	public void insert(UserDTO employee) throws SQLException{
+	public void insert(Employee employee) throws SQLException{
 		PreparedStatement insertEmployeeDetails = connection.prepareStatement("insert into employee_info values(?, ?, ?, ?, ?)");
 		insertEmployeeDetails.setString(1, employee.getEmployeeID());
 		insertEmployeeDetails.setString(2, employee.getAddress().getPickUpLocation());

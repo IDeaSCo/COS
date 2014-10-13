@@ -40,15 +40,15 @@ public class EmployeeRepositoryTest {
 	
 	@Test
 	public void RepositoryNotContainingEmployeeReturnsFalse(){
-		boolean containsEmployee = repository.find("someEmployeeID");
+		boolean containsEmployee = repository.findEmployee("someEmployeeID");
 		Assert.assertFalse(containsEmployee);
 	}
 
 	@Test
 	public void RepositoryStoresEmployeeDetails(){
 		Address address = new Address(0.0, 0.0, "Some location");
-		UserDTO employee = new UserDTO("idnsor", "2066002133", address);
-		boolean isEmployeeAdded = repository.add(employee);
+		Employee employee = new Employee("idnsor", "2066002133", address);
+		boolean isEmployeeAdded = repository.addEmployee(employee);
 		Assert.assertTrue(isEmployeeAdded);
 	}
 }

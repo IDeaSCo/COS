@@ -1,6 +1,6 @@
 package com.ideas.sso;
 
-import com.ideas.domain.UserDTO;
+import com.ideas.domain.Employee;
 
 import com4j.COM4J;
 import com4j.ComException;
@@ -15,7 +15,7 @@ import com4j.typelibs.ado20._Recordset;
 public class ActiveDirectoryUserInfo {
 	static String defaultNamingContext = null;
 	private Fields userData;
-	private UserDTO userDetails;
+	private Employee userDetails;
 
 	public ActiveDirectoryUserInfo(String username, String requestedFields) throws AuthenticationError {
 		initNamingContext();
@@ -51,7 +51,7 @@ public class ActiveDirectoryUserInfo {
 		}
 	}
 
-	private UserDTO extractUserInfo() {
+	private Employee extractUserInfo() {
 		String employeeID;
 		String firstName;
 		String lastName;
@@ -79,11 +79,11 @@ public class ActiveDirectoryUserInfo {
 		} catch (ComException e) {
 			email = "";
 		}
-		UserDTO userDTO = new UserDTO(employeeID, firstName + " " + lastName, email);
+		Employee userDTO = new Employee(employeeID, firstName + " " + lastName, email);
 		return userDTO;
 	}
 
-	public UserDTO getUserDetails() {
+	public Employee getUserDetails() {
 		return this.userDetails;
 	}
 }

@@ -24,7 +24,7 @@
 	Your user id is <b><%=request.getRemoteUser()%></b>.
 	<form action="authenticate" method="post">
 		<input type='hidden' name='username' value="<%=request.getRemoteUser()%>" />
-		<input type="submit" value="Submit" />
+		<!-- <input type="submit" value="Submit" /> -->
 	</form>
 </body>
 </html>

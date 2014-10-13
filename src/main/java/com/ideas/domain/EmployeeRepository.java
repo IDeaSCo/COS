@@ -49,12 +49,20 @@ public class EmployeeRepository {
 
 	public EmployeeSchedule getEmployeeSchedule(String username) {
 		try {
-			HashMap<String, Time> eventsTimeMap = new HashMap<String, Time>();
 			TreeMap<Date, HashMap<String, Time>> eventsDateMap = new TreeMap<Date, HashMap<String, Time>>();
-			ResultSet rs = connection.createStatement().executeQuery("select *  from employee_dashboard where username = '" + username + "'");
+			ResultSet rs = connection.createStatement().executeQuery("select *  from employee_dashboard where username = '"	+ username + "'");
 			while (rs.next()) {
-				eventsTimeMap.put(rs.getString(3), rs.getTime(4));
-				eventsDateMap.put(rs.getDate(2), eventsTimeMap);
+				HashMap<String, Time> eventsTimeMap = new HashMap<String, Time>();
+
+				if (!eventsDateMap.containsKey(rs.getDate(2))) {
+					eventsTimeMap.put(rs.getString(3), rs.getTime(4));
+					eventsDateMap.put(rs.getDate(2), eventsTimeMap);
+				} else {
+					eventsTimeMap = eventsDateMap.get(rs.getDate(2));
+					eventsTimeMap.put(rs.getString(3), rs.getTime(4));
+					eventsDateMap.put(rs.getDate(2), eventsTimeMap);
+				}
+
 			}
 			return new EmployeeSchedule(username, eventsDateMap);
 		} catch (SQLException e) {
