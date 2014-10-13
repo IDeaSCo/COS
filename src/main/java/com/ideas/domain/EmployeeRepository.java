@@ -7,7 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class EmployeeRepository {
 	private final Connection connection;
@@ -48,7 +50,7 @@ public class EmployeeRepository {
 	public EmployeeSchedule getEmployeeSchedule(String username) {
 		try {
 			HashMap<String, Time> eventsTimeMap = new HashMap<String, Time>();
-			HashMap<Date, HashMap<String, Time>> eventsDateMap = new HashMap<Date, HashMap<String, Time>>();
+			TreeMap<Date, HashMap<String, Time>> eventsDateMap = new TreeMap<Date, HashMap<String, Time>>();
 			ResultSet rs = connection.createStatement().executeQuery("select *  from employee_dashboard where username = '" + username + "'");
 			while (rs.next()) {
 				eventsTimeMap.put(rs.getString(3), rs.getTime(4));
@@ -61,9 +63,34 @@ public class EmployeeRepository {
 	}
 
 	public void populateDefaultTimings(String username) throws SQLException {
-		CallableStatement procCall = connection.prepareCall("{call fillDefaultTiming(?)}");
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+		String startDate = year + "-" + month + "-01";
+		System.out.println(startDate);
+		CallableStatement procCall = connection.prepareCall("{call fillDefaultTiming(?, ?)}");
 		procCall.setString(1, username);
+		procCall.setString(2, startDate);
 		procCall.execute();
+	}
+	
+	public boolean updateSchedule(EmployeeSchedule schedule) {
+		PreparedStatement ps;
+		try {
+			connection.createStatement().execute("delete from employee_dashboard where username = '" + schedule.getUsername() + "'");
+			for (Date dateKey : schedule.getEventsDateMap().keySet()) {
+				for (String eventKey : schedule.getEventsDateMap().get(dateKey).keySet()) {
+					ps = connection.prepareStatement("insert into employee_dashboard (username, travel_date,event, time) values(?, ?, ?, ?)");
+					ps.setString(1, schedule.getUsername());
+					ps.setDate(2, dateKey);
+					ps.setString(3, eventKey);
+					ps.setTime(4, schedule.getEventsDateMap().get(dateKey).get(eventKey));
+					ps.executeUpdate();
+				}
+			}
+			return true;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
