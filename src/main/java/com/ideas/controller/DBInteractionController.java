@@ -24,9 +24,7 @@ public class DBInteractionController extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
-		if(username.contains("\\"))
-			username = username.substring(username.indexOf("\\") + 1);
+		String username = getUsernameFromRequest(request);
 		EmployeeSchedule schedule = repository.getEmployeeSchedule(username);
 		ArrayList<JSONObject> jsonObjArray= new COSServiceLayer().convertEmpScheduleToJson(schedule);
 		request.setAttribute("eventScheduleArray", jsonObjArray);
@@ -34,10 +32,15 @@ public class DBInteractionController extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private String getUsernameFromRequest(HttpServletRequest request) {
 		String username = request.getParameter("username");
 		if(username.contains("\\"))
 			username = username.substring(username.indexOf("\\") + 1);
+		return username;
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String username = getUsernameFromRequest(request);
 		String events = (request.getParameter("events"));
 		EmployeeSchedule schedule = null;
 		try {

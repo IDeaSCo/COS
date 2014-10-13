@@ -74,7 +74,6 @@ public class EmployeeRepository {
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
 		String startDate = year + "-" + month + "-01";
-		System.out.println(startDate);
 		CallableStatement procCall = connection.prepareCall("{call fillDefaultTiming(?, ?)}");
 		procCall.setString(1, username);
 		procCall.setString(2, startDate);
