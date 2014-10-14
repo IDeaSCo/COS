@@ -43,9 +43,15 @@
 			</div>
 		</div>
 		<div class="form-group container-fluid">
+			<label for="address" class="col-sm-2 control-label">Address</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control container-fluid" id="address" name="userAddress" value="${locationDetails.getAddress().getPickUpLocation()}" required>
+			</div>
+		</div>
+		<div class="form-group container-fluid">
 			<div class="col-sm-10">
 				<input type="hidden" class="form-control container-fluid" id="username" name="username" value="${locationDetails.getUsername()}">
-				<input type="hidden" class="form-control container-fluid" id="address" name="userAddress" value="${locationDetails.getAddress().getPickUpLocation()}">
+				<%-- <input type="hidden" class="form-control container-fluid" id="address" name="userAddress" value="${locationDetails.getAddress().getPickUpLocation()}"> --%>
 				<input type="hidden" class="form-control container-fluid" id="latitude" name="latitude" value="${locationDetails.getAddress().getLatitude()}">
 				<input type="hidden" class="form-control container-fluid" id="longitude" name="longitude" value="${locationDetails.getAddress().getLongitude()}">
 			</div>
