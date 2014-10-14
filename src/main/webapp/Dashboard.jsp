@@ -48,7 +48,7 @@
 			data:  $('#eventsFromCalendarForm').serialize(),
 	      	success: function(msg){
 	     		 if(msg === true) {
-	                 $("#resultContainer").html("<div class='alert alert-success'><b>Schedule Updated</b></div>");
+	                 $("#resultContainer").html("<p style='color:green' class='alert alert-success'>Schedule Updated</p>");
 	    		 } else {
 	    			 $("#resultContainer").html("<div class='alert alert-danger'>Please try again</div>");
 	    		 }
@@ -145,7 +145,7 @@
 					selectHelper will add helpers for selectable.
 				 */
 				selectable : true,
-				height:900,
+				aspectRatio: 1.7,
 				selectHelper : true,
 				eventClick : function(event, element) {
 	
@@ -201,11 +201,32 @@
 	
 		});
 	</script>
+		<style type="text/css">
+		body
+		{
+			margin-top: 30px;
+			text-align: center;
+			font-size: 14px;
+			font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+		}
+		#calendar
+		{
+			width: 1200px;
+			margin: 0 auto;
+			
+		}
+	</style>
 </head>
 <body>
-	<div id="resultContainer" style="text-align:center"></div>
-	<button type="button" class="btn btn-success" data-dismiss="modal" onclick="updateChanges()">Save</button>
-	<div id='calendar' style="height: 100px"></div>
+	
+	
+	<div id='calendar' ></div>
+	<br>
+	<button type="button" class="btn btn-success" data-dismiss="modal" onclick="updateChanges()" style="font-size: large">Save My Schedule</button>
+	
+	<br>
+	<br>
+	<p id="resultContainer" ></p>
 	<div id="createEventModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -252,8 +273,8 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-success" data-dismiss="modal"
-						onclick="saveChange()">Save Changes</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="saveChange()">Done</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
