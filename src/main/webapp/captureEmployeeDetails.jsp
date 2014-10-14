@@ -12,6 +12,20 @@
 	<script src="js/bootstrap.min.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Enroll For Cab Service</title>
+	<script type="text/javascript">
+		function validate(){
+			var mobile = document.getElementById('mobile').value;
+			if(mobile.length != 10 || isNaN(mobile) == true){
+				document.getElementById("resultContainer").innerHTML = "Mobile number should be a 10 digit number";
+				document.getElementById("resultContainer").style.display = 'block';
+				return false;
+			}
+				return true;
+		}
+		function clearMessage(){
+			document.getElementById("resultContainer").style.display = 'none';
+		}
+	</script>
 </head>
 <body>
  	<h3 class="text-center">Enroll For Cab Service <span class="label label-default"></span>
@@ -39,9 +53,10 @@
 		<div class="form-group container-fluid">
 			<label for="mobile" class="col-sm-2 control-label">Mobile</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control container-fluid" id="mobile" name="mobile" placeholder="Enter mobile number" required>
+				<input type="text" class="form-control container-fluid" id="mobile" name="mobile" placeholder="Enter mobile number" onclick="clearMessage()">
 			</div>
 		</div>
+		<p id="resultContainer" align="center" style="color: red"></p>
 		<div class="form-group container-fluid">
 			<label for="address" class="col-sm-2 control-label">Address</label>
 			<div class="col-sm-10">
@@ -58,7 +73,7 @@
 		</div>
 		<div class="form-group" style="text-align: center">
 			<div class="col-sm-offset-1 col-sm-10">
-				<button type="submit" class="btn btn-success btn-large">Enroll</button>
+				<button type="submit" class="btn btn-success btn-large" onclick="return validate()">Enroll</button>
 				<!-- <button type="submit" class="btn btn-danger btn-large">Cancel</button> -->
 			</div>
 		</div>
