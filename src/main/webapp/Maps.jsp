@@ -151,7 +151,7 @@
 	</script>
 </head>
 <body>
-    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <input id="pac-input" class="controls" type="text" placeholder="Enter your home location">
     <div id="map-canvas"></div>
     <div id="distance"></div>
 	<div id="duration"></div>
