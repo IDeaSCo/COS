@@ -17,7 +17,7 @@ import org.json.JSONObject;
 import com.ideas.domain.EmployeeRepository;
 import com.ideas.domain.EmployeeSchedule;
 
-public class DBInteractionController extends HttpServlet {
+public class DashboardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private EmployeeRepository repository;
     
