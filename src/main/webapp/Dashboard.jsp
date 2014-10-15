@@ -1,9 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false"%>
-<%@ page import="java.util.Date" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="org.json.JSONObject" %>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="org.json.JSONObject"%>
 <%@page import="java.security.Principal"%>
 <%@page import="waffle.windows.auth.WindowsAccount"%>
 <%@page import="waffle.servlet.WindowsPrincipal"%>
@@ -12,20 +13,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%
-	String employeeUsername = request.getRemoteUser();
 	ArrayList<?> eventScheduleArray = (ArrayList<?>) request.getAttribute("eventScheduleArray");
 %>
 
 <html>
 <head>
-	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-	<link rel="stylesheet" href="calendar/bootstrap-combined.min.css">
-	<script src="calendar/bootstrap.min.js"></script>
-	<link rel='stylesheet' href='calendar/fullcalendar.css' />
-	<script src='calendar/fullcalendar.js'></script>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Dashboard</title>
-	<script>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<link rel="stylesheet" href="calendar/bootstrap-combined.min.css">
+<script src="calendar/bootstrap.min.js"></script>
+<link rel='stylesheet' href='calendar/fullcalendar.css' />
+<script src='calendar/fullcalendar.js'></script>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Dashboard</title>
+<script>
 		var startSelect = new Date();
 		var endSelect = new Date();
 		var eventsFromCalendar;
@@ -36,10 +36,6 @@
 			var JSONObj = { "title":eventsFromCalendar[i].title, "start":new Date(eventsFromCalendar[i].start.getTime()+330*60000)};		
 			events.push(JSON.stringify(JSONObj));		
 		}
-		//console.log(events);
-		//var fsfds= JSON.stringify(temp);
-		//var stringEventsFromCalendar = JSON.stringify(temp); 
-		//console.log(stringEventsFromCalendar); 
 		document.getElementById('eventInput').value=events;
 		$.ajax({
 	    	type: "POST",
@@ -168,7 +164,6 @@
 					/*
 						after selection user will be promted for enter title for event.
 					 */
-					//var title = prompt('Event Input Title:');
 					$("#createEventModal").modal("show");
 	
 					/*
@@ -201,32 +196,29 @@
 	
 		});
 	</script>
-		<style type="text/css">
-		body
-		{
-			margin-top: 30px;
-			text-align: center;
-			font-size: 14px;
-			font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-		}
-		#calendar
-		{
-			width: 1200px;
-			margin: 0 auto;
-			
-		}
-	</style>
+<style type="text/css">
+body {
+	margin-top: 30px;
+	text-align: center;
+	font-size: 14px;
+	font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+}
+
+#calendar {
+	width: 1200px;
+	margin: 0 auto;
+}
+</style>
 </head>
 <body>
-	
-	
-	<div id='calendar' ></div>
+	<div id='calendar'></div>
 	<br>
-	<button type="button" class="btn btn-success" data-dismiss="modal" onclick="updateChanges()" style="font-size: large">Save My Schedule</button>
-	
+	<button type="button" class="btn btn-success" data-dismiss="modal"
+		onclick="updateChanges()" style="font-size: large">Save My
+		Schedule</button>
 	<br>
 	<br>
-	<p id="resultContainer" ></p>
+	<p id="resultContainer"></p>
 	<div id="createEventModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -282,7 +274,6 @@
 	</div>
 	<form method="post" id="eventsFromCalendarForm">
 		<input type="hidden" name="events" id="eventInput">
-		<input type="hidden" name="username" value="<%=employeeUsername%>">
 	</form>
 </body>
 </html>

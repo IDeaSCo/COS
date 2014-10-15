@@ -1,16 +1,20 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%String employeeUsername = request.getParameter("username").substring(4);%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<% //String employeeUsername = request.getParameter("username").substring(4);
+   //System.out.println(request.getSession().getAttribute("username"));
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<title>COS</title>
-	<link rel="stylesheet" href="map.css">
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
-	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&dummy=.js"></script>
-	<script type="text/javascript">
+<title>COS</title>
+<link rel="stylesheet" href="map.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script
+	src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&dummy=.js"></script>
+<script type="text/javascript">
 	    var rendererOptions = {
 	        draggable: true,
 	    	suppressMarkers:true
@@ -35,7 +39,6 @@
 			        	map.setZoom(11);
 				    	var contentString = '<div id="content">'+
 				    						'<form action="authenticate" method="post">'+
-				    						' <input type="hidden" name="username"'+ 'value="<%=employeeUsername%>" />'+
 				    						' <input type="hidden" name="userAddress" value="' + results[1].formatted_address+ '" />' +
 				    						' <input type="hidden" name="latitude" value="' + lat + '" />' +
 				    						' <input type="hidden" name="longitude" value="' + lng + '" />' +
@@ -151,9 +154,10 @@
 	</script>
 </head>
 <body>
-    <input id="pac-input" class="controls" type="text" placeholder="Enter your home location">
-    <div id="map-canvas"></div>
-    <div id="distance"></div>
+	<input id="pac-input" class="controls" type="text"
+		placeholder="Enter your home location">
+	<div id="map-canvas"></div>
+	<div id="distance"></div>
 	<div id="duration"></div>
 </body>
 </html>

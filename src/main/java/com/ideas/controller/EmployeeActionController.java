@@ -2,11 +2,13 @@ package com.ideas.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.ideas.domain.Address;
 import com.ideas.domain.Employee;
 import com.ideas.domain.EmployeeRepository;
@@ -24,7 +26,7 @@ public class EmployeeActionController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
+		String username = (String) request.getSession().getAttribute("username");
 		String address = request.getParameter("userAddress");
 		double latitude = Double.parseDouble(request.getParameter("latitude"));
 		double longitude = Double.parseDouble(request.getParameter("longitude"));
@@ -36,6 +38,6 @@ public class EmployeeActionController extends HttpServlet {
 			repository.populateDefaultTimings(username);
 		} catch (SQLException e) {
 		}
-		response.sendRedirect("dashboard?username=" + username);
+		response.sendRedirect("dashboard");
 	}
 }

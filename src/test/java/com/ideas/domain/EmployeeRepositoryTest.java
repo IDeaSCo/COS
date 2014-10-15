@@ -40,7 +40,7 @@ public class EmployeeRepositoryTest {
 	
 	@Test
 	public void RepositoryNotContainingEmployeeReturnsFalse(){
-		boolean containsEmployee = repository.findEmployee("someEmployeeID");
+		boolean containsEmployee = repository.getEmployeeDetails("someEmployeeID");
 		Assert.assertFalse(containsEmployee);
 	}
 
@@ -54,7 +54,7 @@ public class EmployeeRepositoryTest {
 	
 	@Test
 	public void checkForFirstTimeUser() throws Exception {
-		boolean employeeAlreadyExists = repository.findEmployee("idnais");
+		boolean employeeAlreadyExists = repository.getEmployeeDetails("idnais");
 		assertFalse(employeeAlreadyExists);
 		
 	}
@@ -63,7 +63,7 @@ public class EmployeeRepositoryTest {
 		Address address = new Address(0.0, 0.0, "Pune");
 		Employee employee = new Employee("idnadg", "2066002133", address);
 		boolean isEmployeeAdded = repository.addEmployee(employee);
-		boolean employeeAlreadyExists = repository.findEmployee(employee.getUsername());
+		boolean employeeAlreadyExists = repository.getEmployeeDetails(employee.getUsername());
 		assertTrue(employeeAlreadyExists);
 	}
 	

@@ -20,7 +20,7 @@ public class EmployeeRepository {
 		this.connection = connection;
 	}
 
-	public Boolean findEmployee(String username) {
+	public Boolean getEmployeeDetails(String username) {
 		ResultSet rs;
 		try {
 			rs = connection.createStatement().executeQuery("select *  from employee_info where username = '" + username + "'");

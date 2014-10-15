@@ -31,7 +31,7 @@ BEGIN
 END $$
 
 
-CALL fillDefaultTiming('idnsor', '2014-10-01');
+--CALL fillDefaultTiming('idnsor', '2014-10-01');
 
 
 SELECT * FROM employee_info;
