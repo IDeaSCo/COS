@@ -24,8 +24,10 @@ BEGIN
                 SET @dt = STARTDATE;
                 SELECT @dt;
                 WHILE (@dt <= @endDate) DO
+				IF WEEKDAY(@dt)!=5 AND WEEKDAY(@dt)!=6 THEN
                                 INSERT INTO employee_dashboard(username, travel_date, EVENT, TIME) VALUES(USERNAME, @dt, 1, '09:30:00');
-                                INSERT INTO employee_dashboard(username, travel_date, EVENT, TIME) VALUES(USERNAME, @dt, 2, '18:30:00');
+                                INSERT INTO employee_dashboard(username, travel_date, EVENT, TIME) VALUES(USERNAME, @dt, 2, '18:30:00');                                                                
+                                END IF;
                                 SET  @dt = DATE_ADD(@dt,INTERVAL 1 DAY);
                 END WHILE;
 END $$
