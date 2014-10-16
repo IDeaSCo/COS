@@ -40,7 +40,7 @@
 		<div class="form-group container-fluid">
 			<label for="name" class="col-sm-2 control-label">Name</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control container-fluid" id="name" value="${employeeDetails.name}" readonly>
+				<input type="text" class="form-control container-fluid" id="name" name="name" value="${employeeDetails.name}" readonly>
 			</div>
 		</div>
 		<div class="form-group container-fluid">

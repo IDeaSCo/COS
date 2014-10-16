@@ -19,6 +19,7 @@ public class EmployeeRepositorySupport {
 		StringBuilder createTable = new StringBuilder();
 		createTable.append("CREATE TABLE employee_info(")
 		.append("username VARCHAR(10) PRIMARY KEY,")
+		.append("name VARCHAR(50) NOT NULL,")
 		.append("address VARCHAR(200) NOT NULL,")
 		.append("latitude DOUBLE NOT NULL,")
 		.append("longitude DOUBLE NOT NULL,")
@@ -29,10 +30,11 @@ public class EmployeeRepositorySupport {
 	public void insert(Employee employee) throws SQLException{
 		PreparedStatement insertEmployeeDetails = connection.prepareStatement("insert into employee_info values(?, ?, ?, ?, ?)");
 		insertEmployeeDetails.setString(1, employee.getEmployeeID());
-		insertEmployeeDetails.setString(2, employee.getAddress().getPickUpLocation());
-		insertEmployeeDetails.setDouble(3, employee.getAddress().getLatitude());
-		insertEmployeeDetails.setDouble(4, employee.getAddress().getLongitude());
-		insertEmployeeDetails.setString(4, employee.getMobile());
+		insertEmployeeDetails.setString(2, employee.getName());
+		insertEmployeeDetails.setString(3, employee.getAddress().getPickUpLocation());
+		insertEmployeeDetails.setDouble(4, employee.getAddress().getLatitude());
+		insertEmployeeDetails.setDouble(5, employee.getAddress().getLongitude());
+		insertEmployeeDetails.setString(6, employee.getMobile());
 		insertEmployeeDetails.executeUpdate();
 	}
 	

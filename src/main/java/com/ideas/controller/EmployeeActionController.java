@@ -28,11 +28,12 @@ public class EmployeeActionController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = (String) request.getSession().getAttribute("username");
 		String address = request.getParameter("userAddress");
+		String name = request.getParameter("name");
 		double latitude = Double.parseDouble(request.getParameter("latitude"));
 		double longitude = Double.parseDouble(request.getParameter("longitude"));
 		String mobile = request.getParameter("mobile");
 		Address employeeAddress = new Address(latitude, longitude, address);
-		Employee employeeDetails = new Employee(username, mobile, employeeAddress);
+		Employee employeeDetails = new Employee(username, name, mobile, employeeAddress);
 		boolean isAdded = repository.addEmployee(employeeDetails);
 		try {
 			repository.populateDefaultTimings(username);

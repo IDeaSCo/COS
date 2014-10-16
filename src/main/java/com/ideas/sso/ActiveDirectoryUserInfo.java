@@ -1,7 +1,6 @@
 package com.ideas.sso;
 
 import com.ideas.domain.Employee;
-
 import com4j.COM4J;
 import com4j.ComException;
 import com4j.Variant;

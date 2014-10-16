@@ -47,7 +47,7 @@ public class EmployeeRepositoryTest {
 	@Test
 	public void RepositoryStoresEmployeeDetails(){
 		Address address = new Address(0.0, 0.0, "Some location");
-		Employee employee = new Employee("idnsor", "2066002133", address);
+		Employee employee = new Employee("idnsor", "Sonam Rasal", "2066002133", address);
 		boolean isEmployeeAdded = repository.addEmployee(employee);
 		Assert.assertTrue(isEmployeeAdded);
 	}
@@ -61,7 +61,7 @@ public class EmployeeRepositoryTest {
 	@Test
 	public void checkForExistingUser() throws Exception {
 		Address address = new Address(0.0, 0.0, "Pune");
-		Employee employee = new Employee("idnadg", "2066002133", address);
+		Employee employee = new Employee("idnadg", "Abhishek Singh", "2066002133", address);
 		boolean isEmployeeAdded = repository.addEmployee(employee);
 		boolean employeeAlreadyExists = repository.getEmployeeDetails(employee.getUsername());
 		assertTrue(employeeAlreadyExists);

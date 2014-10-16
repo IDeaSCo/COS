@@ -53,7 +53,7 @@ public class AuthenticationController extends HttpServlet {
 		double latitude = Double.parseDouble(request.getParameter("latitude"));
 		double longitude = Double.parseDouble(request.getParameter("longitude"));
 		Address address = new Address(latitude, longitude, pickUpLocation);
-		Employee employeeLocationDetails = new Employee(username, null, address);
+		Employee employeeLocationDetails = new Employee(username, null, null, address);
 		return employeeLocationDetails;
 	}
 	
