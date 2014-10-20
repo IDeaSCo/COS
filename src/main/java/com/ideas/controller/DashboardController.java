@@ -2,6 +2,7 @@ package com.ideas.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.sql.SQLException;
+import java.sql.Time;
 import java.text.ParseException;
 
 import org.json.JSONObject;
@@ -31,6 +34,12 @@ public class DashboardController extends HttpServlet {
 		EmployeeSchedule schedule = repository.getEmployeeSchedule(username);
 		ArrayList<JSONObject> jsonObjArray= new COSServiceLayer().convertEmpScheduleToJson(schedule);
 		request.setAttribute("eventScheduleArray", jsonObjArray);
+		List<Time> shiftTimings = null;
+		try {
+			shiftTimings = repository.getShiftTimings();
+		} catch (SQLException e) {
+		}
+		request.setAttribute("shiftTimings", shiftTimings);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Dashboard.jsp");
 		dispatcher.forward(request, response);
 	}

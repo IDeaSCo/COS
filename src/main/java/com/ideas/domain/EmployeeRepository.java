@@ -7,8 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeMap;
 
 public class EmployeeRepository {
@@ -101,4 +103,11 @@ public class EmployeeRepository {
 		}
 	}
 
+	public List<Time> getShiftTimings() throws SQLException{
+		ResultSet rs = connection.createStatement().executeQuery("select * from shift_details");
+		List<Time> shiftTimings = new ArrayList<Time>();
+		while(rs.next())
+			shiftTimings.add(rs.getTime(1));
+		return shiftTimings;
+	}
 }

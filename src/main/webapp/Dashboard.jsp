@@ -13,6 +13,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 	ArrayList<?> eventScheduleArray = (ArrayList<?>) request.getAttribute("eventScheduleArray");
+	ArrayList<?> shiftTimings = (ArrayList<?>) request.getAttribute("shiftTimings");
 %>
 <html>
 <head>
@@ -228,15 +229,9 @@
 							<div class="col-sm-10">
 								<select class="form-control" id="inTime">
 									<option>SKIP</option>
-									<% Date dt = new Date(66600000);
-									
-									   for(int i= 0; i <96;i++ ){
-									%>
-									<option><%=dt.getHours() %>:<%=dt.getMinutes() %></option>
-									<%
-											dt = new Date(dt.getTime() + 15 * 60 * 1000);
-										}
-									%>
+									<% for(int i = 0; i < shiftTimings.size(); i++) { %>
+									<option><%=shiftTimings.get(i) %></option>
+									<% } %>
 								</select>
 							</div>
 						</div>
@@ -245,15 +240,9 @@
 							<div class="col-sm-10">
 								<select class="form-control" id="outTime">
 									<option>SKIP</option>
-									<% dt = new Date(66600000);
-									
-									   for(int i= 0; i <96;i++ ){
-									%>
-									<option><%=dt.getHours() %>:<%=dt.getMinutes() %></option>
-									<%
-											dt = new Date(dt.getTime() + 15 * 60 * 1000);
-										}
-									%>
+									<% for(int i = 0; i < shiftTimings.size(); i++) { %>
+									<option><%=shiftTimings.get(i) %></option>
+									<% } %>
 								</select>
 							</div>
 						</div>
