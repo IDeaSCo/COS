@@ -14,6 +14,10 @@ EVENT ENUM('In-Time', 'Out-Time') NOT NULL,
 TIME TIME,
 PRIMARY KEY(username, travel_date, EVENT))
 
+CREATE TABLE admin_info(
+	username VARCHAR(10) PRIMARY KEY
+)
+
 DELIMITER $$
 DROP PROCEDURE IF EXISTS fillDefaultTiming$$
 CREATE PROCEDURE fillDefaultTiming (IN USERNAME VARCHAR(10), IN STARTDATE VARCHAR(12))
@@ -30,10 +34,6 @@ BEGIN
                                 SET  @dt = DATE_ADD(@dt,INTERVAL 1 DAY);
                 END WHILE;
 END $$
-
-
---CALL fillDefaultTiming('idnsor', '2014-10-01');
-
 
 SELECT * FROM employee_info;
 

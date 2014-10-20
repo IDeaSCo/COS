@@ -30,29 +30,29 @@
 		var eventsFromCalendar;
 		var events=[];
 		function updateChanges(){
-		eventsFromCalendar = $('#calendar').fullCalendar('clientEvents');
-		for(i=0;i<eventsFromCalendar.length;i++){
-			var JSONObj = { "title":eventsFromCalendar[i].title, "start":new Date(eventsFromCalendar[i].start.getTime()+330*60000)};		
-			events.push(JSON.stringify(JSONObj));		
-		}
-		document.getElementById('eventInput').value=events;
-		$.ajax({
-	    	type: "POST",
-	    	dataType: "json",
-			url: "/COS/dashboard",
-			data:  $('#eventsFromCalendarForm').serialize(),
-	      	success: function(msg){
-	     		 if(msg === true) {
-	                 $("#resultContainer").html("<p style='color:green' class='alert alert-success'>Schedule Updated</p>");
-	    		 } else {
-	    			 $("#resultContainer").html("<div class='alert alert-danger'>Please try again</div>");
-	    		 }
-	         },
-			error: function(){
-				  $("#resultContainer").html("<div class='alert alert-danger'>Server Error. Request could not be placed, please try again later</div>");
-	    	}
-	    });
-	
+			eventsFromCalendar = $('#calendar').fullCalendar('clientEvents');
+			//alert(new Date(eventsFromCalendar[0].start.getTime()));
+			for(i=0;i<eventsFromCalendar.length;i++){
+				var JSONObj = { "title":eventsFromCalendar[i].title, "start":new Date(eventsFromCalendar[i].start.getTime()+330*60000)};		
+				events.push(JSON.stringify(JSONObj));
+			}
+			document.getElementById('eventInput').value=events;
+			$.ajax({
+		    	type: "POST",
+		    	dataType: "json",
+				url: "/COS/dashboard",
+				data:  $('#eventsFromCalendarForm').serialize(),
+		      	success: function(msg){
+		     		 if(msg === true) {
+		                 $("#resultContainer").html("<p style='color:green' class='alert alert-success'>Schedule Updated</p>");
+		    		 } else {
+		    			 $("#resultContainer").html("<div class='alert alert-danger'>Please try again</div>");
+		    		 }
+		         },
+				error: function(){
+					  $("#resultContainer").html("<div class='alert alert-danger'>Server Error. Request could not be placed, please try again later</div>");
+		    	}
+		    });
 		}
 		function saveChange() {
 			$('#calendar').fullCalendar('removeEvents', function(event) {
@@ -87,9 +87,7 @@
 							'renderEvent',
 							{
 								title : 'Out-Time',
-								start : new Date(date.getFullYear(), date
-										.getMonth(), date.getDate(),
-										outTimeArray[0], outTimeArray[1]),
+								start : new Date(date.getFullYear(), date.getMonth(), date.getDate(), outTimeArray[0], outTimeArray[1]),
 								allDay : false
 							}, true // make the event "stick"
 					);
@@ -250,8 +248,7 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
-						onclick="saveChange()">Done</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveChange()">Done</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>

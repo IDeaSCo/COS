@@ -48,23 +48,20 @@
 		});
 		
 		function markHoliday(){
-			var date;
+			var holidayReason = document.getElementById('reason').value;
 			$('#calendar').fullCalendar('removeEvents', function(event) {
-				date = event.start;
 				return true;
 			});
 			$('#calendar').fullCalendar('renderEvent',
 					{
-						title : 'Company Holiday',
+						title : holidayReason,
 						start : eventDate,
 						allDay : true
 					}, true 
 			);
-			alert('Hi');
-			jQuery.post(
-					"/COS/admin",
+			jQuery.post("/COS/admin",
 					{
-						title: 'Company Holiday',
+						title: holidayReason,
 						start: eventDate
 					}
 			);
@@ -93,10 +90,13 @@
 			<div class="modal-content">
 				<div class="modal-header"></div>
 				<div class="modal-body">
-					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="markHoliday()">Mark as Company Holiday</button>
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+					<div class="form-group">
+				  		<b>Reason: </b> <input type="text" class="form-control" id="reason" name="reason">
+				  </div>
 				</div>
 				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="markHoliday()">Mark Company Holiday</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
 		</div>
