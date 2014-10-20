@@ -80,6 +80,12 @@
 		<description></description>
 		<servlet-class>com.ideas.controller.DashboardController</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>AdminActionController</servlet-name>
+		<display-name>AdminActionController</display-name>
+		<description></description>
+		<servlet-class>com.ideas.controller.AdminActionController</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>AuthenticationController</servlet-name>
 		<url-pattern>/authenticate/*</url-pattern>
@@ -91,5 +97,9 @@
 	<servlet-mapping>
 		<servlet-name>DashboardController</servlet-name>
 		<url-pattern>/dashboard</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AdminActionController</servlet-name>
+		<url-pattern>/admin</url-pattern>
 	</servlet-mapping>
 </web-app>

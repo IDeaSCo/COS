@@ -28,13 +28,18 @@ public class AuthenticationController extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = (String) request.getSession().getAttribute("username");
-		boolean isEmployeeRegistered = repository.getEmployeeDetails(username);
 		RequestDispatcher dispatcher;
-		if(!isEmployeeRegistered)
-			dispatcher = request.getRequestDispatcher("Maps.jsp");
-		else
-			dispatcher = request.getRequestDispatcher("/dashboard");
+		String username = (String) request.getSession().getAttribute("username");
+		boolean isRoleAdmin = repository.isEmployeeAdmin(username);
+		if(isRoleAdmin)
+			dispatcher = request.getRequestDispatcher("/admin");
+		else{
+			boolean isEmployeeRegistered = repository.getEmployeeDetails(username);
+			if(!isEmployeeRegistered)
+				dispatcher = request.getRequestDispatcher("Maps.jsp");
+			else
+				dispatcher = request.getRequestDispatcher("/dashboard");
+		}
 		dispatcher.forward(request, response);
 	}
 

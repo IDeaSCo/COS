@@ -103,11 +103,28 @@ public class EmployeeRepository {
 		}
 	}
 
-	public List<Time> getShiftTimings() throws SQLException{
-		ResultSet rs = connection.createStatement().executeQuery("select * from shift_details");
+	public List<Time> getShiftTimings(){
+		ResultSet rs;
 		List<Time> shiftTimings = new ArrayList<Time>();
-		while(rs.next())
-			shiftTimings.add(rs.getTime(1));
+		try {
+			rs = connection.createStatement().executeQuery("select * from shift_details");
+			while(rs.next())
+				shiftTimings.add(rs.getTime(1));
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 		return shiftTimings;
+	}
+
+	public boolean isEmployeeAdmin(String username) {
+		boolean isRoleAdmin = false;
+		try {
+			ResultSet rs = connection.createStatement().executeQuery("select * from admin_info where username = '" + username + "'");
+			if(rs.next())
+				isRoleAdmin = true;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return isRoleAdmin;
 	}
 }

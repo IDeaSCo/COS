@@ -35,10 +35,7 @@ public class DashboardController extends HttpServlet {
 		ArrayList<JSONObject> jsonObjArray= new COSServiceLayer().convertEmpScheduleToJson(schedule);
 		request.setAttribute("eventScheduleArray", jsonObjArray);
 		List<Time> shiftTimings = null;
-		try {
-			shiftTimings = repository.getShiftTimings();
-		} catch (SQLException e) {
-		}
+		shiftTimings = repository.getShiftTimings();
 		request.setAttribute("shiftTimings", shiftTimings);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Dashboard.jsp");
 		dispatcher.forward(request, response);
