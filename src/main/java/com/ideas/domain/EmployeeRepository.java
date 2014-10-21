@@ -127,4 +127,17 @@ public class EmployeeRepository {
 		}
 		return isRoleAdmin;
 	}
+	
+	public boolean addCompanyHoliday(Date holiday, String reason){
+		PreparedStatement ps;
+		try {
+			ps = connection.prepareStatement("insert into holidays values(?, ?)");
+			ps.setDate(1, holiday);
+			ps.setString(2, reason);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			return false;
+		}
+		return true;
+	}
 }

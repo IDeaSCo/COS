@@ -22,10 +22,6 @@
 	<script>
 		var eventDate = new Date();
 		$(document).ready(function() {
-			var date = new Date();
-			var d = date.getDate();
-			var m = date.getMonth();
-			var y = date.getFullYear();
 			var calendar = $('#calendar').fullCalendar({
 				header : {
 					left : 'prev,next today',
@@ -62,7 +58,7 @@
 			jQuery.post("/COS/admin",
 					{
 						title: holidayReason,
-						start: eventDate
+						start: eventDate.getTime()
 					}
 			);
 		}

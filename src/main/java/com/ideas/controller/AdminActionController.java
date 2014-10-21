@@ -1,7 +1,7 @@
 package com.ideas.controller;
 
 import java.io.IOException;
-import java.util.Date;
+import java.sql.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -27,8 +27,10 @@ public class AdminActionController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		@SuppressWarnings("deprecation")
-		Date holiday = new Date(request.getParameter("start"));
+		String reason = request.getParameter("title");
+		long timeInMillis = Long.valueOf(request.getParameter("start"));
+		Date holiday = new Date(timeInMillis);
+		boolean isHolidayMarked = repository.addCompanyHoliday(holiday, reason);
 	}
 
 }

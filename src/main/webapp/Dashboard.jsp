@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false"%>
 <%@ page import="java.util.Date"%>
@@ -31,9 +30,8 @@
 		var events=[];
 		function updateChanges(){
 			eventsFromCalendar = $('#calendar').fullCalendar('clientEvents');
-			//alert(new Date(eventsFromCalendar[0].start.getTime()));
-			for(i=0;i<eventsFromCalendar.length;i++){
-				var JSONObj = { "title":eventsFromCalendar[i].title, "start":new Date(eventsFromCalendar[i].start.getTime()+330*60000)};		
+			for(i = 0; i < eventsFromCalendar.length; i++){
+				var JSONObj = { "title":eventsFromCalendar[i].title, "start":new Date(eventsFromCalendar[i].start.getTime()+330*60000)};
 				events.push(JSON.stringify(JSONObj));
 			}
 			document.getElementById('eventInput').value=events;
