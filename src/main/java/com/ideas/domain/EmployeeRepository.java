@@ -140,4 +140,15 @@ public class EmployeeRepository {
 		}
 		return true;
 	}
+
+	public TreeMap<Date, String> getCompanyHolidays() {
+		TreeMap<Date, String> companyHolidays = new TreeMap<Date, String>();
+		try {
+			ResultSet rs = connection.createStatement().executeQuery("select * from holidays");
+			while(rs.next())
+				companyHolidays.put(rs.getDate(1), rs.getString(2));
+		} catch (SQLException e) {
+		}
+		return companyHolidays;
+	}
 }

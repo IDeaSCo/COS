@@ -7,9 +7,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
+
 import org.eclipse.jetty.util.ajax.JSON;
 import org.json.JSONObject;
+
 import com.ideas.domain.EmployeeSchedule;
 
 public class COSServiceLayer {
@@ -57,5 +60,16 @@ public class COSServiceLayer {
 			}
 		}
 		return new EmployeeSchedule(username, eventDateMap);
+	}
+
+	public ArrayList<JSONObject> convertToJSON(TreeMap<Date, String> companyHolidays) {
+		ArrayList<JSONObject> holidayList = new ArrayList<JSONObject>();
+		for(Map.Entry<Date, String> entry: companyHolidays.entrySet()){
+			JSONObject jo = new JSONObject();
+			jo.put("title", entry.getValue());
+			jo.put("start", entry.getKey());
+			holidayList.add(jo);
+		}
+		return holidayList;
 	}
 }

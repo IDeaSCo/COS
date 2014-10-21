@@ -11,6 +11,7 @@
 <%@page import="com.sun.jna.platform.win32.Secur32Util"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<% ArrayList<?> holidayList = (ArrayList<?>) request.getAttribute("holidays");%>
 <head>
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<link rel="stylesheet" href="calendar/bootstrap-combined.min.css">
@@ -40,6 +41,7 @@
 					calendar.fullCalendar('unselect');
 				},
 				editable : true,
+				events: <%=holidayList%>
 			});
 		});
 		
