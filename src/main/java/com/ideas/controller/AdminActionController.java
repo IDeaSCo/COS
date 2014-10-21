@@ -2,7 +2,9 @@ package com.ideas.controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
 import javax.servlet.RequestDispatcher;
@@ -29,6 +31,8 @@ public class AdminActionController extends HttpServlet {
 		TreeMap<Date, String> companyHolidays = repository.getCompanyHolidays();
 		ArrayList<JSONObject> holidayList = new COSServiceLayer().convertToJSON(companyHolidays);
 		request.setAttribute("holidays", holidayList);
+		List<Time> shiftTimings = repository.getShiftTimings();
+		request.setAttribute("shiftTimings", shiftTimings);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("AdminDashboard.jsp");
 		dispatcher.forward(request, response);
 	}

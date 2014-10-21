@@ -7,15 +7,25 @@ CREATE TABLE employee_info(
 	mobile VARCHAR(10) NOT NULL
 )
 
-CREATE TABLE employee_dashboard (
-username VARCHAR(10) NOT NULL,
-travel_date DATE NOT NULL,
-EVENT ENUM('In-Time', 'Out-Time') NOT NULL,
-TIME TIME,
-PRIMARY KEY(username, travel_date, EVENT))
-
 CREATE TABLE admin_info(
 	username VARCHAR(10) PRIMARY KEY
+)
+
+CREATE TABLE holidays(
+	holiday_date DATE PRIMARY KEY,
+	reason VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE employee_dashboard (
+	username VARCHAR(10) NOT NULL,
+	travel_date DATE NOT NULL,
+	EVENT ENUM('In-Time', 'Out-Time') NOT NULL,
+	TIME TIME,
+	PRIMARY KEY(username, travel_date, EVENT)
+)
+
+CREATE TABLE shift_details (
+	TIME TIME PRIMARY KEY
 )
 
 DELIMITER $$
