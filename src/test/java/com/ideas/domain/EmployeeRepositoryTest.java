@@ -1,14 +1,20 @@
 package com.ideas.domain;
 
 import static org.junit.Assert.*;
+
+import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Calendar;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import com.ideas.sso.ActiveDirectoryUserInfo;
 import com.ideas.sso.AuthenticationError;
+
 import waffle.windows.auth.IWindowsAccount;
 import waffle.windows.auth.impl.WindowsAuthProviderImpl;
 
@@ -58,6 +64,7 @@ public class EmployeeRepositoryTest {
 		assertFalse(employeeAlreadyExists);
 		
 	}
+	
 	@Test
 	public void checkForExistingUser() throws Exception {
 		Address address = new Address(0.0, 0.0, "Pune");
@@ -67,5 +74,11 @@ public class EmployeeRepositoryTest {
 		assertTrue(employeeAlreadyExists);
 	}
 	
-	
+	@Test
+	public void CompanyHolidayMarkedSuccessfully() {
+		Calendar cal = Calendar.getInstance();
+		Date holiday = new Date(cal.getTime().getTime());
+		String reason = "Dummy holiday";
+		assertTrue(repository.addCompanyHoliday(holiday, reason));
+	}
 }

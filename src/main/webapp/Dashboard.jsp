@@ -204,13 +204,9 @@
 	</style>
 </head>
 <body>
-	<div id='calendar'></div>
-	<br>
-	<button type="button" class="btn btn-success" data-dismiss="modal"
-		onclick="updateChanges()" style="font-size: large">Save My
-		Schedule</button>
-	<br>
-	<br>
+	<div id='calendar'></div><br>
+	<button type="button" class="btn btn-success" data-dismiss="modal" onclick="updateChanges()" style="font-size: large">Save My Schedule</button>
+	<br><br>
 	<p id="resultContainer"></p>
 	<div id="createEventModal" class="modal fade">
 		<div class="modal-dialog">

@@ -94,11 +94,12 @@
 </head>
 <body>
 	<div id='shiftDetailsContainer'>
-		<button type="button" class="btn btn-primary" id="shiftManager" isEditButton="true" onclick="showShifts()">View Shift Details</button>
+		<button type="button" class="btn btn-primary" id="shiftManager" onclick="showShifts()">View Shift Details</button>
 		<div id="shiftDetails">
 			<% for(int i = 0; i < shiftTimings.size(); i++) { %>
 			<p><%=shiftTimings.get(i) %></p>
 			<% } %>
+			<a data-toggle="modal" data-backdrop="static" href="#addShift" class="btn btn-success">Add new shift</a>
 		</div>
 	</div><br>
 	<div id='calendar'></div>
@@ -108,12 +109,32 @@
 				<div class="modal-header"></div>
 				<div class="modal-body">
 					<div class="form-group">
-				  		<b>Reason: </b> <input type="text" class="form-control" id="reason" name="reason">
+						<label>Reason</label>
+				  		<input type="text" class="form-control" id="reason" name="reason">
 				  </div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="markHoliday()">Mark Company Holiday</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="addShift" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<form id="itemForm" method="post">
+						<div class="form-group">
+							<label>Shift Timing</label>
+							<input type="text" class="form-control" id="shift" name="shift">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="addItem" type="submit" class="btn btn-primary">Save shift</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
 		</div>
