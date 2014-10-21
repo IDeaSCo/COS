@@ -68,6 +68,8 @@ public class COSServiceLayer {
 			JSONObject jo = new JSONObject();
 			jo.put("title", entry.getValue());
 			jo.put("start", entry.getKey());
+			jo.put("textColor", "black");
+			jo.put("backgroundColor", "#80ACED");
 			holidayList.add(jo);
 		}
 		return holidayList;

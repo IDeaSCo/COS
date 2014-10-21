@@ -41,7 +41,7 @@
 					calendar.fullCalendar('unselect');
 				},
 				editable : true,
-				events: <%=holidayList%>
+				events: <%=holidayList%>,
 			});
 		});
 		
