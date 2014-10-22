@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import com.ideas.domain.EmployeeRepository;
+import com.ideas.domain.Repository;
 
 public class COSServletContextListener implements ServletContextListener {
-    private EmployeeRepository repository;
+    private Repository repository;
 
 	public void contextInitialized(ServletContextEvent sce)  {
     	ServletContext servletContext = sce.getServletContext();
@@ -18,7 +18,7 @@ public class COSServletContextListener implements ServletContextListener {
 			Connection connection = DriverManager.getConnection(servletContext.getInitParameter("url"),
 																servletContext.getInitParameter("username"),
 																servletContext.getInitParameter("password"));
-			repository = new EmployeeRepository(connection);
+			repository = new Repository(connection);
 			servletContext.setAttribute("repository", repository);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

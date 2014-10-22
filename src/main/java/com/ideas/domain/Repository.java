@@ -13,10 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
-public class EmployeeRepository {
+public class Repository {
 	private final Connection connection;
 	
-	public EmployeeRepository(Connection connection) {
+	public Repository(Connection connection) {
 		if(connection == null)
 			throw new IllegalArgumentException("Empty connection");
 		this.connection = connection;

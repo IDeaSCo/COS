@@ -19,7 +19,7 @@ import waffle.windows.auth.IWindowsAccount;
 import waffle.windows.auth.impl.WindowsAuthProviderImpl;
 
 public class EmployeeRepositoryTest {
-	private static EmployeeRepository repository;
+	private static Repository repository;
 	private static EmployeeRepositorySupport repositorySupport;
 	
 	@BeforeClass
@@ -40,7 +40,7 @@ public class EmployeeRepositoryTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void RepositoryCannotWorkWithoutAConnection() {
-		new EmployeeRepository(null);
+		new Repository(null);
 		fail("No valid connection provided. Repository should not be able to operate");
 	}
 	

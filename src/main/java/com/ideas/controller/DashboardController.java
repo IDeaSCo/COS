@@ -17,16 +17,16 @@ import java.text.ParseException;
 
 import org.json.JSONObject;
 
-import com.ideas.domain.EmployeeRepository;
+import com.ideas.domain.Repository;
 import com.ideas.domain.EmployeeSchedule;
 
 public class DashboardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private EmployeeRepository repository;
+	private Repository repository;
     
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		repository = (EmployeeRepository) config.getServletContext().getAttribute("repository");
+		repository = (Repository) config.getServletContext().getAttribute("repository");
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

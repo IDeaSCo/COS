@@ -8,11 +8,11 @@ import java.sql.SQLException;
 public class EmployeeRepositorySupport {
 	private Connection connection;
 	
-	public EmployeeRepository createTableAndRepository() throws ClassNotFoundException, SQLException{
+	public Repository createTableAndRepository() throws ClassNotFoundException, SQLException{
 		Class.forName("org.hsqldb.jdbcDriver");
 		connection = DriverManager.getConnection("jdbc:hsqldb:mem:cos", "SA", "");
 		createTables(connection);
-		return new EmployeeRepository(connection);
+		return new Repository(connection);
 	}
 	
 	public void createTables(Connection connection) throws SQLException{
