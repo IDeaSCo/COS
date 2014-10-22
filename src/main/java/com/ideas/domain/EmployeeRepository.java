@@ -22,15 +22,21 @@ public class EmployeeRepository {
 		this.connection = connection;
 	}
 
-	public Boolean getEmployeeDetails(String username) {
-		ResultSet rs;
+	public boolean isEmployeeAdmin(String username) {
 		try {
-			rs = connection.createStatement().executeQuery("select *  from employee_info where username = '" + username + "'");
+			ResultSet rs = connection.createStatement().executeQuery("select * from admin_info where username = '" + username + "'");
 			if(rs.next())
 				return true;
-		} catch (SQLException e) {
-			throw new RuntimeException(e.getMessage());
-		}
+		} catch (SQLException e) {}
+	return false;
+}
+
+	public Boolean getEmployeeDetails(String username) {
+		try {
+			ResultSet rs = connection.createStatement().executeQuery("select *  from employee_info where username = '" + username + "'");
+			if(rs.next())
+				return true;
+		} catch (SQLException e) {}
 		return false;
 	}
 
@@ -44,15 +50,13 @@ public class EmployeeRepository {
 			insertEmployeeInfo.setDouble(5, employee.getAddress().getLongitude());
 			insertEmployeeInfo.setString(6, employee.getMobile());
 			insertEmployeeInfo.executeUpdate();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		} catch (Exception e) {}
 		return true;
 	}
 
 	public EmployeeSchedule getEmployeeSchedule(String username) {
+		TreeMap<Date, HashMap<String, Time>> eventsDateMap = new TreeMap<Date, HashMap<String, Time>>();
 		try {
-			TreeMap<Date, HashMap<String, Time>> eventsDateMap = new TreeMap<Date, HashMap<String, Time>>();
 			ResultSet rs = connection.createStatement().executeQuery("select *  from employee_dashboard where username = '"	+ username + "'");
 			while (rs.next()) {
 				HashMap<String, Time> eventsTimeMap = new HashMap<String, Time>();
@@ -67,10 +71,8 @@ public class EmployeeRepository {
 				}
 
 			}
-			return new EmployeeSchedule(username, eventsDateMap);
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
+		} catch (SQLException e) {}
+		return new EmployeeSchedule(username, eventsDateMap);
 	}
 
 	public void populateDefaultTimings(String username) throws SQLException {
@@ -97,10 +99,8 @@ public class EmployeeRepository {
 					ps.executeUpdate();
 				}
 			}
-			return true;
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
+		} catch (SQLException e) {}
+		return true;
 	}
 
 	public List<Time> getShiftTimings(){
@@ -110,34 +110,17 @@ public class EmployeeRepository {
 			rs = connection.createStatement().executeQuery("select * from shift_details");
 			while(rs.next())
 				shiftTimings.add(rs.getTime(1));
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
+		} catch (SQLException e) {}
 		return shiftTimings;
 	}
 
-	public boolean isEmployeeAdmin(String username) {
-		boolean isRoleAdmin = false;
-		try {
-			ResultSet rs = connection.createStatement().executeQuery("select * from admin_info where username = '" + username + "'");
-			if(rs.next())
-				isRoleAdmin = true;
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-		return isRoleAdmin;
-	}
-	
 	public boolean addCompanyHoliday(Date holiday, String reason){
-		PreparedStatement ps;
 		try {
-			ps = connection.prepareStatement("insert into holidays values(?, ?)");
+			PreparedStatement ps = connection.prepareStatement("insert into holidays values(?, ?)");
 			ps.setDate(1, holiday);
 			ps.setString(2, reason);
 			ps.executeUpdate();
-		} catch (SQLException e) {
-			return false;
-		}
+		} catch (SQLException e) {}
 		return true;
 	}
 
@@ -147,8 +130,7 @@ public class EmployeeRepository {
 			ResultSet rs = connection.createStatement().executeQuery("select * from holidays");
 			while(rs.next())
 				companyHolidays.put(rs.getDate(1), rs.getString(2));
-		} catch (SQLException e) {
-		}
+		} catch (SQLException e) {}
 		return companyHolidays;
 	}
 }

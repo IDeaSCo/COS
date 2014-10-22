@@ -35,10 +35,8 @@ public class AuthenticationController extends HttpServlet {
 			dispatcher = request.getRequestDispatcher("/admin");
 		else{
 			boolean isEmployeeRegistered = repository.getEmployeeDetails(username);
-			if(!isEmployeeRegistered)
-				dispatcher = request.getRequestDispatcher("Maps.jsp");
-			else
-				dispatcher = request.getRequestDispatcher("/dashboard");
+			String path = isEmployeeRegistered ? "/dashboard" : "Maps.jsp";
+			dispatcher = request.getRequestDispatcher(path);
 		}
 		dispatcher.forward(request, response);
 	}
