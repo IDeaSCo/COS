@@ -41,7 +41,12 @@ public class AdminActionController extends HttpServlet {
 		String reason = request.getParameter("title");
 		long timeInMillis = Long.valueOf(request.getParameter("start"));
 		Date holiday = new Date(timeInMillis);
-		boolean isHolidayMarked = repository.addCompanyHoliday(holiday, reason);
+		String action = request.getParameter("action");
+		if(action.equals("add"))
+			repository.addCompanyHoliday(holiday, reason);
+		else
+			repository.removeCompanyHoliday(holiday, reason);
+		
 	}
 
 }

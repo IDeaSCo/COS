@@ -133,4 +133,15 @@ public class Repository {
 		} catch (SQLException e) {}
 		return companyHolidays;
 	}
+
+	public boolean removeCompanyHoliday(Date holiday, String reason) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("delete from holidays where holiday_date = ? and reason = ?");
+			ps.setDate(1, holiday);
+			ps.setString(2, reason);
+			ps.executeUpdate();
+		} catch (SQLException e) {}
+		
+		return true;
+	}
 }

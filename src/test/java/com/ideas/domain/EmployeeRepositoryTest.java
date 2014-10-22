@@ -81,4 +81,14 @@ public class EmployeeRepositoryTest {
 		String reason = "Dummy holiday";
 		assertTrue(repository.addCompanyHoliday(holiday, reason));
 	}
+	
+	@Test
+	public void CompanyHolidayRemovedSuccessfully() {
+		Calendar cal = Calendar.getInstance();
+		Date holiday = new Date(cal.getTime().getTime());
+		String reason = "Dummy holiday";
+		repository.addCompanyHoliday(holiday, reason);
+		assertTrue(repository.removeCompanyHoliday(holiday, reason));
+	}
+
 }
