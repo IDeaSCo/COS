@@ -14,8 +14,9 @@ public class Employee {
 		this.emailId = email.substring(0, email.indexOf("@"));
 	}
 	
-	public Employee(String username, String mobile, Address address){
+	public Employee(String username, String name, String mobile, Address address){
 		this.username = username;
+		this.name = name;
 		this.mobile = mobile;
 		this.address = address;
 	}

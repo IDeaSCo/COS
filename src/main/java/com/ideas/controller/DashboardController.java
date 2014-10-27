@@ -2,19 +2,22 @@ package com.ideas.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.text.ParseException;
+
 import org.json.JSONObject;
 
 import com.ideas.domain.EmployeeRepository;
 import com.ideas.domain.EmployeeSchedule;
 
-public class DBInteractionController extends HttpServlet {
+public class DashboardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private EmployeeRepository repository;
     
@@ -24,7 +27,7 @@ public class DBInteractionController extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = getUsernameFromRequest(request);
+		String username = (String) request.getSession().getAttribute("username");
 		EmployeeSchedule schedule = repository.getEmployeeSchedule(username);
 		ArrayList<JSONObject> jsonObjArray= new COSServiceLayer().convertEmpScheduleToJson(schedule);
 		request.setAttribute("eventScheduleArray", jsonObjArray);
@@ -32,15 +35,8 @@ public class DBInteractionController extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-	private String getUsernameFromRequest(HttpServletRequest request) {
-		String username = request.getParameter("username");
-		if(username.contains("\\"))
-			username = username.substring(username.indexOf("\\") + 1);
-		return username;
-	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = getUsernameFromRequest(request);
+		String username = (String) request.getSession().getAttribute("username");
 		String events = (request.getParameter("events"));
 		EmployeeSchedule schedule = null;
 		try {

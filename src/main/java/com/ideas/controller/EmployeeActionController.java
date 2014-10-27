@@ -2,11 +2,13 @@ package com.ideas.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.ideas.domain.Address;
 import com.ideas.domain.Employee;
 import com.ideas.domain.EmployeeRepository;
@@ -24,18 +26,19 @@ public class EmployeeActionController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
+		String username = (String) request.getSession().getAttribute("username");
 		String address = request.getParameter("userAddress");
+		String name = request.getParameter("name");
 		double latitude = Double.parseDouble(request.getParameter("latitude"));
 		double longitude = Double.parseDouble(request.getParameter("longitude"));
 		String mobile = request.getParameter("mobile");
 		Address employeeAddress = new Address(latitude, longitude, address);
-		Employee employeeDetails = new Employee(username, mobile, employeeAddress);
+		Employee employeeDetails = new Employee(username, name, mobile, employeeAddress);
 		boolean isAdded = repository.addEmployee(employeeDetails);
 		try {
 			repository.populateDefaultTimings(username);
 		} catch (SQLException e) {
 		}
-		response.sendRedirect("dashboard?username=" + username);
+		response.sendRedirect("dashboard");
 	}
 }

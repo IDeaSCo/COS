@@ -1,9 +1,10 @@
 CREATE TABLE employee_info(
-                username VARCHAR(10) PRIMARY KEY,
-                address VARCHAR(200) NOT NULL,
-                latitude DOUBLE NOT NULL,
-                longitude DOUBLE NOT NULL,
-                mobile VARCHAR(10) NOT NULL
+	username VARCHAR(10) PRIMARY KEY,
+	NAME VARCHAR(50) NOT NULL,
+	address VARCHAR(200) NOT NULL,
+	latitude DOUBLE NOT NULL,
+	longitude DOUBLE NOT NULL,
+	mobile VARCHAR(10) NOT NULL
 )
 
 CREATE TABLE employee_dashboard (
@@ -33,7 +34,7 @@ BEGIN
 END $$
 
 
-CALL fillDefaultTiming('idnsor', '2014-10-01');
+--CALL fillDefaultTiming('idnsor', '2014-10-01');
 
 
 SELECT * FROM employee_info;

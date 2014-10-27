@@ -39,7 +39,7 @@
 	var tomorrow;
 	function updateChanges() {
 		eventsFromCalendar = $('#calendar').fullCalendar('clientEvents');
-		for (i = 0; i < eventsFromCalendar.length; i++) {
+		for (var i = 0; i < eventsFromCalendar.length; i++) {
 			var JSONObj = {
 				"title" : eventsFromCalendar[i].title,
 				"start" : new Date(
@@ -303,19 +303,24 @@ body {
 <body>
 
 
+ <!-- <a href="http://localhost:8181/COS/captureEmployeeDetails.jsp">
+    <span class="glyphicon glyphicon-user">UserName</span>
+    </a>
+ -->
+	
+	
 	<div id='calendar'></div>
 	<br>
 	<button type="button" class="btn btn-success" data-dismiss="modal"
 		onclick="updateChanges()" style="font-size: large">Save My
 		Schedule</button>
-
 	<br>
 	<br>
 	<p id="resultContainer"></p>
 
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 		$('.fc-mon').css('background', "red");
-	</script>
+	</script> -->
 	<div id="wrongDateSelectionModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -339,14 +344,6 @@ body {
 							<label for="inTimeLabel" class="col-sm-2 control-label">In-Time:</label>
 							<div class="col-sm-10">
 								<select class="form-control" id="inTime">
-									<!-- 	<option>SKIP</option>
-									<option>07:00</option>
-									<option>08:30</option>
-									<option>09:30</option>
-									<option>11:00</option>
-									<option>12:00</option>
-									<option>14:00</option>
-									<option>22:30</option> -->
 								</select>
 							</div>
 						</div>
@@ -354,19 +351,6 @@ body {
 							<label for="outTimeLabel" class="col-sm-2 control-label">Out-Time:</label>
 							<div class="col-sm-10">
 								<select class="form-control" id="outTime">
-
-
-
-
-									<!-- <option>SKIP</option>
-									<option>07:30</option>
-									<option>16:00</option>
-									<option>17:30</option>
-									<option>18:30</option>
-									<option>20:00</option>
-									<option>21:00</option>
-									<option>23:00</option> -->
-
 
 								</select>
 							</div>

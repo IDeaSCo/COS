@@ -1,14 +1,17 @@
 package com.ideas.controller;
 
 import java.io.IOException;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import waffle.windows.auth.IWindowsAccount;
 import waffle.windows.auth.impl.WindowsAuthProviderImpl;
+
 import com.ideas.domain.Address;
 import com.ideas.domain.EmployeeRepository;
 import com.ideas.domain.Employee;
@@ -25,8 +28,8 @@ public class AuthenticationController extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username").substring(4);
-		boolean isEmployeeRegistered = repository.findEmployee(username);
+		String username = (String) request.getSession().getAttribute("username");
+		boolean isEmployeeRegistered = repository.getEmployeeDetails(username);
 		RequestDispatcher dispatcher;
 		if(!isEmployeeRegistered)
 			dispatcher = request.getRequestDispatcher("Maps.jsp");
@@ -36,7 +39,7 @@ public class AuthenticationController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
+		String username = (String) request.getSession().getAttribute("username");
 		Employee employeeLocationDetails = getEmployeeLocationDetails(request, username);
 		request.setAttribute("locationDetails", employeeLocationDetails);
 		Employee employeeDetails = getEmployeeDetailsFromActiveDirectory(username);
@@ -50,7 +53,7 @@ public class AuthenticationController extends HttpServlet {
 		double latitude = Double.parseDouble(request.getParameter("latitude"));
 		double longitude = Double.parseDouble(request.getParameter("longitude"));
 		Address address = new Address(latitude, longitude, pickUpLocation);
-		Employee employeeLocationDetails = new Employee(username, null, address);
+		Employee employeeLocationDetails = new Employee(username, null, null, address);
 		return employeeLocationDetails;
 	}
 	

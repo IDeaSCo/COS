@@ -40,30 +40,30 @@ public class EmployeeRepositoryTest {
 	
 	@Test
 	public void RepositoryNotContainingEmployeeReturnsFalse(){
-		boolean containsEmployee = repository.findEmployee("someEmployeeID");
+		boolean containsEmployee = repository.getEmployeeDetails("someEmployeeID");
 		Assert.assertFalse(containsEmployee);
 	}
 
 	@Test
 	public void RepositoryStoresEmployeeDetails(){
 		Address address = new Address(0.0, 0.0, "Some location");
-		Employee employee = new Employee("idnsor", "2066002133", address);
+		Employee employee = new Employee("idnsor", "Sonam Rasal", "2066002133", address);
 		boolean isEmployeeAdded = repository.addEmployee(employee);
 		Assert.assertTrue(isEmployeeAdded);
 	}
 	
 	@Test
 	public void checkForFirstTimeUser() throws Exception {
-		boolean employeeAlreadyExists = repository.findEmployee("idnais");
+		boolean employeeAlreadyExists = repository.getEmployeeDetails("idnais");
 		assertFalse(employeeAlreadyExists);
 		
 	}
 	@Test
 	public void checkForExistingUser() throws Exception {
 		Address address = new Address(0.0, 0.0, "Pune");
-		Employee employee = new Employee("idnadg", "2066002133", address);
+		Employee employee = new Employee("idnadg", "Abhishek Singh", "2066002133", address);
 		boolean isEmployeeAdded = repository.addEmployee(employee);
-		boolean employeeAlreadyExists = repository.findEmployee(employee.getUsername());
+		boolean employeeAlreadyExists = repository.getEmployeeDetails(employee.getUsername());
 		assertTrue(employeeAlreadyExists);
 	}
 	

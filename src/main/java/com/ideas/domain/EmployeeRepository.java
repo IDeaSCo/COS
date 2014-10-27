@@ -20,7 +20,7 @@ public class EmployeeRepository {
 		this.connection = connection;
 	}
 
-	public Boolean findEmployee(String username) {
+	public Boolean getEmployeeDetails(String username) {
 		ResultSet rs;
 		try {
 			rs = connection.createStatement().executeQuery("select *  from employee_info where username = '" + username + "'");
@@ -34,12 +34,13 @@ public class EmployeeRepository {
 
 	public boolean addEmployee(Employee employee) {
 		try {
-			PreparedStatement insertEmployeeInfo = connection.prepareStatement("insert into employee_info values(?, ?, ?, ?, ?)");
+			PreparedStatement insertEmployeeInfo = connection.prepareStatement("insert into employee_info values(?, ?, ?, ?, ?, ?)");
 			insertEmployeeInfo.setString(1, employee.getUsername());
-			insertEmployeeInfo.setString(2, employee.getAddress().getPickUpLocation());
-			insertEmployeeInfo.setDouble(3, employee.getAddress().getLatitude());
-			insertEmployeeInfo.setDouble(4, employee.getAddress().getLongitude());
-			insertEmployeeInfo.setString(5, employee.getMobile());
+			insertEmployeeInfo.setString(2, employee.getName());
+			insertEmployeeInfo.setString(3, employee.getAddress().getPickUpLocation());
+			insertEmployeeInfo.setDouble(4, employee.getAddress().getLatitude());
+			insertEmployeeInfo.setDouble(5, employee.getAddress().getLongitude());
+			insertEmployeeInfo.setString(6, employee.getMobile());
 			insertEmployeeInfo.executeUpdate();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
