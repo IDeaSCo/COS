@@ -13,23 +13,24 @@ public class Email {
 
     private static String USER_NAME = "khoorafati";  // GMail user name (just the part before "@gmail.com")
     private static String PASSWORD = "ideas@1234"; // GMail password
-    private static String RECIPIENT = "wittyabhishek@gmail.com";
+    private static String[] RECIPIENT = {"mittal.prachi22@gmail.com"};
 
     public static void main(String[] args) {
-        String from = "khoorafati@gmail.com";
-        String pass = "ideas@1234";
-        String[] to = { "wittyabhishek@gmail.com" }; // list of recipient email addresses
-        String subject = "Java send mail example";
-        String body = "Welcome to JavaMail!";
-
-        sendFromGMail(from, pass, to, subject, body);
-        System.out.println("Message sent successfully.");
+Date date = new Date();
+		//        String from = USER_NAME+"@gmail.com";
+//        String pass = PASSWORD;
+//        String[] to = RECIPIENT; // list of recipient email addresses
+//        String subject = "Java send mail example";
+//        String body = "Welcome to JavaMail!";
+//
+//        sendFromGMail(from, pass, to, subject, body);
+        System.out.println(date);
     }
 
     static void sendFromGMail(String from, String pass, String[] to, String subject, String body) {
         Properties props = System.getProperties();
         String host = "smtp.gmail.com";
-        String filePath = "C:/EclipseWorkspace/Files/send.txt";
+        String filePath = "c:/data.xlsx";
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", host);
         props.put("mail.smtp.user", from);

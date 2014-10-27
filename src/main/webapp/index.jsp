@@ -10,8 +10,10 @@
 <html>
 <body>
 <%
+	System.out.println(request.getRemoteUser().substring(4));
 	session.setAttribute("username", request.getRemoteUser().substring(4));
 	response.sendRedirect("authenticate");
+	
 %>
 </body>
 </html>

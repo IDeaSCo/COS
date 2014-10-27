@@ -71,7 +71,7 @@
 		</div>
 		<div class="form-group" style="text-align: center">
 			<div class="col-sm-offset-1 col-sm-10">
-				<button type="submit" class="btn btn-success btn-large" onclick="return validate()">Enroll</button>
+				<button type="submit" class="btn btn-success btn-large" onclick="return validate()">Submit</button>
 			</div>
 		</div>
 	</form>
