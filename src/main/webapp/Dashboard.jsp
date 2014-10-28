@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false"%>
 <%@ page import="java.util.Date"%>
@@ -14,8 +13,8 @@
 
 <%
 	String employeeUsername = request.getRemoteUser();
-	ArrayList<?> eventScheduleArray = (ArrayList<?>) request
-			.getAttribute("eventScheduleArray");
+	ArrayList<?> eventScheduleArray = (ArrayList<?>) request.getAttribute("eventScheduleArray");
+	ArrayList<?> shiftTimings = (ArrayList<?>) request.getAttribute("shiftTimings");
 %>
 
 <html>
@@ -84,6 +83,7 @@
 		  for (var i =0;i<timeArray.length;i++) {
 		     select.options[select.options.length] = new Option(timeArray[i], i);
 		  } 
+
 		}
 
 	
@@ -111,6 +111,22 @@
 							allDay : false
 						}, true // make the event "stick"
 				);
+			
+				}
+				e = document.getElementById("outTime");
+				var outTime = e.options[e.selectedIndex].text;
+				if (outTime != 'SKIP') {
+					var outTimeArray = outTime.split(":");
+					$('#calendar').fullCalendar(
+							'renderEvent',
+							{
+								title : 'Out-Time',
+								start : new Date(date.getFullYear(), date.getMonth(), date.getDate(), outTimeArray[0], outTimeArray[1]),
+								allDay : false
+							}, true // make the event "stick"
+					);
+				}
+				date.setDate(date.getDate() + 1);
 			}
 			e = document.getElementById("outTime");
 			var outTime = e.options[e.selectedIndex].text;
@@ -309,13 +325,10 @@ body {
  -->
 	
 	
-	<div id='calendar'></div>
-	<br>
-	<button type="button" class="btn btn-success" data-dismiss="modal"
-		onclick="updateChanges()" style="font-size: large">Save My
-		Schedule</button>
-	<br>
-	<br>
+
+	<div id='calendar'></div><br>
+	<button type="button" class="btn btn-success" data-dismiss="modal" onclick="updateChanges()" style="font-size: large">Save My Schedule</button>
+	<br><br>
 	<p id="resultContainer"></p>
 
 	<!-- <script type="text/javascript">
@@ -344,6 +357,10 @@ body {
 							<label for="inTimeLabel" class="col-sm-2 control-label">In-Time:</label>
 							<div class="col-sm-10">
 								<select class="form-control" id="inTime">
+									<option>SKIP</option>
+									<% for(int i = 0; i < shiftTimings.size(); i++) { %>
+									<option><%=shiftTimings.get(i) %></option>
+									<% } %>
 								</select>
 							</div>
 						</div>
@@ -351,7 +368,10 @@ body {
 							<label for="outTimeLabel" class="col-sm-2 control-label">Out-Time:</label>
 							<div class="col-sm-10">
 								<select class="form-control" id="outTime">
-
+									<option>SKIP</option>
+									<% for(int i = 0; i < shiftTimings.size(); i++) { %>
+									<option><%=shiftTimings.get(i) %></option>
+									<% } %>
 								</select>
 							</div>
 						</div>
@@ -359,8 +379,7 @@ body {
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
-						onclick="saveChange()">Done</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveChange()">Done</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>

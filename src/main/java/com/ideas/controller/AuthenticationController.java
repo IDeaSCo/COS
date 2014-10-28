@@ -13,28 +13,31 @@ import waffle.windows.auth.IWindowsAccount;
 import waffle.windows.auth.impl.WindowsAuthProviderImpl;
 
 import com.ideas.domain.Address;
-import com.ideas.domain.EmployeeRepository;
+import com.ideas.domain.Repository;
 import com.ideas.domain.Employee;
 import com.ideas.sso.ActiveDirectoryUserInfo;
 import com.ideas.sso.AuthenticationError;
 
 public class AuthenticationController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private EmployeeRepository repository; 
+	private Repository repository; 
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		repository = (EmployeeRepository) config.getServletContext().getAttribute("repository");
+		repository = (Repository) config.getServletContext().getAttribute("repository");
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = (String) request.getSession().getAttribute("username");
-		boolean isEmployeeRegistered = repository.getEmployeeDetails(username);
 		RequestDispatcher dispatcher;
-		if(!isEmployeeRegistered)
-			dispatcher = request.getRequestDispatcher("Maps.jsp");
-		else
-			dispatcher = request.getRequestDispatcher("/dashboard");
+		String username = (String) request.getSession().getAttribute("username");
+		boolean isRoleAdmin = repository.isEmployeeAdmin(username);
+		if(isRoleAdmin)
+			dispatcher = request.getRequestDispatcher("/admin");
+		else{
+			boolean isEmployeeRegistered = repository.getEmployeeDetails(username);
+			String path = isEmployeeRegistered ? "/dashboard" : "Maps.jsp";
+			dispatcher = request.getRequestDispatcher(path);
+		}
 		dispatcher.forward(request, response);
 	}
 

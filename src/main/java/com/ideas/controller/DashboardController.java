@@ -2,6 +2,7 @@ package com.ideas.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -10,20 +11,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.sql.SQLException;
+import java.sql.Time;
 import java.text.ParseException;
 
 import org.json.JSONObject;
 
-import com.ideas.domain.EmployeeRepository;
+import com.ideas.domain.Repository;
 import com.ideas.domain.EmployeeSchedule;
 
 public class DashboardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private EmployeeRepository repository;
+	private Repository repository;
     
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		repository = (EmployeeRepository) config.getServletContext().getAttribute("repository");
+		repository = (Repository) config.getServletContext().getAttribute("repository");
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,6 +35,8 @@ public class DashboardController extends HttpServlet {
 		EmployeeSchedule schedule = repository.getEmployeeSchedule(username);
 		ArrayList<JSONObject> jsonObjArray= new COSServiceLayer().convertEmpScheduleToJson(schedule);
 		request.setAttribute("eventScheduleArray", jsonObjArray);
+		List<Time> shiftTimings = repository.getShiftTimings();
+		request.setAttribute("shiftTimings", shiftTimings);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Dashboard.jsp");
 		dispatcher.forward(request, response);
 	}
