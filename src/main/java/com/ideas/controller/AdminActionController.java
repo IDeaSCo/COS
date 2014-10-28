@@ -28,14 +28,14 @@ public class AdminActionController extends HttpServlet {
 	}
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		TreeMap<Date, String> companyHolidays = repository.getCompanyHolidays();
+/*		TreeMap<Date, String> companyHolidays = repository.getCompanyHolidays();
 		ArrayList<JSONObject> holidayList = new COSServiceLayer().convertToJSON(companyHolidays);
 		request.setAttribute("holidays", holidayList);
 		List<Time> shiftTimings = repository.getShiftTimings();
 		request.setAttribute("shiftTimings", shiftTimings);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("AdminDashboard.jsp");
 		dispatcher.forward(request, response);
-	}
+*/	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String reason = request.getParameter("title");

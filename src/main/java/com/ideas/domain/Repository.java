@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 public class Repository {
@@ -103,15 +104,15 @@ public class Repository {
 		return true;
 	}
 
-	public List<Time> getShiftTimings(){
+	public Map<Time, String> getShiftTimings(){
 		ResultSet rs;
-		List<Time> shiftTimings = new ArrayList<Time>();
+		Map<Time, String> timings = new TreeMap<Time, String>();
 		try {
 			rs = connection.createStatement().executeQuery("select * from shift_details");
 			while(rs.next())
-				shiftTimings.add(rs.getTime(1));
+				timings.put(rs.getTime(1), rs.getString(2));
 		} catch (SQLException e) {}
-		return shiftTimings;
+		return timings;
 	}
 
 	public boolean addCompanyHoliday(Date holiday, String reason){

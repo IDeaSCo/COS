@@ -3,6 +3,8 @@
 <%@ page isELIgnored="false"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Map"%>
+<%@ page import="java.sql.Time"%>
 <%@ page import="org.json.JSONObject"%>
 <%@page import="java.security.Principal"%>
 <%@page import="waffle.windows.auth.WindowsAccount"%>
@@ -10,12 +12,9 @@
 <%@page import="com.sun.jna.platform.win32.Secur32"%>
 <%@page import="com.sun.jna.platform.win32.Secur32Util"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-<%
-	String employeeUsername = request.getRemoteUser();
+<%	String employeeUsername = request.getRemoteUser();
 	ArrayList<?> eventScheduleArray = (ArrayList<?>) request.getAttribute("eventScheduleArray");
-	ArrayList<?> shiftTimings = (ArrayList<?>) request.getAttribute("shiftTimings");
-%>
+	Map<Time, String> timings = (Map<Time, String>) request.getAttribute("shiftTimings"); %>
 
 <html>
 <head>
@@ -79,7 +78,6 @@
 		     select.options[select.options.length] = new Option(timeArray[i], i);
 		  } 
 	}
-
 	
 	function saveChange() {
 		$('#calendar').fullCalendar('removeEvents', function(event) {
@@ -175,7 +173,6 @@
 				defaultView option used to define which view to show by default,
 				for example we have used agendaWeek.
 			 */
-
 			/*
 				selectable:true will enable user to select datetime slot
 				selectHelper will add helpers for selectable.
@@ -183,9 +180,7 @@
 			selectable : true,
 			aspectRatio : 1.7,
 			selectHelper : true,
-			
 			eventClick : function(event, element) {
-
 				/* event.title = "CLICKED!";
 
 				$('#calendar').fullCalendar('removeEvents', event._id);
@@ -213,14 +208,11 @@
 				    }
 				    else if((check == today && new Date().getHours()<11)||(check == tomorrow && new Date().getHours()>16))
 				    {	
-					 
 				    eventTime = $('#calendar').fullCalendar('clientEvents', function(event) {
 		                		if($.fullCalendar.formatDate(event.start,'yyyy-MM-dd') == check) {
 		                    		return true;
 		                		}
 		                			return false;  });
-        			
-        			
         			for(var i=0;i<eventTime.length;i++){
 							if( eventTime[i].start.getHours()<16){
 									if(eventTime[i].title=='In-Time')	{
@@ -241,7 +233,6 @@
 								}
 
             			}
-
         			if(validOutTimes.length==0){
         				validOutTimes.push(outTimes[0]);					
 							for(var i=1;i<outTimes.length;i++){
@@ -252,18 +243,15 @@
 								}
 
             			}
-        			
 					    selectOne('inTime',validInTimes);
 					    selectOne('outTime',validOutTimes);
 				    	$("#createEventModal").modal("show");
 				    }
-
 				    else{
 				    	 selectOne('inTime',inTimes);
 						 selectOne('outTime',outTimes);
 					     $("#createEventModal").modal("show");
 					    }
-				
 				calendar.fullCalendar('unselect');
 			},
 			/*
@@ -274,8 +262,7 @@
 				events is the main option for calendar.
 				for demo we have added predefined events in json object.
 			 */
-			events :
-<%=eventScheduleArray%>
+			events: <%=eventScheduleArray%>
 	});
 
 	});
@@ -350,9 +337,11 @@ body {
 							<div class="col-sm-10">
 								<select class="form-control" id="inTime">
 									<option>SKIP</option>
-									<% for(int i = 0; i < shiftTimings.size(); i++) { %>
-									<option><%=shiftTimings.get(i) %></option>
-									<% } %>
+									<% for(Map.Entry<Time, String> entry : timings.entrySet()) {%>
+									   	<%if(entry.getValue().equals("in")) {%>
+									<option><%=entry.getKey() %></option>
+									<% 	} 
+									   } %>
 								</select>
 							</div>
 						</div>
@@ -361,9 +350,11 @@ body {
 							<div class="col-sm-10">
 								<select class="form-control" id="outTime">
 									<option>SKIP</option>
-									<% for(int i = 0; i < shiftTimings.size(); i++) { %>
-									<option><%=shiftTimings.get(i) %></option>
-									<% } %>
+									<% for(Map.Entry<Time, String> entry : timings.entrySet()) {%>
+									   	<%if(entry.getValue().equals("out")) {%>
+									<option><%=entry.getKey() %></option>
+									<% 	} 
+									   } %>
 								</select>
 							</div>
 						</div>
