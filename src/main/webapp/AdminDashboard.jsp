@@ -34,13 +34,9 @@
 				selectable : true,
 				aspectRatio: 2,
 				selectHelper : true,
-				eventClick : function(event, element) {
-					event.title = "CLICKED!";
-					$('#calendar').fullCalendar('removeEvents', event._id);
-				},
 				select: function(start, end, allDay) {
 					eventDate = start;
-					$("#markHoliday").modal("show");
+					$("#markHolidayModal").modal("show");
 					calendar.fullCalendar('unselect');
 				},
 				editable : true,
@@ -50,9 +46,6 @@
 		
 		function markHoliday(){
 			var holidayReason = document.getElementById('reason').value;
-			$('#calendar').fullCalendar('removeEvents', function(event) {
-				return true;
-			});
 			$('#calendar').fullCalendar('renderEvent',
 					{
 						title : holidayReason,
@@ -62,10 +55,22 @@
 			);
 			jQuery.post("/COS/admin",
 					{
+						action: "add",
 						title: holidayReason,
 						start: eventDate.getTime()
 					}
 			);
+			window.location.reload();
+		}
+		
+		function removeHoliday(){
+			jQuery.post("/COS/admin",
+					{
+						action: "delete",
+						start: eventDate.getTime()
+					}
+			);
+			window.location.reload();
 		}
 		
 		function showShifts(){
@@ -103,18 +108,19 @@
 		</div>
 	</div><br>
 	<div id='calendar'></div>
-	<div id="markHoliday" class="modal fade">
+	<div id="markHolidayModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header"></div>
 				<div class="modal-body">
 					<div class="form-group">
-						<label>Reason</label>
-				  		<input type="text" class="form-control" id="reason" name="reason">
+						<!-- <label>Reason</label> -->
+				  		Reason <input type="text" class="form-control" id="reason" name="reason">
 				  </div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="markHoliday()">Mark Company Holiday</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="markHoliday()">Mark Holiday</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="removeHoliday()">Remove Holiday</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>

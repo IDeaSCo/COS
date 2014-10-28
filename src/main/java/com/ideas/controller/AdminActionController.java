@@ -45,7 +45,7 @@ public class AdminActionController extends HttpServlet {
 		if(action.equals("add"))
 			repository.addCompanyHoliday(holiday, reason);
 		else
-			repository.removeCompanyHoliday(holiday, reason);
+			repository.removeCompanyHoliday(holiday);
 		
 	}
 

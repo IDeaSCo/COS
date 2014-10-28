@@ -88,7 +88,7 @@ public class EmployeeRepositoryTest {
 		Date holiday = new Date(cal.getTime().getTime());
 		String reason = "Dummy holiday";
 		repository.addCompanyHoliday(holiday, reason);
-		assertTrue(repository.removeCompanyHoliday(holiday, reason));
+		assertTrue(repository.removeCompanyHoliday(holiday));
 	}
 
 }

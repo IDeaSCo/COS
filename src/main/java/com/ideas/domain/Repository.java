@@ -134,11 +134,10 @@ public class Repository {
 		return companyHolidays;
 	}
 
-	public boolean removeCompanyHoliday(Date holiday, String reason) {
+	public boolean removeCompanyHoliday(Date holiday) {
 		try {
-			PreparedStatement ps = connection.prepareStatement("delete from holidays where holiday_date = ? and reason = ?");
+			PreparedStatement ps = connection.prepareStatement("delete from holidays where holiday_date = ?");
 			ps.setDate(1, holiday);
-			ps.setString(2, reason);
 			ps.executeUpdate();
 		} catch (SQLException e) {}
 		

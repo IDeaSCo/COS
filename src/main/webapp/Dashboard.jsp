@@ -57,21 +57,17 @@
 					success : function(msg) {
 						if (msg === true) {
 							$("#resultContainer")
-									.html(
-											"<p style='color:green' class='alert alert-success'>Schedule Updated</p>");
+									.html("<p style='color:green' class='alert alert-success'>Schedule Updated</p>");
 						} else {
 							$("#resultContainer")
-									.html(
-											"<div class='alert alert-danger'>Please try again</div>");
+									.html("<div class='alert alert-danger'>Please try again</div>");
 						}
 					},
 					error : function() {
 						$("#resultContainer")
-								.html(
-										"<div class='alert alert-danger'>Server Error. Request could not be placed, please try again later</div>");
+								.html("<div class='alert alert-danger'>Server Error. Request could not be placed, please try again later</div>");
 					}
 				});
-
 	}
 
 	function selectOne(timeType, timeArray) {
@@ -83,8 +79,7 @@
 		  for (var i =0;i<timeArray.length;i++) {
 		     select.options[select.options.length] = new Option(timeArray[i], i);
 		  } 
-
-		}
+	}
 
 	
 	function saveChange() {
@@ -145,8 +140,6 @@
 			}
 			date.setDate(date.getDate() + 1);
 		}
-
-	}
 
 	$(document).ready(function() {
 		/*
