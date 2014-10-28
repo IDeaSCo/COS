@@ -46,7 +46,6 @@
 			};
 			events.push(JSON.stringify(JSONObj));
 		}
-
 		document.getElementById('eventInput').value = events;
 		$
 				.ajax({

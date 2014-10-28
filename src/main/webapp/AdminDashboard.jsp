@@ -36,13 +36,34 @@
 				selectHelper : true,
 				select: function(start, end, allDay) {
 					eventDate = start;
+					var calendarEvents = $('#calendar').fullCalendar('clientEvents');
+					var flag = false;
+					for (var i = 0; i < calendarEvents.length; i++) {
+ 						if(calendarEvents[i].start.toString() == eventDate.toString()){
+							document.getElementById('reason').value = calendarEvents[i].title;
+							flag = true;
+							break;							
+						}
+					}
 					$("#markHolidayModal").modal("show");
+  					if(flag)
+						manageButtons("add", "remove");
+					else
+						manageButtons("remove", "add");
 					calendar.fullCalendar('unselect');
 				},
 				editable : true,
 				events: <%=holidayList%>,
 			});
 		});
+		
+		function manageButtons(hide_id, show_id){
+/* 			document.getElementById(hide_id).style.display = 'none';
+			document.getElementById(show_id).style.display = 'block';
+ */
+ 			document.getElementById(hide_id).disabled = true;
+ 			document.getElementById(show_id).disabled = false;
+ 		}
 		
 		function markHoliday(){
 			var holidayReason = document.getElementById('reason').value;
@@ -66,7 +87,7 @@
 		function removeHoliday(){
 			jQuery.post("/COS/admin",
 					{
-						action: "delete",
+						action: "remove",
 						start: eventDate.getTime()
 					}
 			);
@@ -119,8 +140,8 @@
 				  </div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="markHoliday()">Mark Holiday</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="removeHoliday()">Remove Holiday</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" id="add" onclick="markHoliday()">Mark Holiday</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" id="remove" onclick="removeHoliday()">Remove Holiday</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
