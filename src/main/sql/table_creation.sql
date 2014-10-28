@@ -25,8 +25,13 @@ CREATE TABLE employee_dashboard (
 )
 
 CREATE TABLE shift_details (
-	TIME TIME PRIMARY KEY
+	TIME TIME,
+	slot VARCHAR(3),
+	PRIMARY KEY(TIME, slot)
 )
+
+INSERT INTO shift_details VALUES('22:30', 'in')
+INSERT INTO shift_details VALUES('23:00', 'out')
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS fillDefaultTiming$$
