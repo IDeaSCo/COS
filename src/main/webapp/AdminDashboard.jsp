@@ -1,7 +1,9 @@
+<%@page import="com.mysql.fabric.xmlrpc.base.Array"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false"%>
 <%@ page import="java.util.Date"%>
+<%@ page import="java.sql.Time"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="org.json.JSONObject"%>
 <%@page import="java.security.Principal"%>
@@ -12,7 +14,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <% ArrayList<?> holidayList = (ArrayList<?>) request.getAttribute("holidays");
-   ArrayList<?> shiftTimings = (ArrayList<?>) request.getAttribute("shiftTimings");
+   ArrayList<Time> inTime = (ArrayList<Time>) request.getAttribute("inTime");
+   ArrayList<Time> outTime = (ArrayList<Time>) request.getAttribute("outTime");
 %>
 <head>
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -104,7 +107,7 @@
 			else{
 				caption.firstChild.data = "View Shift Details";
 				div.style.display = "none";
-				window.location.reload();
+				//window.location.reload();
 			}
 		}
 	</script>
@@ -121,11 +124,35 @@
 <body>
 	<div id='shiftDetailsContainer'>
 		<button type="button" class="btn btn-primary" id="shiftManager" onclick="showShifts()">View Shift Details</button>
+		<a data-toggle="modal" data-backdrop="static" href="#addShift" class="btn btn-success">Add new shift</a>
 		<div id="shiftDetails">
-			<% for(int i = 0; i < shiftTimings.size(); i++) { %>
-			<p><%=shiftTimings.get(i) %></p>
-			<% } %>
-			<a data-toggle="modal" data-backdrop="static" href="#addShift" class="btn btn-success">Add new shift</a>
+			<table width="100%">
+				<td width="50%">
+					<table class="table table-striped table-bordered table-condensed">
+						<tr>
+							<th>In Time</th>
+						</tr>
+						<c:forEach var="element" items="${inTime}" varStatus="status">
+							<tr>
+								<td><c:out value="${element}" /></td>
+							</tr>
+						</c:forEach>
+					</table>
+				</td>
+				<td width="50%">
+					<table class="table table-striped table-bordered table-condensed">
+						<tr>
+							<th>Out Time</th>
+						</tr>
+						<c:forEach var="element" items="${outTime}" varStatus="status">
+							<tr>
+								<td><c:out value="${element}" /></td>
+							</tr>
+						</c:forEach>
+					</table>
+				</td>
+				
+			</table>
 		</div>
 	</div><br>
 	<div id='calendar'></div>
@@ -136,7 +163,7 @@
 				<div class="modal-body">
 					<div class="form-group">
 						<!-- <label>Reason</label> -->
-				  		Reason <input type="text" class="form-control" id="reason" name="reason">
+				  		Reason: <input type="text" class="form-control" id="reason" name="reason">
 				  </div>
 				</div>
 				<div class="modal-footer">

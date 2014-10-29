@@ -14,7 +14,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%	String employeeUsername = request.getRemoteUser();
 	ArrayList<?> eventScheduleArray = (ArrayList<?>) request.getAttribute("eventScheduleArray");
-	Map<Time, String> timings = (Map<Time, String>) request.getAttribute("shiftTimings");
 	ArrayList<Time> inTime = (ArrayList<Time>) request.getAttribute("inTime");
 	ArrayList<Time> outTime = (ArrayList<Time>) request.getAttribute("outTime");
 %>
@@ -271,31 +270,31 @@
 	});
 </script>
 <style type="text/css">
-body {
-	margin-top: 30px;
-	text-align: center;
-	font-size: 14px;
-	font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
-}
-
-#calendar {
-	width: 1200px;
-	margin: 0 auto;
-}
-
-.fc-sat {
-	background: #F0F0F0;
-}
-
-.fc-sun {
-	background: #F0F0F0;
-}
-
-.disabled .fc-day-content {
-	background-color: #123959;
-	color: #FFFFFF;
-	cursor: default;
-}
+	body {
+		margin-top: 30px;
+		text-align: center;
+		font-size: 14px;
+		font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+	}
+	
+	#calendar {
+		width: 1200px;
+		margin: 0 auto;
+	}
+	
+	.fc-sat {
+		background: #F0F0F0;
+	}
+	
+	.fc-sun {
+		background: #F0F0F0;
+	}
+	
+	.disabled .fc-day-content {
+		background-color: #123959;
+		color: #FFFFFF;
+		cursor: default;
+	}
 </style>
 </head>
 <body>

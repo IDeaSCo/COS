@@ -34,16 +34,15 @@ public class DashboardController extends HttpServlet {
 		ArrayList<JSONObject> jsonObjArray= new COSServiceLayer().convertEmpScheduleToJson(schedule);
 		request.setAttribute("eventScheduleArray", jsonObjArray);
 		Map<Time, String> shiftTimings = repository.getShiftTimings();
-		List<Time> inTime = getOfficeTimings(shiftTimings, "in");
+		List<Time> inTime = getIndividualTimings(shiftTimings, "in");
 		request.setAttribute("inTime", inTime);
-		List<Time> outTime = getOfficeTimings(shiftTimings, "out");
+		List<Time> outTime = getIndividualTimings(shiftTimings, "out");
 		request.setAttribute("outTime", outTime);
-		request.setAttribute("shiftTimings", shiftTimings);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Dashboard.jsp");
 		dispatcher.forward(request, response);
 	}
 
-	private List<Time> getOfficeTimings(Map<Time, String> shiftTimings, String slot) {
+	private List<Time> getIndividualTimings(Map<Time, String> shiftTimings, String slot) {
 		List<Time> timings = new ArrayList<Time>();
 		for(Map.Entry<Time, String> entry : shiftTimings.entrySet()){
 			if(entry.getValue().equals(slot))
