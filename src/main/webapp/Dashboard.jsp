@@ -14,7 +14,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%	String employeeUsername = request.getRemoteUser();
 	ArrayList<?> eventScheduleArray = (ArrayList<?>) request.getAttribute("eventScheduleArray");
-	Map<Time, String> timings = (Map<Time, String>) request.getAttribute("shiftTimings"); %>
+	Map<Time, String> timings = (Map<Time, String>) request.getAttribute("shiftTimings");
+	ArrayList<Time> inTime = (ArrayList<Time>) request.getAttribute("inTime");
+	ArrayList<Time> outTime = (ArrayList<Time>) request.getAttribute("outTime");
+%>
 
 <html>
 <head>
@@ -296,15 +299,10 @@ body {
 </style>
 </head>
 <body>
-
-
  <!-- <a href="http://localhost:8181/COS/captureEmployeeDetails.jsp">
     <span class="glyphicon glyphicon-user">UserName</span>
     </a>
  -->
-	
-	
-
 	<div id='calendar'></div><br>
 	<button type="button" class="btn btn-success" data-dismiss="modal" onclick="updateChanges()" style="font-size: large">Save My Schedule</button>
 	<br><br>
@@ -337,11 +335,9 @@ body {
 							<div class="col-sm-10">
 								<select class="form-control" id="inTime">
 									<option>SKIP</option>
-									<% for(Map.Entry<Time, String> entry : timings.entrySet()) {%>
-									   	<%if(entry.getValue().equals("in")) {%>
-									<option><%=entry.getKey() %></option>
-									<% 	} 
-									   } %>
+									<% for(int i = 0; i < inTime.size(); i++) {%>
+									<option><%=inTime.get(i) %></option>
+									<% } %>
 								</select>
 							</div>
 						</div>
@@ -350,11 +346,9 @@ body {
 							<div class="col-sm-10">
 								<select class="form-control" id="outTime">
 									<option>SKIP</option>
-									<% for(Map.Entry<Time, String> entry : timings.entrySet()) {%>
-									   	<%if(entry.getValue().equals("out")) {%>
-									<option><%=entry.getKey() %></option>
-									<% 	} 
-									   } %>
+									<% for(int i = 0; i < outTime.size(); i++) {%>
+									<option><%=outTime.get(i) %></option>
+									<% } %>
 								</select>
 							</div>
 						</div>

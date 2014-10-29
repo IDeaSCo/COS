@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -33,9 +34,22 @@ public class DashboardController extends HttpServlet {
 		ArrayList<JSONObject> jsonObjArray= new COSServiceLayer().convertEmpScheduleToJson(schedule);
 		request.setAttribute("eventScheduleArray", jsonObjArray);
 		Map<Time, String> shiftTimings = repository.getShiftTimings();
+		List<Time> inTime = getOfficeTimings(shiftTimings, "in");
+		request.setAttribute("inTime", inTime);
+		List<Time> outTime = getOfficeTimings(shiftTimings, "out");
+		request.setAttribute("outTime", outTime);
 		request.setAttribute("shiftTimings", shiftTimings);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Dashboard.jsp");
 		dispatcher.forward(request, response);
+	}
+
+	private List<Time> getOfficeTimings(Map<Time, String> shiftTimings, String slot) {
+		List<Time> timings = new ArrayList<Time>();
+		for(Map.Entry<Time, String> entry : shiftTimings.entrySet()){
+			if(entry.getValue().equals(slot))
+				timings.add(entry.getKey());
+		}
+		return timings;
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
