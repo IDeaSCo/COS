@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -33,18 +34,18 @@ public class DashboardController extends HttpServlet {
 		EmployeeSchedule schedule = repository.getEmployeeSchedule(username);
 		ArrayList<JSONObject> jsonObjArray= new COSServiceLayer().convertEmpScheduleToJson(schedule);
 		request.setAttribute("eventScheduleArray", jsonObjArray);
-		Map<Time, String> shiftTimings = repository.getShiftTimings();
-		List<Time> inTime = getIndividualTimings(shiftTimings, "in");
+		Map<String, String> shiftTimings = repository.getShiftTimings();
+		List<String> inTime = getIndividualTimings(shiftTimings, "in");
 		request.setAttribute("inTime", inTime);
-		List<Time> outTime = getIndividualTimings(shiftTimings, "out");
+		List<String> outTime = getIndividualTimings(shiftTimings, "out");
 		request.setAttribute("outTime", outTime);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Dashboard.jsp");
 		dispatcher.forward(request, response);
 	}
 
-	private List<Time> getIndividualTimings(Map<Time, String> shiftTimings, String slot) {
-		List<Time> timings = new ArrayList<Time>();
-		for(Map.Entry<Time, String> entry : shiftTimings.entrySet()){
+	private List<String> getIndividualTimings(Map<String, String> shiftTimings, String slot) {
+		List<String> timings = new ArrayList<String>();
+		for(Entry<String, String> entry : shiftTimings.entrySet()){
 			if(entry.getValue().equals(slot))
 				timings.add(entry.getKey());
 		}

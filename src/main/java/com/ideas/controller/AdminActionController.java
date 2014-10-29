@@ -6,6 +6,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.servlet.RequestDispatcher;
@@ -32,19 +33,19 @@ public class AdminActionController extends HttpServlet {
 		TreeMap<Date, String> companyHolidays = repository.getCompanyHolidays();
 		ArrayList<JSONObject> holidayList = new COSServiceLayer().convertToJSON(companyHolidays);
 		request.setAttribute("holidays", holidayList);
-		Map<Time, String> shiftTimings = repository.getShiftTimings();
+		Map<String, String> shiftTimings = repository.getShiftTimings();
 		//request.setAttribute("shiftTimings", shiftTimings);
-		List<Time> inTime = getIndividualTimings(shiftTimings, "in");
+		List<String> inTime = getIndividualTimings(shiftTimings, "in");
 		request.setAttribute("inTime", inTime);
-		List<Time> outTime = getIndividualTimings(shiftTimings, "out");
+		List<String> outTime = getIndividualTimings(shiftTimings, "out");
 		request.setAttribute("outTime", outTime);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("AdminDashboard.jsp");
 		dispatcher.forward(request, response);
 	}
 
-	private List<Time> getIndividualTimings(Map<Time, String> shiftTimings, String slot) {
-		List<Time> timings = new ArrayList<Time>();
-		for(Map.Entry<Time, String> entry : shiftTimings.entrySet()){
+	private List<String> getIndividualTimings(Map<String, String> shiftTimings, String slot) {
+		List<String> timings = new ArrayList<String>();
+		for(Entry<String, String> entry : shiftTimings.entrySet()){
 			if(entry.getValue().equals(slot))
 				timings.add(entry.getKey());
 		}

@@ -5,16 +5,16 @@ CREATE TABLE employee_info(
 	latitude DOUBLE NOT NULL,
 	longitude DOUBLE NOT NULL,
 	mobile VARCHAR(10) NOT NULL
-)
+);
 
 CREATE TABLE admin_info(
 	username VARCHAR(10) PRIMARY KEY
-)
+);
 
 CREATE TABLE holidays(
 	holiday_date DATE PRIMARY KEY,
 	reason VARCHAR(50) NOT NULL
-)
+);
 
 CREATE TABLE employee_dashboard (
 	username VARCHAR(10) NOT NULL,
@@ -22,16 +22,16 @@ CREATE TABLE employee_dashboard (
 	EVENT ENUM('In-Time', 'Out-Time') NOT NULL,
 	TIME TIME,
 	PRIMARY KEY(username, travel_date, EVENT)
-)
+);
 
 CREATE TABLE shift_details (
-	TIME TIME,
+	TIME VARCHAR(5),
 	slot VARCHAR(3),
 	PRIMARY KEY(TIME, slot)
-)
+);
 
-INSERT INTO shift_details VALUES('22:30', 'in')
-INSERT INTO shift_details VALUES('23:00', 'out')
+INSERT INTO shift_details VALUES('22:30', 'in');
+INSERT INTO shift_details VALUES('23:00', 'out');
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS fillDefaultTiming$$

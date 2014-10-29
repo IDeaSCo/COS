@@ -14,8 +14,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%	String employeeUsername = request.getRemoteUser();
 	ArrayList<?> eventScheduleArray = (ArrayList<?>) request.getAttribute("eventScheduleArray");
-	ArrayList<Time> inTime = (ArrayList<Time>) request.getAttribute("inTime");
-	ArrayList<Time> outTime = (ArrayList<Time>) request.getAttribute("outTime");
+	ArrayList<String> inTime = (ArrayList<String>) request.getAttribute("inTime");
+	ArrayList<String> outTime = (ArrayList<String>) request.getAttribute("outTime");
+	
+	
 %>
 
 <html>
@@ -32,8 +34,13 @@
 	var endSelect = new Date();
 	var eventsFromCalendar;
 	var events = [];
-	var inTimes = ["SKIP","07:00","08:30","09:30","11:00","12:00","14:00","22:30"];
-	var outTimes = ["SKIP","07:30","16:00","17:30","18:30","20:00","21:00","23:00"];
+	var inTimesString = "<%=inTime%>";
+	var addSkip = ["SKIP"];
+	var inTimes = addSkip.concat(inTimesString.substring(1,inTimesString.length-1).split(","));
+	var outTimesString = "<%=outTime%>";
+	var outTimes = addSkip.concat(outTimesString.substring(1,outTimesString.length-1).split(","));
+	//var inTimes = ["SKIP","07:00","08:30","09:30","11:00","12:00","14:00","22:30"];
+	//var outTimes = ["SKIP","07:30","16:00","17:30","18:30","20:00","21:00","23:00"];
 	var check;
 	var today;
 	var tomorrow;
@@ -60,7 +67,7 @@
 									.html("<p style='color:green' class='alert alert-success'>Schedule Updated</p>");
 						} else {
 							$("#resultContainer")
-									.html("<div class='alert alert-danger'>Please try again</div>");
+									.html("<div class='alert alert-danger'>Schedule Update Failed</div>");
 						}
 					},
 					error : function() {
@@ -202,7 +209,6 @@
 				endSelect.setTime(end.getTime());
 				check = $.fullCalendar.formatDate(start,'yyyy-MM-dd');
 				today = $.fullCalendar.formatDate(new Date(),'yyyy-MM-dd');
-				debugger;
 				tomorrow = $.fullCalendar.formatDate(new Date(new Date().getTime() + (1000 * 60 * 60 * 24)),'yyyy-MM-dd');
 				    if((check < today)||(check == today && new Date().getHours()>=11))
 				    {
@@ -334,7 +340,9 @@
 							<div class="col-sm-10">
 								<select class="form-control" id="inTime">
 									<option>SKIP</option>
-									<% for(int i = 0; i < inTime.size(); i++) {%>
+									<% 
+									
+									for(int i = 0; i < inTime.size(); i++) {%>
 									<option><%=inTime.get(i) %></option>
 									<% } %>
 								</select>

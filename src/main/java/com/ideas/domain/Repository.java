@@ -104,13 +104,13 @@ public class Repository {
 		return true;
 	}
 
-	public Map<Time, String> getShiftTimings(){
+	public Map<String, String> getShiftTimings(){
 		ResultSet rs;
-		Map<Time, String> timings = new TreeMap<Time, String>();
+		Map<String, String> timings = new TreeMap<String, String>();
 		try {
 			rs = connection.createStatement().executeQuery("select * from shift_details");
 			while(rs.next())
-				timings.put(rs.getTime(1), rs.getString(2));
+				timings.put(rs.getString(1), rs.getString(2));
 		} catch (SQLException e) {}
 		return timings;
 	}
