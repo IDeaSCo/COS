@@ -20,6 +20,7 @@
 	<script type="text/javascript" src="calendar/jquery.ptTimeSelect.js"></script>
 	<link rel='stylesheet' href='calendar/fullcalendar.css' />
 	<script src='calendar/fullcalendar.js'></script>
+	<script type="text/javascript" src="js/admindashboard.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Dashboard</title>
 	<script>
@@ -56,71 +57,6 @@
 				events: <%=holidayList%>,
 			});
 		});
-		function manageButtons(hide_id, show_id){
- 			document.getElementById(hide_id).disabled = true;
- 			document.getElementById(show_id).disabled = false;
- 		}
-		function markHoliday(){
-			var holidayReason = document.getElementById('reason').value;
-			$('#calendar').fullCalendar('renderEvent',
-					{
-						title : holidayReason,
-						start : eventDate,
-						allDay : true
-					}, true 
-			);
-			jQuery.post("/COS/admin",
-					{
-						action: "add",
-						title: holidayReason,
-						start: eventDate.getTime()
-					}
-			);
-			window.location.reload();
-		}
-		function removeHoliday(){
-			jQuery.post("/COS/admin",
-					{
-						action: "remove",
-						start: eventDate.getTime()
-					}
-			);
-			window.location.reload();
-		}
-		function showShifts(){
-			var caption = document.getElementById("shiftManager");
-			var div = document.getElementById("shiftDetails");
-			if(caption.firstChild.data == "View Shift Details"){
-				caption.firstChild.data = "Hide Shift Details";
-				div.style.display = "block";
-			}
-			else{
-				caption.firstChild.data = "View Shift Details";
-				div.style.display = "none";
-			}
-		}
-		function addTiming(){
- 			document.getElementById('addShift').disabled = true;
- 			document.getElementById('newShiftTimings').style.display = 'block';
- 			$('input[name="newInTime"]').ptTimeSelect();
- 			$('input[name="newOutTime"]').ptTimeSelect();
-		}
-		function resetAll(){
-			document.getElementById('addShift').disabled = false;
-			document.getElementById('newShiftTimings').style.display = 'none';
-		}
-		function saveNewTimings(){
-			var inTime = document.getElementById('newInTime').value;
-			var outTime = document.getElementById('newOutTime').value;
-			jQuery.post("/COS/admin",
-					{
-						action: "addShift",
-						start: inTime,
-						end: outTime
-					}
-			);
-			window.location.reload(true);
-		}
 	</script>
 	<style type="text/css">
 		#calendar {
@@ -140,8 +76,8 @@
 			<form id="newTime">
 				In Time: <input name="newInTime" id="newInTime"/>
 				Out Time: <input name="newOutTime" id="newOutTime"/>
-				<button type="button" class="btn btn-success btn-xs" id="saveTime" onclick="saveNewTimings()">Save</button>
-				<button type="button" class="btn btn-danger btn-xs" onclick="resetAll()">Cancel</button>
+				<button type="button" class="btn btn-success btn-xs" id="saveTime" onclick="save()">Save</button>
+				<button type="button" class="btn btn-danger btn-xs" onclick="cancel()">Cancel</button>
 			</form>
 		</div>
 		<div id="shiftDetails">
