@@ -144,4 +144,22 @@ public class Repository {
 		
 		return true;
 	}
+	
+	public boolean addNewShifts(String inTime, String outTime){
+		try {
+			PreparedStatement ps = connection.prepareStatement("insert into shift_details values(?, ?)");
+			if(inTime != ""){
+				ps.setString(1, inTime);
+				ps.setString(2, "in");
+				ps.executeUpdate();
+			}
+			if(outTime != ""){
+				ps.setString(1, outTime);
+				ps.setString(2, "out");
+				ps.executeUpdate();
+			}
+			
+		} catch (SQLException e) {}
+		return true;
+	}
 }

@@ -19,8 +19,11 @@
 %>
 <head>
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.22/themes/redmond/jquery-ui.css" />
 	<link rel="stylesheet" href="calendar/bootstrap-combined.min.css">
+	<link rel="stylesheet" type="text/css" href="calendar/jquery.ptTimeSelect.css" />
 	<script src="calendar/bootstrap.min.js"></script>
+	<script type="text/javascript" src="calendar/jquery.ptTimeSelect.js"></script>
 	<link rel='stylesheet' href='calendar/fullcalendar.css' />
 	<script src='calendar/fullcalendar.js'></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -59,15 +62,10 @@
 				events: <%=holidayList%>,
 			});
 		});
-		
 		function manageButtons(hide_id, show_id){
-/* 			document.getElementById(hide_id).style.display = 'none';
-			document.getElementById(show_id).style.display = 'block';
- */
  			document.getElementById(hide_id).disabled = true;
  			document.getElementById(show_id).disabled = false;
  		}
-		
 		function markHoliday(){
 			var holidayReason = document.getElementById('reason').value;
 			$('#calendar').fullCalendar('renderEvent',
@@ -86,7 +84,6 @@
 			);
 			window.location.reload();
 		}
-		
 		function removeHoliday(){
 			jQuery.post("/COS/admin",
 					{
@@ -96,7 +93,6 @@
 			);
 			window.location.reload();
 		}
-		
 		function showShifts(){
 			var caption = document.getElementById("shiftManager");
 			var div = document.getElementById("shiftDetails");
@@ -110,6 +106,29 @@
 				//window.location.reload();
 			}
 		}
+		function addTiming(){
+ 			document.getElementById('addShift').disabled = true;
+ 			document.getElementById('newShiftTimings').style.display = 'block';
+ 			$('input[name="newInTime"]').ptTimeSelect();
+ 			$('input[name="newOutTime"]').ptTimeSelect();
+		}
+		function resetAll(){
+			document.getElementById('addShift').disabled = false;
+			document.getElementById('newShiftTimings').style.display = 'none';
+		}
+		function saveNewTimings(){
+			var inTime = document.getElementById('newInTime').value;
+			var outTime = document.getElementById('newOutTime').value;
+			jQuery.post("/COS/admin",
+					{
+						action: "addShift",
+						start: inTime,
+						end: outTime
+					}
+			);
+			//window.location.reload();
+			showShifts();
+		}
 	</script>
 	<style type="text/css">
 		#calendar {
@@ -122,36 +141,41 @@
 	</style>
 </head>
 <body>
+<!-- 	<input name="time" value="" />
+	<script type="text/javascript">
+	    $(document).ready(function(){
+	        $('input[name="time"]').ptTimeSelect();
+	    });
+	</script> -->
 	<div id='shiftDetailsContainer'>
 		<button type="button" class="btn btn-primary" id="shiftManager" onclick="showShifts()">View Shift Details</button>
-		<a data-toggle="modal" data-backdrop="static" href="#addShift" class="btn btn-success">Add new shift</a>
+		<button type="button" class="btn btn-primary" id="addShift" onclick="addTiming()">Add new timings</button>
+		<div id="newShiftTimings" style="display:none">
+			<form id="newTime">
+				In Time: <input name="newInTime" id="newInTime"/>
+				Out Time: <input name="newOutTime" id="newOutTime"/>
+				<button type="button" class="btn btn-success btn-xs" id="saveTime" onclick="saveNewTimings()">Save</button>
+				<button type="button" class="btn btn-danger btn-xs" onclick="resetAll()">Cancel</button>
+			</form>
+		</div>
 		<div id="shiftDetails">
 			<table width="100%">
 				<td width="50%">
-					<table class="table table-striped table-bordered table-condensed">
-						<tr>
-							<th>In Time</th>
-						</tr>
+					<table class="table table-striped table-bordered table-condensed" id="inTimeTable">
+						<tr><th>In Time</th></tr>
 						<c:forEach var="element" items="${inTime}" varStatus="status">
-							<tr>
-								<td><c:out value="${element}" /></td>
-							</tr>
+							<tr><td><c:out value="${element}" /></td></tr>
 						</c:forEach>
 					</table>
 				</td>
 				<td width="50%">
 					<table class="table table-striped table-bordered table-condensed">
-						<tr>
-							<th>Out Time</th>
-						</tr>
+						<tr><th>Out Time</th></tr>
 						<c:forEach var="element" items="${outTime}" varStatus="status">
-							<tr>
-								<td><c:out value="${element}" /></td>
-							</tr>
+							<tr><td><c:out value="${element}" /></td></tr>
 						</c:forEach>
 					</table>
 				</td>
-				
 			</table>
 		</div>
 	</div><br>
@@ -162,7 +186,6 @@
 				<div class="modal-header"></div>
 				<div class="modal-body">
 					<div class="form-group">
-						<!-- <label>Reason</label> -->
 				  		Reason: <input type="text" class="form-control" id="reason" name="reason">
 				  </div>
 				</div>
@@ -170,25 +193,6 @@
 					<button type="button" class="btn btn-primary" data-dismiss="modal" id="add" onclick="markHoliday()">Mark Holiday</button>
 					<button type="button" class="btn btn-primary" data-dismiss="modal" id="remove" onclick="removeHoliday()">Remove Holiday</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div id="addShift" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header"></div>
-				<div class="modal-body">
-					<form id="itemForm" method="post">
-						<div class="form-group">
-							<label>Shift Timing</label>
-							<input type="text" class="form-control" id="shift" name="shift">
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button id="addItem" type="submit" class="btn btn-primary">Save shift</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
 		</div>

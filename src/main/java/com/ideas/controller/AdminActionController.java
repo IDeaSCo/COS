@@ -2,7 +2,6 @@ package com.ideas.controller;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,15 +52,23 @@ public class AdminActionController extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String reason = request.getParameter("title");
-		long timeInMillis = Long.valueOf(request.getParameter("start"));
-		Date holiday = new Date(timeInMillis);
-		String action = request.getParameter("action");
-		if(action.equals("add"))
-			repository.addCompanyHoliday(holiday, reason);
-		else
-			repository.removeCompanyHoliday(holiday);
-		
+		if (request.getParameter("action").equals("addShift")) {
+			String inTime = request.getParameter("start");
+			String outTime = request.getParameter("end");
+			if (inTime != "")
+				inTime = inTime.substring(0, 5);
+			if (outTime != "")
+				outTime = outTime.substring(0, 5);
+			boolean timeAdded = repository.addNewShifts(inTime, outTime);
+		} else {
+			String reason = request.getParameter("title");
+			long timeInMillis = Long.valueOf(request.getParameter("start"));
+			Date holiday = new Date(timeInMillis);
+			String action = request.getParameter("action");
+			if (action.equals("add"))
+				repository.addCompanyHoliday(holiday, reason);
+			else
+				repository.removeCompanyHoliday(holiday);
+		}
 	}
-
 }
