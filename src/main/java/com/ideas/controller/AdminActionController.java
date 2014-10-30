@@ -33,7 +33,6 @@ public class AdminActionController extends HttpServlet {
 		ArrayList<JSONObject> holidayList = new COSServiceLayer().convertToJSON(companyHolidays);
 		request.setAttribute("holidays", holidayList);
 		Map<String, String> shiftTimings = repository.getShiftTimings();
-		//request.setAttribute("shiftTimings", shiftTimings);
 		List<String> inTime = getIndividualTimings(shiftTimings, "in");
 		request.setAttribute("inTime", inTime);
 		List<String> outTime = getIndividualTimings(shiftTimings, "out");
@@ -44,8 +43,8 @@ public class AdminActionController extends HttpServlet {
 
 	private List<String> getIndividualTimings(Map<String, String> shiftTimings, String slot) {
 		List<String> timings = new ArrayList<String>();
-		for(Entry<String, String> entry : shiftTimings.entrySet()){
-			if(entry.getValue().equals(slot))
+		for (Entry<String, String> entry : shiftTimings.entrySet()) {
+			if (entry.getValue().equals(slot))
 				timings.add(entry.getKey());
 		}
 		return timings;

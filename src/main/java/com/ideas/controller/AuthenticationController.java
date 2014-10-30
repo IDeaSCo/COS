@@ -47,7 +47,7 @@ public class AuthenticationController extends HttpServlet {
 		request.setAttribute("locationDetails", employeeLocationDetails);
 		Employee employeeDetails = getEmployeeDetailsFromActiveDirectory(username);
 		request.setAttribute("employeeDetails", employeeDetails);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/captureEmployeeDetails.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/EmployeeDetails.jsp");
 		dispatcher.forward(request, response);
 	}
 

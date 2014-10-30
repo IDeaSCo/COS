@@ -6,17 +6,11 @@
 <%@ page import="java.sql.Time"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="org.json.JSONObject"%>
-<%@page import="java.security.Principal"%>
-<%@page import="waffle.windows.auth.WindowsAccount"%>
-<%@page import="waffle.servlet.WindowsPrincipal"%>
-<%@page import="com.sun.jna.platform.win32.Secur32"%>
-<%@page import="com.sun.jna.platform.win32.Secur32Util"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <% ArrayList<?> holidayList = (ArrayList<?>) request.getAttribute("holidays");
    ArrayList<Time> inTime = (ArrayList<Time>) request.getAttribute("inTime");
-   ArrayList<Time> outTime = (ArrayList<Time>) request.getAttribute("outTime");
-%>
+   ArrayList<Time> outTime = (ArrayList<Time>) request.getAttribute("outTime"); %>
 <head>
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.22/themes/redmond/jquery-ui.css" />
@@ -103,7 +97,6 @@
 			else{
 				caption.firstChild.data = "View Shift Details";
 				div.style.display = "none";
-				//window.location.reload();
 			}
 		}
 		function addTiming(){
@@ -126,8 +119,7 @@
 						end: outTime
 					}
 			);
-			//window.location.reload();
-			showShifts();
+			window.location.reload(true);
 		}
 	</script>
 	<style type="text/css">
@@ -141,12 +133,6 @@
 	</style>
 </head>
 <body>
-<!-- 	<input name="time" value="" />
-	<script type="text/javascript">
-	    $(document).ready(function(){
-	        $('input[name="time"]').ptTimeSelect();
-	    });
-	</script> -->
 	<div id='shiftDetailsContainer'>
 		<button type="button" class="btn btn-primary" id="shiftManager" onclick="showShifts()">View Shift Details</button>
 		<button type="button" class="btn btn-primary" id="addShift" onclick="addTiming()">Add new timings</button>
