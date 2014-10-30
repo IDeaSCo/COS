@@ -6,13 +6,9 @@
 <%@page import="waffle.servlet.WindowsPrincipal"%>
 <%@page import="com.sun.jna.platform.win32.Secur32"%>
 <%@page import="com.sun.jna.platform.win32.Secur32Util"%>
-
 <html>
 <body>
-<%
-	session.setAttribute("username", request.getRemoteUser().substring(4));
-	response.sendRedirect("authenticate");
-	
-%>
+<%	session.setAttribute("username", request.getRemoteUser().substring(4));
+	response.sendRedirect("authenticate"); %>
 </body>
 </html>

@@ -30,8 +30,8 @@ public class AuthenticationController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher;
 		String username = (String) request.getSession().getAttribute("username");
-		boolean isRoleAdmin = repository.isEmployeeAdmin(username);
-		if(isRoleAdmin)
+		boolean isAdmin = repository.isEmployeeAdmin(username);
+		if(isAdmin)
 			dispatcher = request.getRequestDispatcher("/admin");
 		else{
 			boolean isEmployeeRegistered = repository.getEmployeeDetails(username);

@@ -29,8 +29,8 @@ public class Repository {
 			if(rs.next())
 				return true;
 		} catch (SQLException e) {}
-	return false;
-}
+		return false;
+	}
 
 	public Boolean getEmployeeDetails(String username) {
 		try {
@@ -128,7 +128,8 @@ public class Repository {
 	public TreeMap<Date, String> getCompanyHolidays() {
 		TreeMap<Date, String> companyHolidays = new TreeMap<Date, String>();
 		try {
-			ResultSet rs = connection.createStatement().executeQuery("select * from holidays");
+			String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+			ResultSet rs = connection.createStatement().executeQuery("select * from holidays where holiday_date like '%" + year + "%'");
 			while(rs.next())
 				companyHolidays.put(rs.getDate(1), rs.getString(2));
 		} catch (SQLException e) {}
