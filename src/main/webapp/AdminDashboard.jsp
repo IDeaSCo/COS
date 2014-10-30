@@ -70,16 +70,20 @@
 </head>
 <body>
 	<div id='shiftDetailsContainer'>
-		<button type="button" class="btn btn-primary" id="shiftManager" onclick="showShifts()">View Shift Details</button>
-		<button type="button" class="btn btn-primary" id="addShift" onclick="addTiming()">Add new timings</button>
-		<div id="newShiftTimings" style="display:none">
-			<form id="newTime">
-				In Time: <input name="newInTime" id="newInTime"/>
-				Out Time: <input name="newOutTime" id="newOutTime"/>
-				<button type="button" class="btn btn-success btn-xs" id="saveTime" onclick="save()">Save</button>
-				<button type="button" class="btn btn-danger btn-xs" onclick="cancel()">Cancel</button>
-			</form>
-		</div>
+		<table>
+			<tr>
+				<td><button type="button" class="btn btn-primary" id="shiftManager" onclick="showShifts()">View Shift Details</button></td>
+				<td><button type="button" class="btn btn-primary" id="addShift" onclick="addTiming()">Add new timings</button></td>
+				<td>
+					<div id="newShiftTimings" style="display:none">
+						<b>In Time:</b> <input name="newInTime" id="newInTime"/>
+						<b>Out Time:</b> <input name="newOutTime" id="newOutTime"/>
+						<button type="button" class="btn btn-success btn-xs" id="saveTime" onclick="save()">Save</button>
+						<button type="button" class="btn btn-danger btn-xs" onclick="cancel()">Cancel</button>
+					</div>
+				</td>
+			</tr>
+		</table>
 		<div id="shiftDetails">
 			<table width="100%">
 				<td width="50%">
