@@ -1,6 +1,8 @@
 package com.ideas.domain;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -11,12 +13,6 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.ideas.sso.ActiveDirectoryUserInfo;
-import com.ideas.sso.AuthenticationError;
-
-import waffle.windows.auth.IWindowsAccount;
-import waffle.windows.auth.impl.WindowsAuthProviderImpl;
 
 public class EmployeeRepositoryTest {
 	private static Repository repository;
@@ -75,11 +71,19 @@ public class EmployeeRepositoryTest {
 	}
 	
 	@Test
-	public void CompanyHolidayMarkedSuccessfully() {
+	public void CompanyHolidayForCurrentYearMarkedSuccessfully() {
 		Calendar cal = Calendar.getInstance();
 		Date holiday = new Date(cal.getTime().getTime());
 		String reason = "Dummy holiday";
 		assertTrue(repository.addCompanyHoliday(holiday, reason));
+	}
+	
+	@Test
+	public void CompanyHolidaysForOnlyCurrentYearCanBeAdded() {
+		Calendar calendar = Calendar.getInstance();
+		int year = calendar.get(Calendar.YEAR) + 1;
+		Date holiday = new Date(year, 1, 1);
+		assertFalse(repository.addCompanyHoliday(holiday, "Some reason"));
 	}
 	
 	@Test

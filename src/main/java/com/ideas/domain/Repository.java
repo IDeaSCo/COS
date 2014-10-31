@@ -116,6 +116,11 @@ public class Repository {
 	}
 
 	public boolean addCompanyHoliday(Date holiday, String reason){
+		Calendar current = Calendar.getInstance();
+		Calendar proposedHoliday = Calendar.getInstance();
+		proposedHoliday.setTime(holiday);
+		if(current.get(Calendar.YEAR) != proposedHoliday.get(Calendar.YEAR))
+			return false;
 		try {
 			PreparedStatement ps = connection.prepareStatement("insert into holidays values(?, ?)");
 			ps.setDate(1, holiday);

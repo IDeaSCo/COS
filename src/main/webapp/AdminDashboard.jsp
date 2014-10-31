@@ -46,6 +46,7 @@
 							break;							
 						}
 					}
+					document.getElementById('result').style.display = 'none';
 					$("#markHolidayModal").modal("show");
   					if(flag)
 						manageButtons("add", "remove");
@@ -69,6 +70,7 @@
 	</style>
 </head>
 <body>
+	<div id="result"></div>
 	<div id='shiftDetailsContainer'>
 		<table>
 			<tr>
@@ -86,15 +88,15 @@
 		</table>
 		<div id="shiftDetails">
 			<table width="100%">
-				<td width="50%">
-					<table class="table table-striped table-bordered table-condensed" id="inTimeTable">
+				<td width="50%" align="center">
+					<table class="table table-striped table-bordered table-condensed">
 						<tr><th>In Time</th></tr>
 						<c:forEach var="element" items="${inTime}" varStatus="status">
 							<tr><td><c:out value="${element}" /></td></tr>
 						</c:forEach>
 					</table>
 				</td>
-				<td width="50%">
+				<td width="50%" align="center">
 					<table class="table table-striped table-bordered table-condensed">
 						<tr><th>Out Time</th></tr>
 						<c:forEach var="element" items="${outTime}" varStatus="status">
@@ -109,11 +111,15 @@
 	<div id="markHolidayModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header"></div>
+				<div class="modal-header">
+				</div>
 				<div class="modal-body">
-					<div class="form-group">
-				  		Reason: <input type="text" class="form-control" id="reason" name="reason">
-				  </div>
+					<form id="holidayForm" method="post">
+						<div class="form-group">
+							<label for="itemThreshold">Reason</label>
+							<input type="text" class="form-control" id="reason" name="reason">
+						</div>
+					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-dismiss="modal" id="add" onclick="markHoliday()">Mark Holiday</button>

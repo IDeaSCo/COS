@@ -5,21 +5,30 @@
 		
 		function markHoliday(){
 			var holidayReason = document.getElementById('reason').value;
-			$('#calendar').fullCalendar('renderEvent',
-					{
-						title : holidayReason,
-						start : eventDate,
-						allDay : true
-					}, true 
-			);
-			jQuery.post("/COS/admin",
-					{
-						action: "add",
-						title: holidayReason,
-						start: eventDate.getTime()
+			$.ajax({
+				type : "POST",
+				dataType : "json",
+				url : "/COS/admin",
+				data : {
+					action: "add",
+					title: holidayReason,
+					start: eventDate.getTime()
+				},
+				success : function(msg) {
+					if (msg === true) {
+						$('#calendar').fullCalendar('renderEvent',
+								{
+									title : holidayReason,
+									start : eventDate,
+									allDay : true
+								}, true 
+						);
+					} else {
+						$("#result").html("<div class='alert alert-danger' align='center'>Holidays for only current year can be added</div>");
+						document.getElementById('result').style.display = 'block';
 					}
-			);
-			window.location.reload();
+				}
+			});
 		}
 		
 		function removeHoliday(){
