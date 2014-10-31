@@ -7,10 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -152,7 +150,21 @@ public class Repository {
 	}
 	
 	public boolean addNewShifts(String inTime, String outTime){
+		boolean newInTimeFlag = true;
+		boolean newOutTimeFlag = true;
 		try {
+			ResultSet rs;
+			PreparedStatement check = connection.prepareStatement("select * from shift_details where time = ? and slot = ?");
+			check.setString(1, inTime);
+			check.setString(2, "in");
+			rs = check.executeQuery();
+			if(rs.next())
+				newInTimeFlag = false;
+			check.setString(1, outTime);
+			check.setString(2, "out");
+			rs = check.executeQuery();
+			if(rs.next())
+				newOutTimeFlag = false;
 			PreparedStatement ps = connection.prepareStatement("insert into shift_details values(?, ?)");
 			if(inTime != ""){
 				ps.setString(1, inTime);
@@ -164,8 +176,7 @@ public class Repository {
 				ps.setString(2, "out");
 				ps.executeUpdate();
 			}
-			
 		} catch (SQLException e) {}
-		return true;
+		return newInTimeFlag && newOutTimeFlag;
 	}
 }

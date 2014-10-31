@@ -23,6 +23,7 @@
 									allDay : true
 								}, true 
 						);
+						window.location.reload();
 					} else {
 						$("#result").html("<div class='alert alert-danger' align='center'>Holidays for only current year can be added</div>");
 						document.getElementById('result').style.display = 'block';
@@ -69,7 +70,7 @@
 		function save(){
 			var inTime = document.getElementById('newInTime').value;
 			var outTime = document.getElementById('newOutTime').value;
-			jQuery.post("/COS/admin",
+/*			jQuery.post("/COS/admin",
 					{
 						action: "addShift",
 						start: inTime,
@@ -77,4 +78,22 @@
 					}
 			);
 			window.location.reload(true);
+*/			$.ajax({
+				type : "POST",
+				dataType : "json",
+				url : "/COS/admin",
+				data : {
+					action: "addShift",
+					start: inTime,
+					end: outTime
+				},
+				success : function(msg) {
+					if (msg === true) {
+						window.location.reload(true);
+					} else {
+						$("#result").html("<div class='alert alert-danger' align='center'>Timings already are existing</div>");
+						document.getElementById('result').style.display = 'block';
+					}
+				}
+			});
 		}

@@ -58,7 +58,10 @@ public class AdminActionController extends HttpServlet {
 				inTime = inTime.substring(0, 5);
 			if (outTime != "")
 				outTime = outTime.substring(0, 5);
-			boolean timeAdded = repository.addNewShifts(inTime, outTime);
+			Boolean timeAdded = repository.addNewShifts(inTime, outTime);
+			response.setContentType("application/json");
+			response.getWriter().append(timeAdded.toString());
+			response.flushBuffer();
 		} else {
 			String reason = request.getParameter("title");
 			long timeInMillis = Long.valueOf(request.getParameter("start"));
