@@ -35,21 +35,23 @@ INSERT INTO shift_details VALUES('23:00', 'out');
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS fillDefaultTiming$$
-CREATE PROCEDURE fillDefaultTiming (IN USERNAME VARCHAR(10), IN STARTDATE VARCHAR(12))
+CREATE PROCEDURE fillDefaultTiming (IN USERNAME VARCHAR(10), IN startDate VARCHAR(12))
 BEGIN
-                
-                SET @endDate = LAST_DAY(DATE_ADD( STARTDATE, INTERVAL 0 MONTH));
-                SET  @dt = DATE_ADD(@dt, INTERVAL 1 DAY);
-                SELECT @dt;
-                SET @dt = STARTDATE;
-                SELECT @dt;
-                WHILE (@dt <= @endDate) DO
-				IF WEEKDAY(@dt)!=5 AND WEEKDAY(@dt)!=6 THEN
-                                INSERT INTO employee_dashboard(username, travel_date, EVENT, TIME) VALUES(USERNAME, @dt, 1, '09:30:00');
-                                INSERT INTO employee_dashboard(username, travel_date, EVENT, TIME) VALUES(USERNAME, @dt, 2, '18:30:00');                                                                
-                                END IF;
-                                SET  @dt = DATE_ADD(@dt,INTERVAL 1 DAY);
-                END WHILE;
+	
+	SET @endDate = LAST_DAY(DATE_ADD( startDate, INTERVAL 0 MONTH));
+	SET  @dt = DATE_ADD(@dt, INTERVAL 1 DAY);
+	SELECT @dt;
+	SET @dt = startDate;
+	SELECT @dt;
+	WHILE (@dt <= @endDate) DO
+		SELECT @dayOfWeek;
+		SET @dayOfWeek = DAYOFWEEK(@dt);
+		IF (@dayOfWeek > 1 && @dayOfWeek < 7) THEN
+			INSERT INTO employee_dashboard(username, travel_date, EVENT, TIME) VALUES(USERNAME, @dt, 1, '09:30:00');
+			INSERT INTO employee_dashboard(username, travel_date, EVENT, TIME) VALUES(USERNAME, @dt, 2, '18:30:00');
+		END IF;
+		SET  @dt = DATE_ADD(@dt,INTERVAL 1 DAY);
+	END WHILE;
 END $$
 
 SELECT * FROM employee_info;
