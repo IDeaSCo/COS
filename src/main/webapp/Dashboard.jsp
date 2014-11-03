@@ -51,26 +51,22 @@
 			events.push(JSON.stringify(JSONObj));
 		}
 		document.getElementById('eventInput').value = events;
-		$
-				.ajax({
-					type : "POST",
-					dataType : "json",
-					url : "/COS/dashboard",
-					data : $('#eventsFromCalendarForm').serialize(),
-					success : function(msg) {
-						if (msg === true) {
-							$("#resultContainer")
-									.html("<p style='color:green' class='alert alert-success'>Schedule Updated</p>");
-						} else {
-							$("#resultContainer")
-									.html("<div class='alert alert-danger'>Schedule Update Failed</div>");
-						}
-					},
-					error : function() {
-						$("#resultContainer")
-								.html("<div class='alert alert-danger'>Server Error. Request could not be placed, please try again later</div>");
-					}
-				});
+		$.ajax({
+			type : "POST",
+			dataType : "json",
+			url : "/COS/dashboard",
+			data : $('#eventsFromCalendarForm').serialize(),
+			success : function(msg) {
+				if (msg === true) {
+					$("#resultContainer").html("<p style='color:green' class='alert alert-success'>Schedule Updated</p>");
+				} else {
+					$("#resultContainer").html("<div class='alert alert-danger'>Schedule Update Failed</div>");
+				}
+			},
+			error : function() {
+				$("#resultContainer").html("<div class='alert alert-danger'>Server Error. Request could not be placed, please try again later</div>");
+			}
+		});
 	}
 
 	function selectOne(timeType, timeArray) {
@@ -125,79 +121,25 @@
 				}
 				date.setDate(date.getDate() + 1);
 			}
-			e = document.getElementById("outTime");
-			var outTime = e.options[e.selectedIndex].text;
-			if (outTime != 'SKIP') {
-				var outTimeArray = outTime.split(":");
-				$('#calendar').fullCalendar(
-						'renderEvent',
-						{
-							title : 'Out-Time',
-							start : new Date(date.getFullYear(), date
-									.getMonth(), date.getDate(),
-									outTimeArray[0], outTimeArray[1]),
-							allDay : false
-						}, true // make the event "stick"
-				);
-			}
 			date.setDate(date.getDate() + 1);
 		}
 
 	$(document).ready(function() {
-		/*
-			date store today date.
-			d store today date.
-			m store current month.
-			y store current year.
-		 */
 		var date = new Date();
 		var d = date.getDate();
 		var m = date.getMonth();
 		var y = date.getFullYear();
 
-		/*
-			Initialize fullCalendar and store into variable.
-			Why in variable?
-			Because doing so we can use it inside other function.
-			In order to modify its option later.
-		 */
-
 		var calendar = $('#calendar').fullCalendar({
-			/*
-				header option will define our calendar header.
-				left define what will be at left position in calendar
-				center define what will be at center position in calendar
-				right define what will be at right position in calendar
-			 */
 			header : {
 				left : 'prev,next today',
 				center : 'title',
-
 			},
-			/*
-				defaultView option used to define which view to show by default,
-				for example we have used agendaWeek.
-			 */
-			/*
-				selectable:true will enable user to select datetime slot
-				selectHelper will add helpers for selectable.
-			 */
 			selectable : true,
 			aspectRatio : 1.7,
 			selectHelper : true,
 			eventClick : function(event, element) {
-				/* event.title = "CLICKED!";
-
-				$('#calendar').fullCalendar('removeEvents', event._id);
- */
 			},
-			/*
-				when user select timeslot this option code will execute.
-				It has three arguments. Start,end and allDay.
-				Start means starting time of event.
-				End means ending time of event.
-				allDay means if events is for entire day or not.
-			 */
 			select : function(start, end, allDay) {
 				var validInTimes=[];
 				var validOutTimes=[];
@@ -235,7 +177,6 @@
 										validInTimes.push(inTimes[i]);	
 										}
 								}
-
             			}
         			if(validOutTimes.length==0){
         				validOutTimes.push(outTimes[0]);					
@@ -245,7 +186,6 @@
 										validOutTimes.push(outTimes[i]);	
 										}
 								}
-
             			}
 					    selectOne('inTime',validInTimes);
 					    selectOne('outTime',validOutTimes);
@@ -255,17 +195,10 @@
 				    	 selectOne('inTime',inTimes);
 						 selectOne('outTime',outTimes);
 					     $("#createEventModal").modal("show");
-					    }
+					}
 				calendar.fullCalendar('unselect');
 			},
-			/*
-				editable: true allow user to edit events.
-			 */
 			editable : true,
-			/*
-				events is the main option for calendar.
-				for demo we have added predefined events in json object.
-			 */
 			events: <%=eventScheduleArray%>
 	});
 
@@ -278,20 +211,13 @@
 		font-size: 14px;
 		font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
 	}
-	
 	#calendar {
 		width: 1200px;
 		margin: 0 auto;
 	}
-	
-	.fc-sat {
+	.fc-sat, .fc-sun {
 		background: #F0F0F0;
 	}
-	
-	.fc-sun {
-		background: #F0F0F0;
-	}
-	
 	.disabled .fc-day-content {
 		background-color: #123959;
 		color: #FFFFFF;
@@ -300,10 +226,6 @@
 </style>
 </head>
 <body>
- <!-- <a href="http://localhost:8181/COS/captureEmployeeDetails.jsp">
-    <span class="glyphicon glyphicon-user">UserName</span>
-    </a>
- -->
 	<div id='calendar'></div><br>
 	<button type="button" class="btn btn-success" data-dismiss="modal" onclick="updateChanges()" style="font-size: large">Save My Schedule</button>
 	<br><br>
@@ -324,7 +246,6 @@
 			</div>
 		</div>
 	</div>
-
 	<div id="createEventModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -336,9 +257,7 @@
 							<div class="col-sm-10">
 								<select class="form-control" id="inTime">
 									<option>SKIP</option>
-									<% 
-									
-									for(int i = 0; i < inTime.size(); i++) {%>
+									<% for(int i = 0; i < inTime.size(); i++) {%>
 									<option><%=inTime.get(i) %></option>
 									<% } %>
 								</select>
@@ -366,8 +285,8 @@
 		</div>
 	</div>
 	<form method="post" id="eventsFromCalendarForm">
-		<input type="hidden" name="events" id="eventInput"> <input
-			type="hidden" name="username" value="<%=employeeUsername%>">
+		<input type="hidden" name="events" id="eventInput">
+		<input type="hidden" name="username" value="<%=employeeUsername%>">
 	</form>
 </body>
 </html>
