@@ -15,18 +15,14 @@
 <%	String employeeUsername = request.getRemoteUser();
 	ArrayList<?> eventScheduleArray = (ArrayList<?>) request.getAttribute("eventScheduleArray");
 	ArrayList<String> inTime = (ArrayList<String>) request.getAttribute("inTime");
-	ArrayList<String> outTime = (ArrayList<String>) request.getAttribute("outTime");
-	
-	
-%>
-
+	ArrayList<String> outTime = (ArrayList<String>) request.getAttribute("outTime");%>
 <html>
 <head>
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<link rel="stylesheet" href="calendar/bootstrap-combined.min.css">
-<script src="calendar/bootstrap.min.js"></script>
-<link rel='stylesheet' href='calendar/fullcalendar.css' />
-<script src='calendar/fullcalendar.js'></script>
+<link rel="stylesheet" href="css/bootstrap-combined.min.css">
+<script src="js/bootstrap.min.js"></script>
+<link rel='stylesheet' href='css/fullcalendar.css' />
+<script src='js/fullcalendar.js'></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Dashboard</title>
 <script>

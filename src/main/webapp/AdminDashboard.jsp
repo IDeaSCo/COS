@@ -14,12 +14,12 @@
 <head>
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.22/themes/redmond/jquery-ui.css" />
-	<link rel="stylesheet" href="calendar/bootstrap-combined.min.css">
-	<link rel="stylesheet" type="text/css" href="calendar/jquery.ptTimeSelect.css" />
-	<script src="calendar/bootstrap.min.js"></script>
-	<script type="text/javascript" src="calendar/jquery.ptTimeSelect.js"></script>
-	<link rel='stylesheet' href='calendar/fullcalendar.css' />
-	<script src='calendar/fullcalendar.js'></script>
+	<link rel="stylesheet" href="css/bootstrap-combined.min.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery.ptTimeSelect.css" />
+	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/jquery.ptTimeSelect.js"></script>
+	<link rel='stylesheet' href='css/fullcalendar.css' />
+	<script src='js/fullcalendar.js'></script>
 	<script type="text/javascript" src="js/admindashboard.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Dashboard</title>

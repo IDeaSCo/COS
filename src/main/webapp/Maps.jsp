@@ -7,10 +7,10 @@
 <html>
 <head>
 <title>COS</title>
-<link rel="stylesheet" href="map.css">
+<link rel="stylesheet" href="css/map.css">
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script
 	src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&dummy=.js"></script>

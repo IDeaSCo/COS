@@ -8,7 +8,7 @@
 <head>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
-	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Enroll For Cab Service</title>

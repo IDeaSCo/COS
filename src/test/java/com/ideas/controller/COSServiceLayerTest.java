@@ -1,7 +1,5 @@
 package com.ideas.controller;
 
-import static org.junit.Assert.*;
-
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -9,7 +7,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-import org.eclipse.jetty.util.ajax.JSON;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
