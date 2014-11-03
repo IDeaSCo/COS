@@ -56,11 +56,7 @@ public class DashboardController extends HttpServlet {
 		String username = (String) request.getSession().getAttribute("username");
 		String events = (request.getParameter("events"));
 		EmployeeSchedule schedule = null;
-		try {
-			schedule = new COSServiceLayer().jsonToEmployeeSchedule(events, username);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		schedule = new COSServiceLayer().jsonToEmployeeSchedule(events, username);
 		Boolean isDone = repository.updateSchedule(schedule);
 		if (isDone)
 			response.setContentType("application/json");

@@ -1,7 +1,5 @@
 package com.ideas.controller;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -24,24 +22,9 @@ public class COSServletContextListener implements ServletContextListener {
 		try {
 			repository = new Repository(dataSource.getConnection());
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		servletContext.setAttribute("repository", repository);
-
-//		try {
-//			Class.forName(servletContext.getInitParameter("driver"));
-//			Connection connection = DriverManager.getConnection(
-//					servletContext.getInitParameter("url"),
-//					servletContext.getInitParameter("username"),
-//					servletContext.getInitParameter("password"));
-//			repository = new Repository(connection);
-//			servletContext.setAttribute("repository", repository);
-//		} catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
 	}
 
 	private static DataSource setupDataSource(String username, String password,
@@ -59,7 +42,6 @@ public class COSServletContextListener implements ServletContextListener {
 		try {
 			bds.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
