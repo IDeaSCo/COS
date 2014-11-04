@@ -28,17 +28,16 @@ public class AuthenticationController extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher;
+		String path = null;
 		String username = (String) request.getSession().getAttribute("username");
 		boolean isAdmin = repository.isEmployeeAdmin(username);
 		if(isAdmin)
-			dispatcher = request.getRequestDispatcher("/admin");
+			path = "/admin";
 		else{
 			boolean isEmployeeRegistered = repository.getEmployeeDetails(username);
-			String path = isEmployeeRegistered ? "/dashboard" : "Maps.jsp";
-			dispatcher = request.getRequestDispatcher(path);
+			path = isEmployeeRegistered ? "/dashboard" : "Maps.jsp";
 		}
-		dispatcher.forward(request, response);
+		sendRequest(request, response, path);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -47,11 +46,10 @@ public class AuthenticationController extends HttpServlet {
 		request.setAttribute("locationDetails", employeeLocationDetails);
 		Employee employeeDetails = getEmployeeDetailsFromActiveDirectory(username);
 		request.setAttribute("employeeDetails", employeeDetails);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/EmployeeDetails.jsp");
-		dispatcher.forward(request, response);
+		sendRequest(request, response, "/EmployeeDetails.jsp");
 	}
 
-	private Employee getEmployeeLocationDetails(HttpServletRequest request, String username){
+	private Employee getEmployeeLocationDetails(HttpServletRequest request, String username) {
 		String pickUpLocation = request.getParameter("userAddress");
 		double latitude = Double.parseDouble(request.getParameter("latitude"));
 		double longitude = Double.parseDouble(request.getParameter("longitude"));
@@ -69,10 +67,12 @@ public class AuthenticationController extends HttpServlet {
 		try {
 			userInfo = new ActiveDirectoryUserInfo(account.getFqn(), requestedFields);
 			employeeDetails = userInfo.getUserDetails();
-		} catch (AuthenticationError e) {
-			employeeDetails = new Employee("", "", "");
-		}
+		} catch (AuthenticationError e) {}
 		return employeeDetails;
 	}
 
+	private void sendRequest(HttpServletRequest request, HttpServletResponse response, String path) throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher(path);
+		dispatcher.forward(request, response);
+	}
 }
