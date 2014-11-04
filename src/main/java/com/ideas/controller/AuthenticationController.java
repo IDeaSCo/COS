@@ -21,10 +21,12 @@ import com.ideas.sso.AuthenticationError;
 public class AuthenticationController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Repository repository; 
+	private ControllerHelper helper;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		repository = (Repository) config.getServletContext().getAttribute("repository");
+		helper = (ControllerHelper) config.getServletContext().getAttribute("helper");
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,7 +39,7 @@ public class AuthenticationController extends HttpServlet {
 			boolean isEmployeeRegistered = repository.getEmployeeDetails(username);
 			path = isEmployeeRegistered ? "/dashboard" : "Maps.jsp";
 		}
-		sendRequest(request, response, path);
+		helper.sendRequest(request, response, path);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,7 +48,7 @@ public class AuthenticationController extends HttpServlet {
 		request.setAttribute("locationDetails", employeeLocationDetails);
 		Employee employeeDetails = getEmployeeDetailsFromActiveDirectory(username);
 		request.setAttribute("employeeDetails", employeeDetails);
-		sendRequest(request, response, "/EmployeeDetails.jsp");
+		helper.sendRequest(request, response, "/EmployeeDetails.jsp");
 	}
 
 	private Employee getEmployeeLocationDetails(HttpServletRequest request, String username) {
@@ -69,10 +71,5 @@ public class AuthenticationController extends HttpServlet {
 			employeeDetails = userInfo.getUserDetails();
 		} catch (AuthenticationError e) {}
 		return employeeDetails;
-	}
-
-	private void sendRequest(HttpServletRequest request, HttpServletResponse response, String path) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher(path);
-		dispatcher.forward(request, response);
 	}
 }

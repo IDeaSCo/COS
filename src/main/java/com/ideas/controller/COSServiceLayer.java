@@ -9,10 +9,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-
 import org.eclipse.jetty.util.ajax.JSON;
 import org.json.JSONObject;
-
 import com.ideas.domain.EmployeeSchedule;
 
 public class COSServiceLayer {

@@ -11,7 +11,8 @@ import com.ideas.domain.Repository;
 public class COSServletContextListener implements ServletContextListener {
 	private Repository repository;
 	private DataSource dataSource;
-
+	private ControllerHelper helper;
+	
 	public void contextInitialized(ServletContextEvent sce) {
 		ServletContext servletContext = sce.getServletContext();
 		String username = servletContext.getInitParameter("username");
@@ -21,14 +22,13 @@ public class COSServletContextListener implements ServletContextListener {
 		dataSource = setupDataSource(username, password, driverClassName, url);
 		try {
 			repository = new Repository(dataSource.getConnection());
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
+		} catch (SQLException e) {}
 		servletContext.setAttribute("repository", repository);
+		helper = new ControllerHelper();
+		servletContext.setAttribute("helper", helper);
 	}
 
-	private static DataSource setupDataSource(String username, String password,
-			String driverClassName, String url) {
+	private static DataSource setupDataSource(String username, String password, String driverClassName, String url) {
 		BasicDataSource ds = new BasicDataSource();
 		ds.setDriverClassName(driverClassName);
 		ds.setUsername(username);
@@ -41,9 +41,7 @@ public class COSServletContextListener implements ServletContextListener {
 		BasicDataSource bds = (BasicDataSource) dataSource;
 		try {
 			bds.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		} catch (SQLException e) {}
 	}
 
 }
