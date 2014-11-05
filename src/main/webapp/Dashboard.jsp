@@ -35,11 +35,10 @@
 	var inTimes = addSkip.concat(inTimesString.substring(1,inTimesString.length-1).split(","));
 	var outTimesString = "<%=outTime%>";
 	var outTimes = addSkip.concat(outTimesString.substring(1,outTimesString.length-1).split(","));
-	//var inTimes = ["SKIP","07:00","08:30","09:30","11:00","12:00","14:00","22:30"];
-	//var outTimes = ["SKIP","07:30","16:00","17:30","18:30","20:00","21:00","23:00"];
 	var check;
 	var today;
 	var tomorrow;
+	var selectedMonth;
 	function updateChanges() {
 		eventsFromCalendar = $('#calendar').fullCalendar('clientEvents');
 		for (var i = 0; i < eventsFromCalendar.length; i++) {
@@ -198,11 +197,33 @@
 					}
 				calendar.fullCalendar('unselect');
 			},
+			viewDisplay: function(view){
+				selectedMonth = $("#calendar").fullCalendar('getDate').getMonth();
+				showButton(selectedMonth);
+			},
 			editable : true,
 			events: <%=eventScheduleArray%>
+		});
 	});
-
-	});
+	
+	function showButton(){
+		var currentMonth = new Date().getMonth();
+		if(selectedMonth == (currentMonth + 1))
+			document.getElementById('import').disabled = false;
+		else
+			document.getElementById('import').disabled = true;
+	}
+	function fillSchedule(){
+		//var selectedYear = $("#calendar").fullCalendar('getDate').getFullYear();
+		jQuery.post("/COS/dashboard",
+				{
+					action: "import",
+					month: selectedMonth,
+					//year:  selectedYear
+				}
+		);
+		window.location.reload();
+	}
 </script>
 <style type="text/css">
 	body {
@@ -227,7 +248,8 @@
 </head>
 <body>
 	<div id='calendar'></div><br>
-	<button type="button" class="btn btn-success" data-dismiss="modal" onclick="updateChanges()" style="font-size: large">Save My Schedule</button>
+	<button type="button" class="btn btn-primary" style="font-size: large" id="import" onclick="fillSchedule()">Fill Default Schedule</button>
+	<button type="button" class="btn btn-success" onclick="updateChanges()" style="font-size: large">Save My Schedule</button>
 	<br><br>
 	<p id="resultContainer"></p>
 	<div id="wrongDateSelectionModal" class="modal fade">

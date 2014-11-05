@@ -70,15 +70,7 @@
 		function save(){
 			var inTime = document.getElementById('newInTime').value;
 			var outTime = document.getElementById('newOutTime').value;
-/*			jQuery.post("/COS/admin",
-					{
-						action: "addShift",
-						start: inTime,
-						end: outTime
-					}
-			);
-			window.location.reload(true);
-*/			$.ajax({
+			$.ajax({
 				type : "POST",
 				dataType : "json",
 				url : "/COS/admin",
