@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -72,14 +74,14 @@ public class Repository {
 		return new EmployeeSchedule(username, eventsDateMap);
 	}
 
-	public void fillDefaultTimingsInEmployeeSchedule(String username) throws SQLException {
-		int year = Calendar.getInstance().get(Calendar.YEAR);
-		int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
-		String startDate = year + "-" + month + "-01";
-		CallableStatement procCall = connection.prepareCall("{call fillDefaultTiming(?, ?)}");
-		procCall.setString(1, username);
-		procCall.setString(2, startDate);
-		procCall.execute();
+	public void fillDefaultTimingsInEmployeeSchedule(String username, String startDate) {
+		CallableStatement procCall;
+		try {
+			procCall = connection.prepareCall("{call fillDefaultTiming(?, ?)}");
+			procCall.setString(1, username);
+			procCall.setString(2, startDate);
+			procCall.execute();
+		} catch (SQLException e) {}
 	}
 	
 	public boolean updateSchedule(EmployeeSchedule schedule) {
@@ -182,7 +184,28 @@ public class Repository {
 		return newInTimeFlag && newOutTimeFlag;
 	}
 
-	public void importSchedule(int month, int year) {
-		System.out.println("Not yet implemented");
+/*	public void importSchedule(String username, int month, int year) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("select * from employee_dashboard where username = ? and year(travel_date) = ? and month(travel_date) = ?");
+			ps.setString(1, username);
+			ps.setInt(2, year);
+			ps.setInt(3, month);
+			ResultSet rs = ps.executeQuery();
+			ps = connection.prepareStatement("insert into employee_dashboard values(?, ?, ?, ?)");
+			while(rs.next()){
+				String currentTravelDate = rs.getDate(2).toString();
+				String newTravelDate = currentTravelDate.substring(0, 5) + String.valueOf(month + 1) + currentTravelDate.substring(7);
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				Date travelDate = new Date(format.parse(newTravelDate).getTime());
+				//System.out.println(travelDate.toString());
+				ps.setString(1, rs.getString(1));
+				ps.setDate(2, travelDate);
+				ps.setString(3, rs.getString(3));
+				ps.setTime(4, rs.getTime(4));
+				ps.executeUpdate();
+			}
+		} catch (SQLException e) {e.printStackTrace();} 
+		  catch (ParseException e) {System.out.println("Exception ParseException");}
+		//System.out.println("Done");
 	}
-}
+*/}

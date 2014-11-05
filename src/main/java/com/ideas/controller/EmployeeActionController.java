@@ -2,9 +2,11 @@ package com.ideas.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Calendar;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +15,7 @@ import com.ideas.domain.Address;
 import com.ideas.domain.Employee;
 import com.ideas.domain.Repository;
 
+@WebServlet(urlPatterns = "/employee")
 public class EmployeeActionController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private Repository repository;
@@ -35,10 +38,10 @@ public class EmployeeActionController extends HttpServlet {
 		Address employeeAddress = new Address(latitude, longitude, address);
 		Employee employeeDetails = new Employee(username, name, mobile, employeeAddress);
 		boolean isAdded = repository.addEmployee(employeeDetails);
-		try {
-			repository.fillDefaultTimingsInEmployeeSchedule(username);
-		} catch (SQLException e) {
-		}
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+		String startDate = year + "-" + month + "-01";
+		repository.fillDefaultTimingsInEmployeeSchedule(username, startDate);
 		response.sendRedirect("dashboard");
 	}
 }

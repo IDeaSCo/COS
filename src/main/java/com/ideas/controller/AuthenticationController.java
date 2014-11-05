@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import com.ideas.domain.Employee;
 import com.ideas.sso.ActiveDirectoryUserInfo;
 import com.ideas.sso.AuthenticationError;
 
+@WebServlet(urlPatterns = "/authenticate/*")
 public class AuthenticationController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Repository repository; 

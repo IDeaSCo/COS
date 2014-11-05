@@ -58,60 +58,6 @@
 		<filter-name>SecurityFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<listener>
-		<listener-class>com.ideas.controller.COSServletContextListener</listener-class>
-	</listener>
-
-	<servlet>
-		<servlet-name>AuthenticationController</servlet-name>
-		<display-name>AuthenticationController</display-name>
-		<description></description>
-		<servlet-class>com.ideas.controller.AuthenticationController</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>EmployeeActionController</servlet-name>
-		<display-name>EmployeeActionController</display-name>
-		<description></description>
-		<servlet-class>com.ideas.controller.EmployeeActionController</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>DashboardController</servlet-name>
-		<display-name>DashboardController</display-name>
-		<description></description>
-		<servlet-class>com.ideas.controller.DashboardController</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>AdminActionController</servlet-name>
-		<display-name>AdminActionController</display-name>
-		<description></description>
-		<servlet-class>com.ideas.controller.AdminActionController</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>RouteOptimizationController</servlet-name>
-		<display-name>RouteOptimizationController</display-name>
-		<description></description>
-		<servlet-class>com.ideas.controller.RouteOptimizationController</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>AuthenticationController</servlet-name>
-		<url-pattern>/authenticate/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>EmployeeActionController</servlet-name>
-		<url-pattern>/employee</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>DashboardController</servlet-name>
-		<url-pattern>/dashboard</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>AdminActionController</servlet-name>
-		<url-pattern>/admin</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>RouteOptimizationController</servlet-name>
-		<url-pattern>/RouteOptimizationController</url-pattern>
-	</servlet-mapping>
 	<error-page>
 		<exception-type>java.lang.Throwable</exception-type>
 		<location>/Error.jsp</location>

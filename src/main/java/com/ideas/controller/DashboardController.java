@@ -2,12 +2,14 @@ package com.ideas.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +19,7 @@ import org.json.JSONObject;
 import com.ideas.domain.EmployeeSchedule;
 import com.ideas.domain.Repository;
 
+@WebServlet(urlPatterns = "/dashboard")
 public class DashboardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Repository repository;
@@ -52,11 +55,17 @@ public class DashboardController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = (String) request.getSession().getAttribute("username");
-		if(request.getParameter("action").equals("import")){
-			int month = Integer.parseInt(request.getParameter("month"));
+		String action = request.getParameter("action");
+		if(action != null && action.equals("import")){
+			int month = Integer.parseInt(request.getParameter("month")) + 1;
+			int year = Calendar.getInstance().get(Calendar.YEAR);
+			String startDate = year + "-" + month + "-01";
+			repository.fillDefaultTimingsInEmployeeSchedule(username, startDate);
+/*			if(month == 0)
+				month = 12;
 			int year = Integer.parseInt(request.getParameter("year"));
-			repository.importSchedule(month, year);
-		}
+			repository.importSchedule(username, month, year);
+*/		}
 		else {
 			String events = (request.getParameter("events"));
 			EmployeeSchedule schedule = null;

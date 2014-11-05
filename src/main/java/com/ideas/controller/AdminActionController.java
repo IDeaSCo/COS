@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +19,7 @@ import org.json.JSONObject;
 
 import com.ideas.domain.Repository;
 
+@WebServlet(urlPatterns = "/admin")
 public class AdminActionController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Repository repository; 
