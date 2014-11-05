@@ -16,7 +16,7 @@ public class ActiveDirectoryUserInfo {
 	private Fields userData;
 	private Employee userDetails;
 
-	public ActiveDirectoryUserInfo(String username, String requestedFields) throws AuthenticationError {
+	public ActiveDirectoryUserInfo(String username, String requestedFields) {
 		initNamingContext();
 		_Connection connection = ClassFactory.createConnection();
 		connection.provider("ADsDSOObject");
@@ -36,11 +36,15 @@ public class ActiveDirectoryUserInfo {
 			if (userData != null)
 				userDetails = extractUserInfo();
 			else
-				throw new AuthenticationError("User information not found");
+				try {
+					throw new AuthenticationError("User information not found");
+				} catch (AuthenticationError e) {}
 			rs.close();
 			connection.close();
 		} else
-			throw new AuthenticationError("Username cannot be found");
+			try {
+				throw new AuthenticationError("Username cannot be found");
+			} catch (AuthenticationError e) {}
 	}
 
 	void initNamingContext() {
@@ -56,7 +60,6 @@ public class ActiveDirectoryUserInfo {
 		String lastName;
 		String email;
 		Object object;
-
 		try {
 			object = this.userData.item("employeeID").value();
 			employeeID = object.toString();

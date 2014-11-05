@@ -23,16 +23,16 @@ public class Repository {
 
 	public boolean isEmployeeAdmin(String username) {
 		try {
-			ResultSet rs = connection.createStatement().executeQuery("select * from admin_info where username = '" + username + "'");
+			ResultSet rs = connection.createStatement().executeQuery("select 1 from admin_info where username = '" + username + "'");
 			if(rs.next())
 				return true;
 		} catch (SQLException e) {}
 		return false;
 	}
 
-	public Boolean getEmployeeDetails(String username) {
+	public Boolean isEmployeeRegistered(String username) {
 		try {
-			ResultSet rs = connection.createStatement().executeQuery("select *  from employee_info where username = '" + username + "'");
+			ResultSet rs = connection.createStatement().executeQuery("select 1 from employee_info where username = '" + username + "'");
 			if(rs.next())
 				return true;
 		} catch (SQLException e) {}
@@ -56,10 +56,9 @@ public class Repository {
 	public EmployeeSchedule getEmployeeSchedule(String username) {
 		TreeMap<Date, HashMap<String, Time>> eventsDateMap = new TreeMap<Date, HashMap<String, Time>>();
 		try {
-			ResultSet rs = connection.createStatement().executeQuery("select *  from employee_dashboard where username = '"	+ username + "'");
+			ResultSet rs = connection.createStatement().executeQuery("select * from employee_dashboard where username = '"	+ username + "'");
 			while (rs.next()) {
 				HashMap<String, Time> eventsTimeMap = new HashMap<String, Time>();
-
 				if (!eventsDateMap.containsKey(rs.getDate(2))) {
 					eventsTimeMap.put(rs.getString(3), rs.getTime(4));
 					eventsDateMap.put(rs.getDate(2), eventsTimeMap);
@@ -68,13 +67,12 @@ public class Repository {
 					eventsTimeMap.put(rs.getString(3), rs.getTime(4));
 					eventsDateMap.put(rs.getDate(2), eventsTimeMap);
 				}
-
 			}
 		} catch (SQLException e) {}
 		return new EmployeeSchedule(username, eventsDateMap);
 	}
 
-	public void populateDefaultTimings(String username) throws SQLException {
+	public void fillDefaultTimingsInEmployeeSchedule(String username) throws SQLException {
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
 		String startDate = year + "-" + month + "-01";
@@ -90,7 +88,7 @@ public class Repository {
 			connection.createStatement().execute("delete from employee_dashboard where username = '" + schedule.getUsername() + "'");
 			for (Date dateKey : schedule.getEventsDateMap().keySet()) {
 				for (String eventKey : schedule.getEventsDateMap().get(dateKey).keySet()) {
-					ps = connection.prepareStatement("insert into employee_dashboard (username, travel_date,event, time) values(?, ?, ?, ?)");
+					ps = connection.prepareStatement("insert into employee_dashboard values(?, ?, ?, ?)");
 					ps.setString(1, schedule.getUsername());
 					ps.setDate(2, dateKey);
 					ps.setString(3, eventKey);
@@ -114,10 +112,7 @@ public class Repository {
 	}
 
 	public boolean addCompanyHoliday(Date holiday, String reason){
-		Calendar current = Calendar.getInstance();
-		Calendar proposedHoliday = Calendar.getInstance();
-		proposedHoliday.setTime(holiday);
-		if(current.get(Calendar.YEAR) != proposedHoliday.get(Calendar.YEAR))
+		if(!isHolidayForCurrentYear(holiday))
 			return false;
 		try {
 			PreparedStatement ps = connection.prepareStatement("insert into holidays values(?, ?)");
@@ -128,6 +123,13 @@ public class Repository {
 		return true;
 	}
 
+	private boolean isHolidayForCurrentYear(Date holiday){
+		Calendar current = Calendar.getInstance();
+		Calendar proposedHoliday = Calendar.getInstance();
+		proposedHoliday.setTime(holiday);
+		return current.get(Calendar.YEAR) == proposedHoliday.get(Calendar.YEAR);
+	}
+	
 	public TreeMap<Date, String> getCompanyHolidays() {
 		TreeMap<Date, String> companyHolidays = new TreeMap<Date, String>();
 		try {
@@ -178,5 +180,9 @@ public class Repository {
 			}
 		} catch (SQLException e) {}
 		return newInTimeFlag && newOutTimeFlag;
+	}
+
+	public void importSchedule(int month, int year) {
+		System.out.println("Not yet implemented");
 	}
 }

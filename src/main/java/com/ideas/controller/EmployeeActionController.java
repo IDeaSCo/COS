@@ -36,7 +36,7 @@ public class EmployeeActionController extends HttpServlet {
 		Employee employeeDetails = new Employee(username, name, mobile, employeeAddress);
 		boolean isAdded = repository.addEmployee(employeeDetails);
 		try {
-			repository.populateDefaultTimings(username);
+			repository.fillDefaultTimingsInEmployeeSchedule(username);
 		} catch (SQLException e) {
 		}
 		response.sendRedirect("dashboard");

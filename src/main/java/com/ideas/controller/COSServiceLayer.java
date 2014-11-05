@@ -9,10 +9,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-
 import org.eclipse.jetty.util.ajax.JSON;
 import org.json.JSONObject;
-
 import com.ideas.domain.EmployeeSchedule;
 
 public class COSServiceLayer {
@@ -36,19 +34,21 @@ public class COSServiceLayer {
 		return jsonObjArray;
 	}
 
-	public EmployeeSchedule jsonToEmployeeSchedule(String events,
-			String username) throws ParseException {
+
+	public EmployeeSchedule jsonToEmployeeSchedule(String events, String username) {
 		events = events + ",";
 		String[] jsonArrayList = events.split("},");
 		TreeMap<Date, HashMap<String, Time>> eventDateMap = new TreeMap<Date, HashMap<String, Time>>();
 		for (int i = 0; i < jsonArrayList.length; i++) {
 			HashMap<String, Time> eventTimeMap = new HashMap<String, Time>();
 			String parsableString = jsonArrayList[i] + "}";
-			HashMap<String, String> event = (HashMap<String, String>) JSON
-					.parse(parsableString);
-			SimpleDateFormat format = new SimpleDateFormat(
-					"yyyy-MM-dd'T'HH:mm:ss");
-			java.util.Date utilDate = format.parse(event.get("start"));
+
+			HashMap<String, String> event = (HashMap<String, String>) JSON.parse(parsableString);
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+			java.util.Date utilDate = null;
+			try {
+				utilDate = format.parse(event.get("start"));
+			} catch (ParseException e) {}
 			Calendar cal = Calendar.getInstance(); // get calendar instance
 			cal.setTimeInMillis(utilDate.getTime()); // set cal to date
 			cal.set(Calendar.HOUR_OF_DAY, 0); // set hour to midnight

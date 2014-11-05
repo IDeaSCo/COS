@@ -21,37 +21,34 @@ import com.ideas.sso.AuthenticationError;
 public class AuthenticationController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Repository repository; 
+	private ControllerHelper helper;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		repository = (Repository) config.getServletContext().getAttribute("repository");
+		helper = (ControllerHelper) config.getServletContext().getAttribute("helper");
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher;
+		String path = null;
 		String username = (String) request.getSession().getAttribute("username");
-		boolean isAdmin = repository.isEmployeeAdmin(username);
-		if(isAdmin)
-			dispatcher = request.getRequestDispatcher("/admin");
-		else{
-			boolean isEmployeeRegistered = repository.getEmployeeDetails(username);
-			String path = isEmployeeRegistered ? "/dashboard" : "Maps.jsp";
-			dispatcher = request.getRequestDispatcher(path);
-		}
-		dispatcher.forward(request, response);
+		if (repository.isEmployeeAdmin(username))
+			path = "/admin";
+		else
+			path = repository.isEmployeeRegistered(username) ? "/dashboard" : "Maps.jsp";
+		helper.sendRequest(request, response, path);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = (String) request.getSession().getAttribute("username");
-		Employee employeeLocationDetails = getEmployeeLocationDetails(request, username);
+		Employee employeeLocationDetails = getEmployeeLocationDetailsFromRequest(request, username);
 		request.setAttribute("locationDetails", employeeLocationDetails);
 		Employee employeeDetails = getEmployeeDetailsFromActiveDirectory(username);
 		request.setAttribute("employeeDetails", employeeDetails);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/EmployeeDetails.jsp");
-		dispatcher.forward(request, response);
+		helper.sendRequest(request, response, "/EmployeeDetails.jsp");
 	}
 
-	private Employee getEmployeeLocationDetails(HttpServletRequest request, String username){
+	private Employee getEmployeeLocationDetailsFromRequest(HttpServletRequest request, String username) {
 		String pickUpLocation = request.getParameter("userAddress");
 		double latitude = Double.parseDouble(request.getParameter("latitude"));
 		double longitude = Double.parseDouble(request.getParameter("longitude"));
@@ -64,15 +61,8 @@ public class AuthenticationController extends HttpServlet {
 		WindowsAuthProviderImpl provider = new WindowsAuthProviderImpl();
 		IWindowsAccount account = provider.lookupAccount(username);
 		String requestedFields = "employeeID,sn,givenName,mail";
-		ActiveDirectoryUserInfo userInfo = null;
-		Employee employeeDetails = null;
-		try {
-			userInfo = new ActiveDirectoryUserInfo(account.getFqn(), requestedFields);
-			employeeDetails = userInfo.getUserDetails();
-		} catch (AuthenticationError e) {
-			employeeDetails = new Employee("", "", "");
-		}
+		ActiveDirectoryUserInfo userInfo = new ActiveDirectoryUserInfo(account.getFqn(), requestedFields);
+		Employee employeeDetails = userInfo.getUserDetails();
 		return employeeDetails;
 	}
-
 }

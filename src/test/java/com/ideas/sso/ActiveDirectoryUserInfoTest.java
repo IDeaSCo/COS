@@ -20,13 +20,7 @@ public class ActiveDirectoryUserInfoTest {
 		String requestedFields = "employeeID,sn,givenName,mail";
 		Employee userInfo = new Employee("32560", "Sonam Rasal", "Sonam.Rasal@ideas.com");
 		Employee retrievedUserInfo = null;
-		try {
-			retrievedUserInfo = new ActiveDirectoryUserInfo("ROW\\idnsor", REQUESTEDFIELDS).getUserDetails();
-			assertTrue(userInfo.equals(retrievedUserInfo));
-		} catch (AuthenticationError e) {
-			fail("Unexpected exception occurred");
-		}
-		
-		
+		retrievedUserInfo = new ActiveDirectoryUserInfo("ROW\\idnsor", REQUESTEDFIELDS).getUserDetails();
+		assertTrue(userInfo.equals(retrievedUserInfo));
 	}
 }

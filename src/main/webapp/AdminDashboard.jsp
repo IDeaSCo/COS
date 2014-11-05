@@ -116,8 +116,7 @@
 				<div class="modal-body">
 					<form id="holidayForm" method="post">
 						<div class="form-group">
-							<label for="itemThreshold">Reason</label>
-							<input type="text" class="form-control" id="reason" name="reason">
+							<b>Reason: </b><input type="text" class="form-control" id="reason" name="reason">
 						</div>
 					</form>
 				</div>

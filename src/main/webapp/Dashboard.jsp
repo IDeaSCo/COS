@@ -230,10 +230,6 @@
 	<button type="button" class="btn btn-success" data-dismiss="modal" onclick="updateChanges()" style="font-size: large">Save My Schedule</button>
 	<br><br>
 	<p id="resultContainer"></p>
-
-	<!-- <script type="text/javascript">
-		$('.fc-mon').css('background', "red");
-	</script> -->
 	<div id="wrongDateSelectionModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">

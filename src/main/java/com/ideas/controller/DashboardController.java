@@ -1,14 +1,11 @@
 package com.ideas.controller;
 
 import java.io.IOException;
-import java.sql.Time;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,10 +20,12 @@ import com.ideas.domain.Repository;
 public class DashboardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Repository repository;
+    private ControllerHelper helper;
     
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		repository = (Repository) config.getServletContext().getAttribute("repository");
+		helper = (ControllerHelper) config.getServletContext().getAttribute("helper");
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,8 +38,7 @@ public class DashboardController extends HttpServlet {
 		request.setAttribute("inTime", inTime);
 		List<String> outTime = getIndividualTimings(shiftTimings, "out");
 		request.setAttribute("outTime", outTime);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("Dashboard.jsp");
-		dispatcher.forward(request, response);
+		helper.sendRequest(request, response, "Dashboard.jsp");
 	}
 
 	private List<String> getIndividualTimings(Map<String, String> shiftTimings, String slot) {
@@ -54,18 +52,19 @@ public class DashboardController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = (String) request.getSession().getAttribute("username");
-		String events = (request.getParameter("events"));
-		EmployeeSchedule schedule = null;
-		try {
-			schedule = new COSServiceLayer().jsonToEmployeeSchedule(events, username);
-		} catch (ParseException e) {
-			e.printStackTrace();
+		if(request.getParameter("action").equals("import")){
+			int month = Integer.parseInt(request.getParameter("month"));
+			int year = Integer.parseInt(request.getParameter("year"));
+			repository.importSchedule(month, year);
 		}
-		Boolean isDone = repository.updateSchedule(schedule);
-		if (isDone)
-			response.setContentType("application/json");
-		response.getWriter().append(isDone.toString());
-		response.flushBuffer();
+		else {
+			String events = (request.getParameter("events"));
+			EmployeeSchedule schedule = null;
+			schedule = new COSServiceLayer().jsonToEmployeeSchedule(events, username);
+			Boolean isDone = repository.updateSchedule(schedule);
+			if(isDone)
+				helper.sendServerResponse(response, isDone.toString());
+		}
 	}
 
 }
