@@ -1,15 +1,12 @@
 package com.ideas.controller;
 
 import java.io.IOException;
-import java.net.HttpRetryException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -58,7 +55,7 @@ public class AdminActionController extends HttpServlet {
 			String inTime = getTime(request.getParameter("start"));
 			String outTime = getTime(request.getParameter("end"));
 			Boolean timeAdded = repository.addNewShifts(inTime, outTime);
-			sendServerResponse(response, timeAdded.toString());
+			helper.sendServerResponse(response, timeAdded.toString());
 		} else {
 			String reason = request.getParameter("title");
 			long timeInMillis = Long.valueOf(request.getParameter("start"));
@@ -66,7 +63,7 @@ public class AdminActionController extends HttpServlet {
 			String action = request.getParameter("action");
 			if (action.equals("add")){
 				Boolean isAdded = repository.addCompanyHoliday(holiday, reason);
-				sendServerResponse(response, isAdded.toString());
+				helper.sendServerResponse(response, isAdded.toString());
 			}
 			else
 				repository.removeCompanyHoliday(holiday);
@@ -79,9 +76,4 @@ public class AdminActionController extends HttpServlet {
 		return time;
 	}
 	
-	private void sendServerResponse(HttpServletResponse response, String content) throws IOException {
-		response.setContentType("application/json");
-		response.getWriter().append(content);
-		response.flushBuffer();
-	}
 }

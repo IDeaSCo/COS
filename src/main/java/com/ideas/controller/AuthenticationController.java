@@ -33,10 +33,10 @@ public class AuthenticationController extends HttpServlet {
 		String path = null;
 		String username = (String) request.getSession().getAttribute("username");
 		boolean isAdmin = repository.isEmployeeAdmin(username);
-		if(isAdmin)
+		if (isAdmin)
 			path = "/admin";
-		else{
-			boolean isEmployeeRegistered = repository.getEmployeeDetails(username);
+		else {
+			boolean isEmployeeRegistered = repository.isEmployeeRegistered(username);
 			path = isEmployeeRegistered ? "/dashboard" : "Maps.jsp";
 		}
 		helper.sendRequest(request, response, path);

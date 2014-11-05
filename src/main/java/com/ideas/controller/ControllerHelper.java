@@ -1,6 +1,7 @@
 package com.ideas.controller;
 
 import java.io.IOException;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,4 +13,9 @@ public class ControllerHelper {
 		dispatcher.forward(request, response);
 	}
 
+	public void sendServerResponse(HttpServletResponse response, String content) throws IOException {
+		response.setContentType("application/json");
+		response.getWriter().append(content);
+		response.flushBuffer();
+	}
 }
