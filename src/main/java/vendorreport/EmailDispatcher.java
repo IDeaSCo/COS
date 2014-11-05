@@ -16,7 +16,8 @@ public class EmailDispatcher extends TimerTask {
 		String body = "Welcome to JavaMail!";
 
 		try {
-			CreateExcelFile.createExcel();
+			CreateExcelFile createExcelFile = new CreateExcelFile();
+			createExcelFile.createExcel();
 			Email.sendFromGMail(from, pass, to, subject, body);
 		} catch (Exception e) {
 			e.printStackTrace();

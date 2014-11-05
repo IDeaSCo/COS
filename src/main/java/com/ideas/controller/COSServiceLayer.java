@@ -17,30 +17,37 @@ import com.ideas.domain.EmployeeSchedule;
 
 public class COSServiceLayer {
 
-	public ArrayList<JSONObject> convertEmpScheduleToJson(EmployeeSchedule schedule) {
+	public ArrayList<JSONObject> convertEmpScheduleToJson(
+			EmployeeSchedule schedule) {
 		ArrayList<JSONObject> jsonObjArray = new ArrayList<JSONObject>();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("allDay", false);
 		for (Date dateKey : schedule.getEventsDateMap().keySet()) {
-			for (String eventKey : schedule.getEventsDateMap().get(dateKey).keySet()) {
+			for (String eventKey : schedule.getEventsDateMap().get(dateKey)
+					.keySet()) {
 				map.put("title", eventKey);
-				map.put("start", dateKey + " " + schedule.getEventsDateMap().get(dateKey).get(eventKey));
+				map.put("start", dateKey
+						+ " "
+						+ schedule.getEventsDateMap().get(dateKey)
+								.get(eventKey));
 				jsonObjArray.add(new JSONObject(map));
 			}
 		}
 		return jsonObjArray;
 	}
 
-	public EmployeeSchedule jsonToEmployeeSchedule(String events, String username) throws ParseException {
+	public EmployeeSchedule jsonToEmployeeSchedule(String events,
+			String username) throws ParseException {
 		events = events + ",";
 		String[] jsonArrayList = events.split("},");
 		TreeMap<Date, HashMap<String, Time>> eventDateMap = new TreeMap<Date, HashMap<String, Time>>();
-		HashMap<String, Time> temp = new HashMap<String, Time>();
 		for (int i = 0; i < jsonArrayList.length; i++) {
 			HashMap<String, Time> eventTimeMap = new HashMap<String, Time>();
 			String parsableString = jsonArrayList[i] + "}";
-			HashMap<String, String> event = (HashMap<String, String>) JSON.parse(parsableString);
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+			HashMap<String, String> event = (HashMap<String, String>) JSON
+					.parse(parsableString);
+			SimpleDateFormat format = new SimpleDateFormat(
+					"yyyy-MM-dd'T'HH:mm:ss");
 			java.util.Date utilDate = format.parse(event.get("start"));
 			Calendar cal = Calendar.getInstance(); // get calendar instance
 			cal.setTimeInMillis(utilDate.getTime()); // set cal to date
@@ -62,15 +69,16 @@ public class COSServiceLayer {
 		return new EmployeeSchedule(username, eventDateMap);
 	}
 
-	public ArrayList<JSONObject> convertToJSON(TreeMap<Date, String> companyHolidays) {
+	public ArrayList<JSONObject> convertToJSONArray(
+			TreeMap<Date, String> companyHolidays) {
 		ArrayList<JSONObject> holidayList = new ArrayList<JSONObject>();
-		for(Map.Entry<Date, String> entry: companyHolidays.entrySet()){
-			JSONObject jo = new JSONObject();
-			jo.put("title", entry.getValue());
-			jo.put("start", entry.getKey());
-			jo.put("textColor", "black");
-			jo.put("backgroundColor", "#80ACED");
-			holidayList.add(jo);
+		for (Map.Entry<Date, String> entry : companyHolidays.entrySet()) {
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("title", entry.getValue());
+			jsonObject.put("start", entry.getKey());
+			jsonObject.put("textColor", "black");
+			jsonObject.put("backgroundColor", "#80ACED");
+			holidayList.add(jsonObject);
 		}
 		return holidayList;
 	}

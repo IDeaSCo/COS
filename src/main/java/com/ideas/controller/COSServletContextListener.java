@@ -3,12 +3,16 @@ package com.ideas.controller;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.sql.DataSource;
+
 import org.apache.commons.dbcp.BasicDataSource;
+
 import com.ideas.domain.Repository;
+import com.ideas.routeOptimization.RouteOptimizer;
 
 public class COSServletContextListener implements ServletContextListener {
 	private Repository repository;
@@ -23,6 +27,7 @@ public class COSServletContextListener implements ServletContextListener {
 		dataSource = setupDataSource(username, password, driverClassName, url);
 		try {
 			repository = new Repository(dataSource.getConnection());
+			RouteOptimizer routeOptimizer = new RouteOptimizer(dataSource.getConnection());
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

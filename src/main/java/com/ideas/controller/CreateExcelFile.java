@@ -2,9 +2,11 @@ package com.ideas.controller;
 
 import java.io.FileOutputStream;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.TreeMap;
@@ -18,9 +20,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 @SuppressWarnings("deprecation")
 public class CreateExcelFile {
-	public static void createExcel() {
+	public void createExcel() {
 		try {
-			String filename = "c:/data.xlsx";
+			String filename = generateFileName();
 			XSSFWorkbook wb = new XSSFWorkbook();
 			XSSFSheet[] worksheet = new XSSFSheet[3];
 			worksheet[0] = wb.createSheet("Day View");
@@ -171,4 +173,21 @@ public class CreateExcelFile {
 
 		}
 	}
+
+	private String generateFileName() {
+		String filename = "Employee_Schedule_";
+		Calendar cal = Calendar.getInstance();
+		if (cal.get(cal.HOUR_OF_DAY) < 12) {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd_MMM_yyyy");
+			String date = sdf.format(cal.getTime());
+			filename += date;
+		} else {
+			cal.set(cal.DAY_OF_MONTH, cal.get(cal.DAY_OF_MONTH) + 1);
+			SimpleDateFormat sdf = new SimpleDateFormat("dd_MMM_yyyy");
+			String date = sdf.format(cal.getTime());
+			filename += date;
+		}
+		return filename;
+	}
+
 }
