@@ -32,26 +32,23 @@ public class AuthenticationController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = null;
 		String username = (String) request.getSession().getAttribute("username");
-		boolean isAdmin = repository.isEmployeeAdmin(username);
-		if (isAdmin)
+		if (repository.isEmployeeAdmin(username))
 			path = "/admin";
-		else {
-			boolean isEmployeeRegistered = repository.isEmployeeRegistered(username);
-			path = isEmployeeRegistered ? "/dashboard" : "Maps.jsp";
-		}
+		else
+			path = repository.isEmployeeRegistered(username) ? "/dashboard" : "Maps.jsp";
 		helper.sendRequest(request, response, path);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = (String) request.getSession().getAttribute("username");
-		Employee employeeLocationDetails = getEmployeeLocationDetails(request, username);
+		Employee employeeLocationDetails = getEmployeeLocationDetailsFromRequest(request, username);
 		request.setAttribute("locationDetails", employeeLocationDetails);
 		Employee employeeDetails = getEmployeeDetailsFromActiveDirectory(username);
 		request.setAttribute("employeeDetails", employeeDetails);
 		helper.sendRequest(request, response, "/EmployeeDetails.jsp");
 	}
 
-	private Employee getEmployeeLocationDetails(HttpServletRequest request, String username) {
+	private Employee getEmployeeLocationDetailsFromRequest(HttpServletRequest request, String username) {
 		String pickUpLocation = request.getParameter("userAddress");
 		double latitude = Double.parseDouble(request.getParameter("latitude"));
 		double longitude = Double.parseDouble(request.getParameter("longitude"));
@@ -64,12 +61,8 @@ public class AuthenticationController extends HttpServlet {
 		WindowsAuthProviderImpl provider = new WindowsAuthProviderImpl();
 		IWindowsAccount account = provider.lookupAccount(username);
 		String requestedFields = "employeeID,sn,givenName,mail";
-		ActiveDirectoryUserInfo userInfo = null;
-		Employee employeeDetails = null;
-		try {
-			userInfo = new ActiveDirectoryUserInfo(account.getFqn(), requestedFields);
-			employeeDetails = userInfo.getUserDetails();
-		} catch (AuthenticationError e) {}
+		ActiveDirectoryUserInfo userInfo = new ActiveDirectoryUserInfo(account.getFqn(), requestedFields);
+		Employee employeeDetails = userInfo.getUserDetails();
 		return employeeDetails;
 	}
 }
