@@ -23,8 +23,7 @@ public class RouteOptimizationController extends HttpServlet {
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		routeOptimizer = (RouteOptimizer) config.getServletContext()
-				.getAttribute("routeOptimizer");
+		routeOptimizer = (RouteOptimizer) config.getServletContext().getAttribute("routeOptimizer");
 	}
 
 	public RouteOptimizationController() {
@@ -36,22 +35,15 @@ public class RouteOptimizationController extends HttpServlet {
 		ArrayList<TreeMap<Time, ArrayList<ArrayList<DataPoint>>>> timeMapList = null;
 		try {
 			timeMapList = routeOptimizer.optimizeRoute();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		request.setAttribute("timeMapList", timeMapList);
-		RequestDispatcher dispatcher = request
-				.getRequestDispatcher("/vendorMapSolutions.jsp");
-		dispatcher.forward(request, response);
-
+			request.setAttribute("timeMapList", timeMapList);
+			RequestDispatcher dispatcher = request
+					.getRequestDispatcher("/vendorMapSolutions.jsp");
+			dispatcher.forward(request, response);
+		} catch (ClassNotFoundException e) {}
+		  catch (SQLException e) {}
 	}
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	}
 
 }
