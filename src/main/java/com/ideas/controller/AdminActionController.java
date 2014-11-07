@@ -34,9 +34,7 @@ public class AdminActionController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		COSServiceLayer service = new COSServiceLayer();
 		TreeMap<Date, String> companyHolidays = repository.getCompanyHolidays();
-
 		ArrayList<JSONObject> holidayList = service.convertToJSONArray(companyHolidays);
-
 		request.setAttribute("holidays", holidayList);
 		Map<String, String> shiftTimings = repository.getShiftTimings();
 		List<String> inTime = getIndividualTimings(shiftTimings, "in");
