@@ -213,17 +213,7 @@
 		else
 			document.getElementById('import').disabled = true;
 	}
-	function fillSchedule(){
-		//var selectedYear = $("#calendar").fullCalendar('getDate').getFullYear();
-		jQuery.post("/COS/dashboard",
-				{
-					action: "import",
-					month: selectedMonth,
-					//year:  selectedYear
-				}
-		);
-		window.location.reload();
-	}
+	
 </script>
 <style type="text/css">
 	body {
@@ -247,8 +237,41 @@
 </style>
 </head>
 <body>
+<div class="btn-group" style="position:relative;right:-440px;top:-10px;
+            border-color:blue;">
+  <button type="button" class="btn btn-link dropdown-toggle"  data-toggle="dropdown">
+    ${employeeDetails.name} <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu"  >
+    <li><a class="text-left" href="Maps.jsp">Edit Pick-up Location</a></li>
+    <li><a class="align-left" data-toggle="modal" data-backdrop="static" href="#updateMobile" style="
+    text-align: left;
+" >Edit Contact</a></li>
+  </ul>
+</div>
+
+<div id="updateMobile" class="modal fade">
+					<form  class="form-horizontal" role="form"  action="employee" >
+									
+					<div class="form-group container-fluid">
+					<h1> </h1>
+					<h3>Edit Contact Details</h3>
+			<label for="mobile" class="col-sm-2 control-label">Mobile No.</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control container-fluid" id="mobile" name="mobile" value="${employeeDetails.getMobile()}" placeholder="Enter mobile number" onclick="clearMessage()">
+			</div>
+		</div>
+		<p id="resultContainer1" align="center" style="color: red"></p>
+					<div class="modal-footer">
+					<button id="updateNumber" type="submit" class="btn btn-primary" onclick="return validate()"
+						>Update</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						onclick="getLatestItems()">Close</button>
+				</div>
+				</form>
+				</div>
+				
 	<div id='calendar'></div><br>
-	<button type="button" class="btn btn-primary" style="font-size: large" id="import" onclick="fillSchedule()">Fill Default Schedule</button>
 	<button type="button" class="btn btn-success" onclick="updateChanges()" style="font-size: large">Save My Schedule</button>
 	<br><br>
 	<p id="resultContainer"></p>

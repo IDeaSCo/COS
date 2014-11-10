@@ -28,7 +28,7 @@
 	</script>
 </head>
 <body>
- 	<h3 class="text-center">Enroll For Cab Service <span class="label label-default"></span>
+ 	<h3 class="text-center">Employee Details For Cab Service <span class="label label-default"></span>
 	</h3>
 	<form class="form-horizontal" role="form" method="post" action="employee">
 		<div class="form-group container-fluid">
@@ -53,7 +53,7 @@
 		<div class="form-group container-fluid">
 			<label for="mobile" class="col-sm-2 control-label">Mobile</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control container-fluid" id="mobile" name="mobile" placeholder="Enter mobile number" onclick="clearMessage()">
+				<input type="text" class="form-control container-fluid" id="mobile" name="mobile" value="${employeeDetails.getMobile()}" onclick="clearMessage()">
 			</div>
 		</div>
 		<p id="resultContainer" align="center" style="color: red"></p>

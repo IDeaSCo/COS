@@ -51,7 +51,8 @@ public class Repository {
 			insertEmployeeInfo.setDouble(5, employee.getAddress().getLongitude());
 			insertEmployeeInfo.setString(6, employee.getMobile());
 			insertEmployeeInfo.executeUpdate();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
 		return true;
 	}
 
@@ -74,14 +75,17 @@ public class Repository {
 		return new EmployeeSchedule(username, eventsDateMap);
 	}
 
-	public void fillDefaultTimingsInEmployeeSchedule(String username, String startDate) {
-		CallableStatement procCall;
+	public void fillDefaultTimingsInEmployeeSchedule(String username) {
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+		String startDate = year + "-" + month + "-01";
 		try {
-			procCall = connection.prepareCall("{call fillDefaultTiming(?, ?)}");
+			CallableStatement procCall = connection.prepareCall("{call fillDefaultTiming(?, ?)}");
 			procCall.setString(1, username);
 			procCall.setString(2, startDate);
 			procCall.execute();
-		} catch (SQLException e) {}
+		} catch (SQLException e) {
+		}
 	}
 	
 	public boolean updateSchedule(EmployeeSchedule schedule) {
@@ -183,29 +187,41 @@ public class Repository {
 		} catch (SQLException e) {}
 		return newInTimeFlag && newOutTimeFlag;
 	}
-
-/*	public void importSchedule(String username, int month, int year) {
+	
+	public Employee getEmployeeFromUserName(String username){
+		ResultSet rs;
 		try {
-			PreparedStatement ps = connection.prepareStatement("select * from employee_dashboard where username = ? and year(travel_date) = ? and month(travel_date) = ?");
-			ps.setString(1, username);
-			ps.setInt(2, year);
-			ps.setInt(3, month);
-			ResultSet rs = ps.executeQuery();
-			ps = connection.prepareStatement("insert into employee_dashboard values(?, ?, ?, ?)");
-			while(rs.next()){
-				String currentTravelDate = rs.getDate(2).toString();
-				String newTravelDate = currentTravelDate.substring(0, 5) + String.valueOf(month + 1) + currentTravelDate.substring(7);
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				Date travelDate = new Date(format.parse(newTravelDate).getTime());
-				//System.out.println(travelDate.toString());
-				ps.setString(1, rs.getString(1));
-				ps.setDate(2, travelDate);
-				ps.setString(3, rs.getString(3));
-				ps.setTime(4, rs.getTime(4));
-				ps.executeUpdate();
+			rs = connection.createStatement().executeQuery("select username,address,latitude,longitude,mobile,name  from employee_info where username = '" + username + "'");
+			if(rs.next()){
+				return new Employee(rs.getString(1), rs.getString(6), rs.getString(5), new Address(rs.getDouble(3), rs.getDouble(4), rs.getString(2)));
 			}
-		} catch (SQLException e) {e.printStackTrace();} 
-		  catch (ParseException e) {System.out.println("Exception ParseException");}
-		//System.out.println("Done");
+		} catch (SQLException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		throw new RuntimeException();
 	}
-*/}
+	
+	public String getMobileForEmployee(String username) {
+		ResultSet rs;
+		String mobile= "";
+		try {
+			rs = connection.createStatement().executeQuery("select mobile from employee_info where username = '"+ username+"'");
+			if(rs.next()) 
+				mobile =rs.getString(1);
+			
+		} catch (SQLException e) {}
+		return mobile;
+		
+	}
+	
+	public boolean updateMobileForEmployee(String username, String mobile) {
+		try {
+			PreparedStatement insertEmployeeInfo = connection.prepareStatement("update employee_info set mobile=? where username=?");
+			insertEmployeeInfo.setString(1, mobile);
+			insertEmployeeInfo.setString(2, username);
+			insertEmployeeInfo.executeUpdate();
+		} catch (Exception e) {}
+		return true;
+	}
+
+}

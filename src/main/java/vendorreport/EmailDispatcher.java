@@ -1,8 +1,9 @@
 package vendorreport;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.TimerTask;
 
-import com.ideas.controller.CreateExcelFile;
 
 public class EmailDispatcher extends TimerTask {
 
@@ -16,14 +17,22 @@ public class EmailDispatcher extends TimerTask {
 		String body = "Welcome to JavaMail!";
 
 		try {
-			CreateExcelFile createExcelFile = new CreateExcelFile();
-			createExcelFile.createExcel();
-			Email.sendFromGMail(from, pass, to, subject, body);
+			HttpURLConnection con = (HttpURLConnection) new URL("http://localhost:8181/COS/routeOptimize").openConnection();
+			con.setRequestMethod("GET");
+			con.connect();
+			con.getResponseCode();
+			new Email().sendEmail(from, pass, to, subject, body);
+			System.out.println("Email Sent Succesfully...");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		System.out.println("Email Sent Succesfully...");
-
+	}
+	
+	public static void main(String[] args) {
+		try {
+			new EmailDispatcher().run();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

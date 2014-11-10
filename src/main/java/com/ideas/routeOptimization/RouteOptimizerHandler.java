@@ -1,4 +1,5 @@
 package com.ideas.routeOptimization;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -15,15 +16,18 @@ public class RouteOptimizerHandler {
 		this.conn = conn;
 	}
 
+	public void formatDataSoThatItCanBeUsedAsPDFInput(TreeMap<Time,Object[]> timesMap) {
+			
+	}
 	public ArrayList<TreeMap<Time, ArrayList<DataPoint>>> getData(Time timeOfDay) {
 		TreeMap<Time, ArrayList<DataPoint>> inTimeMap = new TreeMap<Time, ArrayList<DataPoint>>();
 		TreeMap<Time, ArrayList<DataPoint>> outTimeMap = new TreeMap<Time, ArrayList<DataPoint>>();
 		try {
 			ResultSet resultSet;
-			if (timeOfDay.getHours() <= 11)
-				resultSet = getTodaysData();
+			if (timeOfDay.getHours() < 12)
+				resultSet = getTodaysEveningData();
 			else
-				resultSet = getTomorrowsData();
+				resultSet = getTomorrowsDayData();
 			while (resultSet.next()) {
 				String username = resultSet.getString("username");
 				double latitude = resultSet.getDouble("latitude");
@@ -45,12 +49,6 @@ public class RouteOptimizerHandler {
 		}
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.jdbc.Driver");
-		conn = DriverManager.getConnection("jdbc:mysql://didnsaeina6/cabservice", "admin", "admin");
-		RouteOptimizerHandler routeOptimizer = new RouteOptimizerHandler(conn);
-		routeOptimizer.getData(new Time(15, 00, 00));
-	}
 
 	private void addElementsToTimeMap(TreeMap<Time, ArrayList<DataPoint>> TimeMap, String username, double latitude,
 			double longitude, String eventType, Time time) {
@@ -64,19 +62,19 @@ public class RouteOptimizerHandler {
 
 	}
 
-	private ResultSet getTomorrowsData() throws SQLException {
+	private ResultSet getTomorrowsDayData() throws SQLException {
 		ResultSet resultSet = conn.createStatement().executeQuery(
 				" select dashboard.username, latitude, longitude, event, time from employee_info info "
 						+ "inner join employee_dashboard dashboard  " + "on (info.username=dashboard.username)   "
-						+ "where travel_date = DATE_ADD(curdate(),INTERVAL 0 day)   ");
+						+ "where travel_date = DATE_ADD(curdate(),INTERVAL 0 day)   "+ "and time < '16:00:00'    ");
 		return resultSet;
 	}
 
-	private ResultSet getTodaysData() throws SQLException {
+	private ResultSet getTodaysEveningData() throws SQLException {
 		ResultSet resultSet = conn.createStatement().executeQuery(
 				" select dashboard.username, latitude, longitude, event, time from employee_info info "
 						+ "inner join employee_dashboard dashboard  " + "on (info.username=dashboard.username)   "
-						+ "where travel_date = curdate()   " + "and time > '16:00:00'    ");
+						+ "where travel_date = curdate()   " + "and time >= '16:00:00'    ");
 		return resultSet;
 	}
 }

@@ -34,6 +34,8 @@ public class AuthenticationController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = null;
 		String username = (String) request.getSession().getAttribute("username");
+		Employee employeeDetails = getEmployeeDetailsFromActiveDirectory(username);
+		request.setAttribute("employeeDetails", employeeDetails);
 		if (repository.isEmployeeAdmin(username))
 			path = "/admin";
 		else
@@ -63,8 +65,12 @@ public class AuthenticationController extends HttpServlet {
 		WindowsAuthProviderImpl provider = new WindowsAuthProviderImpl();
 		IWindowsAccount account = provider.lookupAccount(username);
 		String requestedFields = "employeeID,sn,givenName,mail";
-		ActiveDirectoryUserInfo userInfo = new ActiveDirectoryUserInfo(account.getFqn(), requestedFields);
-		Employee employeeDetails = userInfo.getUserDetails();
+		ActiveDirectoryUserInfo userInfo = null;
+		Employee employeeDetails = null;
+		userInfo = new ActiveDirectoryUserInfo(account.getFqn(), requestedFields);
+		employeeDetails = userInfo.getUserDetails();
+		String mobile = repository.getMobileForEmployee(username);
+		employeeDetails.setMobile(mobile);
 		return employeeDetails;
 	}
 }

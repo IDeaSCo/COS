@@ -56,24 +56,20 @@ public class DashboardController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = (String) request.getSession().getAttribute("username");
 		String action = request.getParameter("action");
-		if(action != null && action.equals("import")){
-			int month = Integer.parseInt(request.getParameter("month")) + 1;
-			int year = Calendar.getInstance().get(Calendar.YEAR);
-			String startDate = year + "-" + month + "-01";
-			repository.fillDefaultTimingsInEmployeeSchedule(username, startDate);
+			repository.fillDefaultTimingsInEmployeeSchedule(username);
 /*			if(month == 0)
 				month = 12;
 			int year = Integer.parseInt(request.getParameter("year"));
 			repository.importSchedule(username, month, year);
-*/		}
-		else {
+*/		
+		
 			String events = (request.getParameter("events"));
 			EmployeeSchedule schedule = null;
 			schedule = new COSServiceLayer().jsonToEmployeeSchedule(events, username);
 			Boolean isDone = repository.updateSchedule(schedule);
 			if(isDone)
 				helper.sendServerResponse(response, isDone.toString());
-		}
+		
 	}
 
 }

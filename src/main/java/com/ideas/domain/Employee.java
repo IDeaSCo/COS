@@ -14,6 +14,12 @@ public class Employee {
 		this.emailId = email.substring(0, email.indexOf("@"));
 	}
 	
+	public Employee(String username, String mobile, Address address){
+		this.username = username;
+		this.mobile = mobile;
+		this.address = address;
+	}
+	
 	public Employee(String username, String name, String mobile, Address address){
 		this.username = username;
 		this.name = name;
@@ -55,5 +61,10 @@ public class Employee {
 		return this.employeeID.equals(that.employeeID)
 				&& this.name.equals(that.name)
 				&& this.emailId.equals(that.emailId);
+	}
+	
+	public void setMobile(String mobile) {
+		this.mobile=mobile;
+		
 	}
 }

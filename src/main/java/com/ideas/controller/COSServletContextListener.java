@@ -10,6 +10,8 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
 
+import vendorreport.CreateExcelFile;
+
 import com.ideas.domain.Repository;
 import com.ideas.routeOptimization.RouteOptimizer;
 
@@ -18,6 +20,8 @@ public class COSServletContextListener implements ServletContextListener {
 	private Repository repository;
 	private DataSource dataSource;
 	private ControllerHelper helper;
+	private RouteOptimizer routeOptimizer;
+	private CreateExcelFile excelFile;
 	
 	public void contextInitialized(ServletContextEvent sce) {
 		ServletContext servletContext = sce.getServletContext();
@@ -28,13 +32,17 @@ public class COSServletContextListener implements ServletContextListener {
 		dataSource = setupDataSource(username, password, driverClassName, url);
 		try {
 			repository = new Repository(dataSource.getConnection());
-			RouteOptimizer routeOptimizer = new RouteOptimizer(dataSource.getConnection());
+			routeOptimizer = new RouteOptimizer(dataSource.getConnection());
+			excelFile = new CreateExcelFile(dataSource.getConnection());
+			
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
 		servletContext.setAttribute("repository", repository);
+		servletContext.setAttribute("routeOptimizer", routeOptimizer);
+		servletContext.setAttribute("excelFile", excelFile);
 		helper = new ControllerHelper();
 		servletContext.setAttribute("helper", helper);
 	}

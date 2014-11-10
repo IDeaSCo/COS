@@ -42,7 +42,7 @@
 				    						' <input type="hidden" name="userAddress" value="' + results[1].formatted_address+ '" />' +
 				    						' <input type="hidden" name="latitude" value="' + lat + '" />' +
 				    						' <input type="hidden" name="longitude" value="' + lng + '" />' +
-				    						' <button type="submit" class="btn btn-success btn-xs">Sign Up</button><br/>'+
+				    						' <button type="submit" class="btn btn-success btn-xs">Submit</button><br/>'+
 				    						' <b>Click Submit or refine your search</b>'+'</form>'+
 								   	        '</div>';
 			        	infowindow.setContent(results[1].formatted_address + contentString);

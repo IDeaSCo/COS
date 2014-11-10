@@ -1,4 +1,5 @@
 package com.ideas.routeOptimization;
+
 public class DataPoint {
 	private double mX, mY;
 	private String mObjName;

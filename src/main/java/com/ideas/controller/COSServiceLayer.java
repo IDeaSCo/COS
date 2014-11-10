@@ -69,6 +69,40 @@ public class COSServiceLayer {
 		return new EmployeeSchedule(username, eventDateMap);
 	}
 
+	public TreeMap<Time,ArrayList<ArrayList<Object>>> jsonToMap(String timesMap) {
+		TreeMap<Time, ArrayList<ArrayList<Object>>> timeMap =  new TreeMap<Time, ArrayList<ArrayList<Object>>>();
+		ArrayList<ArrayList<Object>> clusters = new ArrayList<ArrayList<Object>>();
+		ArrayList<Object> cluster = new ArrayList<Object>();
+		String [] tokens = timesMap.split("\"");
+		for(int i=1;i<tokens.length;i=i+2){
+			String clusterArray= tokens[i+1].substring(1,tokens[i+1].length()-2);
+			String [] clusterTokens = clusterArray.split("],");
+			
+			for(int j=0;j<clusterTokens.length;j++){
+				clusterTokens[j]=clusterTokens[j].replace("[", "");
+				clusterTokens[j]=clusterTokens[j].replace("]", "");
+				if (clusterTokens[j].contains(",")){
+					String[] datapointTokens = clusterTokens[j].split(",");
+					double[] cordinates = new double[2];
+					for(int k=0;k<datapointTokens.length;k++){
+						cordinates[k] = Double.parseDouble(datapointTokens[k]);
+					}
+					cluster.add(cordinates);
+				}
+				else {
+					cluster.add(Double.parseDouble(clusterTokens[j]));
+					clusters.add(cluster);
+					cluster = new ArrayList<Object>();
+				}
+			}
+			
+			timeMap.put(Time.valueOf(tokens[i]), clusters);
+			clusters = new ArrayList<ArrayList<Object>>();
+			
+		}
+		return timeMap;
+	}
+	
 	public ArrayList<JSONObject> convertToJSONArray(
 			TreeMap<Date, String> companyHolidays) {
 		ArrayList<JSONObject> holidayList = new ArrayList<JSONObject>();

@@ -26,6 +26,12 @@ public class EmployeeActionController extends HttpServlet {
 	}
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String username = (String) request.getSession()
+				.getAttribute("username");
+		String mobile = request.getParameter("mobile");
+		boolean isAdded = repository.updateMobileForEmployee(username, mobile);
+		repository.fillDefaultTimingsInEmployeeSchedule(username);
+		response.sendRedirect("authenticate");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,10 +44,7 @@ public class EmployeeActionController extends HttpServlet {
 		Address employeeAddress = new Address(latitude, longitude, address);
 		Employee employeeDetails = new Employee(username, name, mobile, employeeAddress);
 		boolean isAdded = repository.addEmployee(employeeDetails);
-		int year = Calendar.getInstance().get(Calendar.YEAR);
-		int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
-		String startDate = year + "-" + month + "-01";
-		repository.fillDefaultTimingsInEmployeeSchedule(username, startDate);
-		response.sendRedirect("dashboard");
+		repository.fillDefaultTimingsInEmployeeSchedule(username);
+		response.sendRedirect("authenticate");
 	}
 }
